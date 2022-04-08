@@ -2,25 +2,31 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace MythoniaFramework
+namespace Mythonia.Framework
 {
-    public class Game1 : Game
+    public class MGame : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        protected GraphicsDeviceManager _graphics;
+        protected SpriteBatch _spriteBatch;
 
-        public Game1()
+        public MGame()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
+
+        TestObject _testObject;
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            /*Components.Add(new TestObject(this, "b") { UpdateOrder = 2 });
+            Components.Add(new TestObject(this, "a") { UpdateOrder = 1 });
+            Components.Add(new TestObject(this, "c") { UpdateOrder = 1 });
+            */
         }
 
         protected override void LoadContent()

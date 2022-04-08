@@ -1,17 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace MythoniaGameMain
 {
-    public class Game1 : Game
+    public class GameMain : Mythonia.Framework.MGame
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
 
-        public Game1()
+        public GameMain()
         {
-            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -21,6 +19,7 @@ namespace MythoniaGameMain
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            Debug.WriteLine(Vector2.Max(new(1,3), new(3,2)));
         }
 
         protected override void LoadContent()
