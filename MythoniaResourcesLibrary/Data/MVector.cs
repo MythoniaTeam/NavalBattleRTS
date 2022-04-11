@@ -4,26 +4,11 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 
+using Mythonia.Resources.Extensions;
+
 
 namespace Mythonia.Resources.Data
 {
-    public interface IVector
-    {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public Vector2 Vec { get; }
-    }
-
-
-    public record struct VectorRecord(float X, float Y) : IVector
-    {
-        public Vector2 Vec => new Vector2(X, Y);
-    }
-
-
-
-    //----------------------------------------------------------------------------
-
 
     public struct MVector : IVector, IEquatable<MVector>
     {
@@ -46,10 +31,12 @@ namespace Mythonia.Resources.Data
         public float LengthSquared => _vec.LengthSquared();
 
         public float Direction => MathF.Atan2(Y, X);
-        public MAngle ToAngle => new MAngle(Direction);
+        public MAngle ToAngle => new(Direction);
 
         public MVector(Vector2 vec) => _vec = vec;
-        public MVector(float x, float y) => _vec = new Vector2(x, y);
+        public MVector(float x, float y) => _vec = new(x, y);
+        public MVector(float x) : this(x, x) { }
+
 
 
         public void Round() => _vec.Round();
@@ -61,13 +48,16 @@ namespace Mythonia.Resources.Data
         public void Normalize() => _vec.Normalize();
         public void Clamp(Vector2 min, Vector2 max) => _vec.Clamp(min, max);
 
-        public void RevertXY() => _vec = new(Vec.X, Vec.Y);
+        public void RevertXY() => _vec.RevertXY();
+
+        public void ChangeSign(float xSign, float ySign) => ChangeSign(new(xSign, ySign));
+        public void ChangeSign(Vector2 Sign) => _vec *= Sign;
+        public void Abs() => _vec.Absolutization();
+
+        public void Reflect(Vector2 normal) => _vec.Reflect(normal);
 
 
-        public void m()
-        {
-            Vector2.
-        }
+
 
 
 
@@ -94,8 +84,10 @@ namespace Mythonia.Resources.Data
         }
 
 
-        public float Distance(Vector2 v1, Vector2 v2) => Vector2.Distance(v1, v2);
-        public float DistanceSquared(Vector2 v1, Vector2 v2) => Vector2.DistanceSquared(v1, v2);
+        public static float Distance(Vector2 v1, Vector2 v2) => Vector2.Distance(v1, v2);
+        public static float DistanceSquared(Vector2 v1, Vector2 v2) => Vector2.DistanceSquared(v1, v2);
+
+        public static Vector2 Reflect(Vector2 v, Vector2 normal) => Vector2.Reflect(v, normal);
 
 
 
@@ -113,7 +105,6 @@ namespace Mythonia.Resources.Data
         public static MVector operator -(MVector v1, float v2) => v1.Vec - new Vector2(v2);
         public static MVector operator *(MVector v1, float v2) => v1.Vec * v2;
         public static MVector operator /(MVector v1, float v2) => v1.Vec / v2;
-        public static MVector operator %(MVector v1, float v2) => new(v1.X % v2, v1.Y % v2);
 
 
         public static MVector operator -(MVector v1) => -v1.Vec;
@@ -199,8 +190,8 @@ namespace Mythonia.Resources.Data
         /// <summary>MVectorR(引用类型) 转 MVector(值类型)</summary>
         public static implicit operator MVector(MVectorR v) => new MVector(v.Vec);
 
-        /// <summary>Record 转 MVector</summary>
-        public static implicit operator MVector(VectorRecord v) => new MVector(v.Vec);
+        ///// <summary>Record 转 MVector</summary>
+        //public static implicit operator MVector(VectorRecord v) => new MVector(v.Vec);
 
 
 
@@ -210,41 +201,8 @@ namespace Mythonia.Resources.Data
     }
 
 
-
-    //----------------------------------------------------------------------------
-
-
-    public class MVectorR : IVector
-    {
-        private Vector2 _vec;
-
-        public float X
-        {
-            get => _vec.X;
-            set => _vec.X = value;
-        }
-        public float Y
-        {
-            get => _vec.Y;
-            set => _vec.Y = value;
-        }
-
-        public Vector2 Vec => _vec;
-
-        public MVectorR(Vector2 vec) => _vec = vec;
-        public MVectorR(float x, float y) => _vec = new Vector2(x, y);
-    }
+    
 
 
-
-    //----------------------------------------------------------------------------
-
-
-    public static class VectorExtension
-    {
-        public static Vector2 Clone(this Vector2 v) => new Vector2(v.X, v.Y);
-
-        public static Vector2 Clamp(this Vector2 v, Vector2 min, Vector2 max) => Vector2.Clamp(v, min, max);
-        
-    }
+    
 }

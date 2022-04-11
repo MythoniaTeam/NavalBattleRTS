@@ -48,6 +48,11 @@ namespace Mythonia.Resources.Data
             str.Where(w => w.StartsWith("a")).Min(w => w.Length);
         }
 
+        public MVector TransformCoordinate(MVector p) => new(p.Y * Sin + p.X * Cos, p.Y * Cos - p.X * Sin);
+
+
+
+
 
 
 
