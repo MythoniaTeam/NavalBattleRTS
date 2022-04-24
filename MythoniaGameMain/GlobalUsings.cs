@@ -9,25 +9,15 @@ global using Microsoft.Xna.Framework.Content;
 global using Microsoft.Xna.Framework.Graphics;
 global using Microsoft.Xna.Framework.Input;
 
-global using MF = Mythonia.Framework.Game;
+global using MF = Mythonia.Framework;
 global using MAction = Mythonia.Framework.Game.Objects.Actions;
 global using ActionArgs = Mythonia.Framework.Game.Objects.Actions.Args;
 
 global using Mythonia.Framework.Game.Objects;
 global using Mythonia.Framework.Game.Time;
 global using Mythonia.Framework.Game;
+global using Mythonia.Framework.Debugger;
 
 
 
 global using Mythonia.Resources.Data;
-
-global using Mythonia.Framework.Debugger;
-global using Mythonia.Framework.Debugger.Exceptions;
-
-
-
-
-
-
-
-

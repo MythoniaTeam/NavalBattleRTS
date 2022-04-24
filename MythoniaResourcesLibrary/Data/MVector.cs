@@ -198,6 +198,8 @@ namespace Mythonia.Resources.Data
         public MVector Clone() => new MVector(Vec);
 
         public bool Equals(MVector other) => _EnE(other);
+
+        public override string ToString() => $"(X: {X}, Y: {Y})";
     }
 
 

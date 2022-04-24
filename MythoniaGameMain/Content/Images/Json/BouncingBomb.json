@@ -1,0 +1,13 @@
+{
+    "Name": "BouncingBomb",
+    "Size": "12, 12",
+    "OriginScale": "0, 0",
+    "FrameAmount": 4,
+    "Animation": [
+      {
+        "Name": "Normal",
+        "Duration": 5,
+        "FrameRange": [0, 3]
+      }
+    ]
+}

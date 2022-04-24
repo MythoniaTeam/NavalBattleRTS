@@ -1,11 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System.Diagnostics;
+﻿
 
 namespace MythoniaGameMain
 {
-    public class GameMain : Mythonia.Framework.MGame
+    public class GameMain : MGame
     {
 
         public GameMain()
@@ -14,12 +11,17 @@ namespace MythoniaGameMain
             IsMouseVisible = true;
         }
 
+        SpriteFont tSpriteFont;
+        Texture2D tSprite;
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            //IsFixedTimeStep = false;
             base.Initialize();
-            Debug.WriteLine(Vector2.Max(new(1,3), new(3,2)));
+
+            tSpriteFont = Content.Load<SpriteFont>("Default");
+            tSprite = Content.Load<Texture2D>(@"Images\RECTANGLE");
+
         }
 
         protected override void LoadContent()
@@ -31,21 +33,36 @@ namespace MythoniaGameMain
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
-
             base.Update(gameTime);
+
+            if(FrameCounter.FrameCount == 60)
+            {
+                Components.Add(new TObject(this, "Test", new(0)));
+                //Components[0].Initialize();
+            }
+            
+
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            base.Draw(gameTime);
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
+
+            if(FrameCounter.FrameCount > 60)
+                _spriteBatch.DrawString(tSpriteFont, ((TObject)Components[0]).Position.X.ToString(), new(50, 64), Color.Black);
+            _spriteBatch.DrawString(tSpriteFont, $"Frame: {FrameCounter.FrameCount}", new(50, 50), Color.Black);
+            _spriteBatch.DrawString(tSpriteFont, "Test", new(150, 150), Color.Black);
+            _spriteBatch.Draw(tSprite, new Vector2(150, 150), Color.White);
+
+
+
+            _spriteBatch.End();
+
 
             // TODO: Add your drawing code here
 
-            base.Draw(gameTime);
         }
     }
 }

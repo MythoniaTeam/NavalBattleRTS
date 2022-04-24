@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Mythonia.Framework
+namespace Mythonia.Framework.Game
 {
-    public class MGame : Game
+    public class MGame : XNA.Game
     {
         protected GraphicsDeviceManager _graphics;
         protected SpriteBatch _spriteBatch;
@@ -14,19 +14,15 @@ namespace Mythonia.Framework
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            IsFixedTimeStep = false;
         }
 
 
-        TestObject _testObject;
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            /*Components.Add(new TestObject(this, "b") { UpdateOrder = 2 });
-            Components.Add(new TestObject(this, "a") { UpdateOrder = 1 });
-            Components.Add(new TestObject(this, "c") { UpdateOrder = 1 });
-            */
         }
 
         protected override void LoadContent()
@@ -41,7 +37,13 @@ namespace Mythonia.Framework
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            FrameCounter.UpdateNewFrame();
+            Debug.WriteLine("");
+            Debug.WriteLine("----------------------------------------------- new frame -----------------------------------------------");
+            Debug.WriteLine($"Updating frame {FrameCounter.FrameCount},".PadRight(22) + $"elapse time: {gameTime.ElapsedGameTime.ToStandardFrame()}(F)".PadRight(18) + $" / {gameTime.ElapsedGameTime.TotalSeconds}(s)");
+
+            this.Log(false, $"Updating frame {FrameCounter.FrameCount},".PadRight(22) + $"elapse time: {gameTime.ElapsedGameTime.ToStandardFrame()}(F)".PadRight(18) + $" / {gameTime.ElapsedGameTime.TotalSeconds}(s)");
+            Debug.WriteLine("");
 
             base.Update(gameTime);
         }
