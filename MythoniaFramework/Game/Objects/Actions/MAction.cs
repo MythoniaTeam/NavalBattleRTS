@@ -40,7 +40,7 @@ namespace Mythonia.Framework.Game.Objects.Actions
         /// <summary>
         /// 传入ActionArgs, 表示action的参数
         /// </summary>
-        private Func<ArgsType, bool> _action;
+        private Action<ArgsType> _action;
 
 
 
@@ -51,14 +51,14 @@ namespace Mythonia.Framework.Game.Objects.Actions
             protected set => _durationCount = value;
         }
         public ArgsType Arg => _arg;
-        public Func<ArgsType, bool> Main
+        public Action<ArgsType> Main
         {
             get => _action;
             set => _action = value;
         }
 
 
-        public MAction(float duration, ArgsType actionArgs, Func<ArgsType, bool> action = null)//, string name)
+        public MAction(float duration, ArgsType actionArgs, Action<ArgsType> action = null)//, string name)
         {
             //Name = name;
             _durationMax = duration;

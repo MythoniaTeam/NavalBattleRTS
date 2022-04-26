@@ -13,10 +13,9 @@ namespace Mythonia.Framework.Game.Objects.Actions
             Main = MainAction;
         }
 
-        private bool MainAction(Args.Numerical args)
+        private void MainAction(Args.Numerical args)
         {
             obj.Position.X += args.Value;
-            return true;
         }
     }
 }

@@ -112,6 +112,19 @@ namespace Mythonia.Resources.Data
 
         public static bool operator <(MVector v1, MVector v2) => v1._SnS(v2);
         public static bool operator >(MVector v1, MVector v2) => v1._LnL(v2);
+        public static bool operator ==(MVector v1, float v2) => v1.X == v2 && v1.Y == v2;
+        public static bool operator !=(MVector v1, float v2) => v1.X != v2 && v1.Y != v2;
+        public static bool operator <=(MVector v1, float v2) => v1.X <= v2 && v1.Y <= v2;
+        public static bool operator >=(MVector v1, float v2) => v1.X >= v2 && v1.Y >= v2;
+        public static bool operator <(MVector v1, float v2) => v1.X < v2 && v1.Y < v2;
+        public static bool operator >(MVector v1, float v2) => v1.X > v2 && v1.Y > v2;
+        public static bool operator ==(float v1, MVector v2) => v1 == v2.X && v1 == v2.Y;
+        public static bool operator !=(float v1, MVector v2) => v1 != v2.X && v1 != v2.Y;
+        public static bool operator <=(float v1, MVector v2) => v1 <= v2.X && v1 <= v2.Y;
+        public static bool operator >=(float v1, MVector v2) => v1 >= v2.X && v1 >= v2.Y;
+        public static bool operator < (float v1, MVector v2) => v1 <  v2.X && v1 <  v2.Y;
+        public static bool operator > (float v1, MVector v2) => v1 >  v2.X && v1 >  v2.Y;
+
 
 
 
@@ -176,6 +189,11 @@ namespace Mythonia.Resources.Data
 
 
 
+        public MVector Clone() => new MVector(Vec);
+
+        public bool Equals(MVector other) => _EnE(other);
+
+        public override string ToString() => $"(X: {X}, Y: {Y})";
 
 
 
@@ -196,12 +214,6 @@ namespace Mythonia.Resources.Data
         //public static implicit operator MVector(VectorRecord v) => new MVector(v.Vec);
 
 
-
-        public MVector Clone() => new MVector(Vec);
-
-        public bool Equals(MVector other) => _EnE(other);
-
-        public override string ToString() => $"(X: {X}, Y: {Y})";
     }
 
 

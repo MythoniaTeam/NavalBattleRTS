@@ -22,7 +22,7 @@ namespace Mythonia.Framework.Game.Objects.Actions
 
     public interface IAction<ArgType> : IAction where ArgType : IActionArg<ArgType>
     {
-        Func<ArgType, bool> Main { get; }
+        Action<ArgType> Main { get; }
 
         ArgType Arg { get; }
 

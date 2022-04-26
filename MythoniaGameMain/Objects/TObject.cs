@@ -14,35 +14,12 @@ namespace Mythonia.Framework.Game.Objects
             base.Initialize();
             this.Log(true, "is Initializing");
 
-            Actions.Add(new MAction.MAction<ActionArgs.Numerical>(100, new(200), n =>
-            {
-                Position.X += n.Value;
-                return true;
-            }));
-            Actions.Add(new MAction.MAction<ActionArgs.Numerical>(100, new(200), n =>
-            {
-                Position.Y += n.Value;
-                return true;
-            }));
-            Actions.Add(new MAction.MAction<ActionArgs.Numerical>(100, new(50), n =>
-            {
-                Position.X += n.Value;
-                return true;
-            })); Actions.Add(new MAction.MAction<ActionArgs.Numerical>(100, new(200), n =>
-            {
-                Position.X += n.Value;
-                return true;
-            }));
-            Actions.Add(new MAction.MAction<ActionArgs.Numerical>(100, new(200), n =>
-            {
-                Position.Y += n.Value;
-                return true;
-            }));
-            Actions.Add(new MAction.MAction<ActionArgs.Numerical>(100, new(50), n =>
-            {
-                Position.X += n.Value;
-                return true;
-            }));
+            Actions.Add(new MAction.MAction<ActionArgs.Numerical>(100, new(200), n => Position.X += n.Value));
+            Actions.Add(new MAction.MAction<ActionArgs.Numerical>(100, new(200), n => Position.Y += n.Value));
+            Actions.Add(new MAction.MAction<ActionArgs.Numerical>(100, new(50),  n => Position.X += n.Value)); 
+            Actions.Add(new MAction.MAction<ActionArgs.Numerical>(100, new(200), n => Position.X += n.Value));
+            Actions.Add(new MAction.MAction<ActionArgs.Numerical>(100, new(200), n => Position.Y += n.Value));
+            Actions.Add(new MAction.MAction<ActionArgs.Numerical>(100, new(50),  n => Position.X += n.Value));
             
         }
 
