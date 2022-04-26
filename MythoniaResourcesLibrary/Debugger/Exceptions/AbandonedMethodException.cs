@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mythonia.Framework.Debugger.Exceptions
+namespace Mythonia.Resources.Debugger.Exceptions
 {
     public class AbandonedMethodException : Exception
     {

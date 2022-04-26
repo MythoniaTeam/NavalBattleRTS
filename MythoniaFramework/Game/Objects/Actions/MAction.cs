@@ -3,7 +3,7 @@
 
 namespace Mythonia.Framework.Game.Objects.Actions
 {
-    public class ActionBase<ArgsType> : IAction<ArgsType> where ArgsType : IActionArg<ArgsType>
+    public class MAction<ArgsType> : IAction<ArgsType> where ArgsType : IActionArg<ArgsType>
     {
         /*
          * 如5F(标准帧) 走20px => 4px/F
@@ -58,7 +58,7 @@ namespace Mythonia.Framework.Game.Objects.Actions
         }
 
 
-        public ActionBase(float duration, ArgsType actionArgs, Func<ArgsType, bool> action = null)//, string name)
+        public MAction(float duration, ArgsType actionArgs, Func<ArgsType, bool> action = null)//, string name)
         {
             //Name = name;
             _durationMax = duration;

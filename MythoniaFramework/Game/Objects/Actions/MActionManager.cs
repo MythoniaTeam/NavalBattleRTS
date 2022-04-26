@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mythonia.Framework.Game.Objects.Actions
 {
-    public class ActionManager : List<IAction>
+    public class MActionManager : List<IAction>
     {
         public void Update(GameTime gameTime)
         {

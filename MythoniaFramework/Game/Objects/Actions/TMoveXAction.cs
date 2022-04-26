@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mythonia.Framework.Game.Objects.Actions
 {
-    public class TMoveXAction : ActionBase<Args.Numerical>
+    public class TMoveXAction : MAction<Args.Numerical>
     {
         MObject obj;
 

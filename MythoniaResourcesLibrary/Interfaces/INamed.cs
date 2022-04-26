@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mythonia.Framework.Game
+namespace Mythonia.Resources.Interfaces
 {
     public interface INamed
     {

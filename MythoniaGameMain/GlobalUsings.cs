@@ -16,7 +16,7 @@ global using ActionArgs = Mythonia.Framework.Game.Objects.Actions.Args;
 global using Mythonia.Framework.Game.Objects;
 global using Mythonia.Framework.Game.Time;
 global using Mythonia.Framework.Game;
-global using Mythonia.Framework.Debugger;
+global using Mythonia.Resources.Debugger;
 
 
 

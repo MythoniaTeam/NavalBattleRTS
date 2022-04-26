@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mythonia.Framework.Debugger
+namespace Mythonia.Resources.Debugger
 {
     public static class EDebug
     {

@@ -182,6 +182,8 @@ namespace Mythonia.Resources.Data
 
         /// <summary>MVector 转 XNA.Vector2</summary>
         public static implicit operator Vector2(MVector v) => v.Vec;
+        public static implicit operator Point(MVector v) => v.Vec.ToPoint();
+
         /// <summary>XNA.Vector2 转 MVector</summary>
         public static implicit operator MVector(Vector2 v) => new MVector(v);
 
