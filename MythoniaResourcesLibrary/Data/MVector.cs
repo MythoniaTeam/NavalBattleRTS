@@ -10,7 +10,7 @@ using Mythonia.Resources.Extensions;
 namespace Mythonia.Resources.Data
 {
 
-    public struct MVector : IVector, IEquatable<MVector>
+    public struct MVector : IMVector<MVector>, IEquatable<MVector>
     {
         private Vector2 _vec;
         public float X
@@ -206,9 +206,9 @@ namespace Mythonia.Resources.Data
         public static implicit operator MVector(Vector2 v) => new MVector(v);
 
         /// <summary>MVector(值类型) 转 MVectorR(引用类型)</summary>
-        public static implicit operator MVectorR(MVector v) => new MVectorR(v.Vec);
+        public static implicit operator MPosition(MVector v) => new MPosition(v.Vec);
         /// <summary>MVectorR(引用类型) 转 MVector(值类型)</summary>
-        public static implicit operator MVector(MVectorR v) => new MVector(v.Vec);
+        public static implicit operator MVector(MPosition v) => new MVector(v.Vec);
 
         ///// <summary>Record 转 MVector</summary>
         //public static implicit operator MVector(VectorRecord v) => new MVector(v.Vec);

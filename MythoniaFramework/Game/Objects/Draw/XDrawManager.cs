@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Mythonia.Framework.Game.Objects.Draw
 {
-    public class DrawManager
+    public class XDrawManager
     {
         private List<TexturePainterBase> _managers = new();
 
