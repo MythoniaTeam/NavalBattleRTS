@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+
+
 namespace Mythonia.Resources.Debugger
 {
     public static class EDebug
@@ -9,18 +11,22 @@ namespace Mythonia.Resources.Debugger
         public static Dictionary<object, Type> TypeDic = new Dictionary<object, Type>();
         public static void Log(this object v, bool activate, string type, string info)
         {
+#if DEBUG
             if (!activate) return;
             Debug.WriteLine("#" + type.PadRight(16) + "#\t " +
                 GetName(v, " \"{0}\" ").PadRight(8) +
                 $"\t {info}");
+#endif
         }
         public static void Log(this object v, bool activate, string info)
         {
+#if DEBUG
             if (!TypeDic.ContainsKey(v))
                 TypeDic.Add(v, v.GetType());
 
             Type type = TypeDic[v];
             Log(type, activate, type.Name, info);
+#endif
         }
 
 
@@ -32,9 +38,11 @@ namespace Mythonia.Resources.Debugger
         }
         public static void LogConstruct(this object v, bool activate)
         {
+#if DEBUG
             if (!TypeDic.ContainsKey(v))
                 TypeDic.Add(v, v.GetType());
             LogConstruct(v, activate, TypeDic[v].Name);
+#endif
         }
     }
 }

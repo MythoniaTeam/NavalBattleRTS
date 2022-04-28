@@ -98,6 +98,10 @@ namespace Mythonia.Resources.Data
         public static MPosition operator -(MPosition v1, float v2) => v1.Vec - new Vector2(v2);
         public static MPosition operator *(MPosition v1, float v2) => v1.Vec * v2;
         public static MPosition operator /(MPosition v1, float v2) => v1.Vec / v2;
+        public static MPosition operator +(float v2, MPosition v1) => v1.Vec + new Vector2(v2);
+        public static MPosition operator -(float v2, MPosition v1) => v1.Vec - new Vector2(v2);
+        public static MPosition operator *(float v2, MPosition v1) => v1.Vec * v2;
+        public static MPosition operator /(float v2, MPosition v1) => v1.Vec / v2;
 
 
         public static MPosition operator -(MPosition v1) => -v1.Vec;
@@ -197,4 +201,9 @@ namespace Mythonia.Resources.Data
 
         /// <summary>XNA.Vector2 转 MVectorR</summary>
         public static implicit operator MPosition(Vector2 v) => new MPosition(v);
+
+
+        public static implicit operator (float, float)(MPosition v) => (v.X, v.Y);
+        public static implicit operator MPosition((float, float) v) => new(v.Item1, v.Item2);
     }
+}

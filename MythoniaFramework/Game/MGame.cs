@@ -4,32 +4,37 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Mythonia.Framework.Game
 {
-    public class MGame : XNA.Game
+    public abstract class MGame : XNA.Game
     {
-        protected GraphicsDeviceManager _graphics;
-        protected SpriteBatch _spriteBatch;
+        public GraphicsDeviceManager Graphics;
+        public SpriteBatch SpriteBatch;
+        public MContentsManager ContentsManager;
 
         public MGame()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
+
+            ContentsManager = new(this);
         }
+
+
+        protected abstract string[] TextureLoadList();
 
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            ContentsManager.LoadTextures(TextureLoadList());
 
-            // TODO: use this.Content to load your game content here
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         protected override void Update(GameTime gameTime)

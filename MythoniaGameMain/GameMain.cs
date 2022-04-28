@@ -5,6 +5,13 @@ namespace MythoniaGameMain
     public class GameMain : MGame
     {
 
+        protected override string[] TextureLoadList()
+            => new string[]
+            {
+                "RECTANGLE",
+                "RECTANGLE_RED"
+            };
+
         public GameMain()
         {
             Content.RootDirectory = "Content";
@@ -15,7 +22,7 @@ namespace MythoniaGameMain
         Texture2D tSprite;
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+
             //IsFixedTimeStep = false;
             base.Initialize();
 
@@ -26,9 +33,7 @@ namespace MythoniaGameMain
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            base.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
@@ -46,20 +51,23 @@ namespace MythoniaGameMain
 
         protected override void Draw(GameTime gameTime)
         {
+
+            SpriteBatch.Begin();
+
             base.Draw(gameTime);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin();
 
             if(FrameCounter.FrameCount > 60)
-                _spriteBatch.DrawString(tSpriteFont, ((TObject)Components[0]).Position.X.ToString(), new(50, 64), Color.Black);
-            _spriteBatch.DrawString(tSpriteFont, $"Frame: {FrameCounter.FrameCount}", new(50, 50), Color.Black);
-            _spriteBatch.DrawString(tSpriteFont, "Test", new(150, 150), Color.Black);
-            _spriteBatch.Draw(tSprite, new Vector2(150, 150), Color.White);
+                SpriteBatch.DrawString(tSpriteFont, ((TObject)Components[0]).Position.X.ToString(), new(50, 64), Color.Black);
+            SpriteBatch.DrawString(tSpriteFont, $"Frame: {FrameCounter.FrameCount}", new(50, 50), Color.Black);
+            SpriteBatch.DrawString(tSpriteFont, $"FPS: {60 / gameTime.ElapsedGameTime.ToStandardFrame()}", new(50, 150), Color.Black);
+
+            SpriteBatch.DrawString(tSpriteFont, "Test", new(150, 350), Color.Black);
+            SpriteBatch.Draw(tSprite, new Vector2(150, 350), Color.White);
 
             
             
 
-            _spriteBatch.End();
+            SpriteBatch.End();
 
 
             // TODO: Add your drawing code here

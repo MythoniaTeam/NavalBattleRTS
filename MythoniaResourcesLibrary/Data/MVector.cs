@@ -106,12 +106,18 @@ namespace Mythonia.Resources.Data
         public static MVector operator *(MVector v1, float v2) => v1.Vec * v2;
         public static MVector operator /(MVector v1, float v2) => v1.Vec / v2;
 
+        public static MVector operator +(float v2, MVector v1) => v1.Vec + new Vector2(v2);
+        public static MVector operator -(float v2, MVector v1) => v1.Vec - new Vector2(v2);
+        public static MVector operator *(float v2, MVector v1) => v1.Vec * v2;
+        public static MVector operator /(float v2, MVector v1) => v1.Vec / v2;
+
 
         public static MVector operator -(MVector v1) => -v1.Vec;
 
 
         public static bool operator <(MVector v1, MVector v2) => v1._SnS(v2);
         public static bool operator >(MVector v1, MVector v2) => v1._LnL(v2);
+
         public static bool operator ==(MVector v1, float v2) => v1.X == v2 && v1.Y == v2;
         public static bool operator !=(MVector v1, float v2) => v1.X != v2 && v1.Y != v2;
         public static bool operator <=(MVector v1, float v2) => v1.X <= v2 && v1.Y <= v2;
@@ -122,8 +128,8 @@ namespace Mythonia.Resources.Data
         public static bool operator !=(float v1, MVector v2) => v1 != v2.X && v1 != v2.Y;
         public static bool operator <=(float v1, MVector v2) => v1 <= v2.X && v1 <= v2.Y;
         public static bool operator >=(float v1, MVector v2) => v1 >= v2.X && v1 >= v2.Y;
-        public static bool operator < (float v1, MVector v2) => v1 <  v2.X && v1 <  v2.Y;
-        public static bool operator > (float v1, MVector v2) => v1 >  v2.X && v1 >  v2.Y;
+        public static bool operator <(float v1, MVector v2) => v1 < v2.X && v1 < v2.Y;
+        public static bool operator >(float v1, MVector v2) => v1 > v2.X && v1 > v2.Y;
 
 
 
@@ -166,7 +172,7 @@ namespace Mythonia.Resources.Data
         public bool _LEoSE(MVector v) => X >= v.X || Y <= v.Y;
         /// <summary>X比v小 或相等, 且Y比v小 或相等<br/>v位于BL位置外, 或边缘上</summary>
         public bool _SEoSE(MVector v) => X <= v.X || Y <= v.Y;
-       
+
         public bool _EoE(MVector v) => X == v.X || Y == v.Y;
         public bool _EoL(MVector v) => X == v.X || Y > v.Y;
         public bool _EoLE(MVector v) => X == v.X || Y >= v.Y;
@@ -176,7 +182,7 @@ namespace Mythonia.Resources.Data
         public bool _LEoE(MVector v) => X >= v.X || Y == v.Y;
         public bool _SoE(MVector v) => X < v.X || Y == v.Y;
         public bool _SEoE(MVector v) => X <= v.X || Y == v.Y;
-                    
+
         public bool _EnE(MVector v) => X == v.X && Y == v.Y;
         public bool _EnL(MVector v) => X == v.X && Y > v.Y;
         public bool _EnLE(MVector v) => X == v.X && Y >= v.Y;
@@ -205,6 +211,8 @@ namespace Mythonia.Resources.Data
         /// <summary>XNA.Vector2 转 MVector</summary>
         public static implicit operator MVector(Vector2 v) => new MVector(v);
 
+
+
         /// <summary>MVector(值类型) 转 MVectorR(引用类型)</summary>
         public static implicit operator MPosition(MVector v) => new MPosition(v.Vec);
         /// <summary>MVectorR(引用类型) 转 MVector(值类型)</summary>
@@ -213,6 +221,13 @@ namespace Mythonia.Resources.Data
         ///// <summary>Record 转 MVector</summary>
         //public static implicit operator MVector(VectorRecord v) => new MVector(v.Vec);
 
+
+
+
+
+
+        public static implicit operator (float, float)(MVector v) => (v.X, v.Y);
+        public static implicit operator MVector((float, float) v) => new(v.Item1, v.Item2);
 
     }
 

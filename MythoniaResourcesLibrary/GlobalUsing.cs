@@ -14,6 +14,7 @@ global using Microsoft.Xna.Framework.Input;
 
 
 global using Mythonia.Resources.Data;
+global using Mythonia.Resources.Extensions;
 global using Mythonia.Resources.Interfaces;
 global using Mythonia.Resources.Debugger;
 global using Mythonia.Resources.Debugger.Exceptions;

@@ -4,7 +4,7 @@
 
 namespace Mythonia.Framework.Game.Objects
 {
-    public class MObject : GameComponent, INamed
+    public class MObject : DrawableGameComponent, INamed
     {
         private string _name;
         public string Name
@@ -13,14 +13,25 @@ namespace Mythonia.Framework.Game.Objects
             private set => _name = value;
         }
 
-        public MVector Position;
+        public MPosition Position;
+
 
         protected MActionManager Actions = new MActionManager();
+        protected SpriteBatch SpriteBatch => MGame.SpriteBatch;
+        protected MGame MGame => (MGame)Game;
+
 
         public MObject (MGame game, string name, MVector? position) : base(game)
         {
             Name = name;
             Position = position ?? new(0);
+        }
+
+        private bool ContainsDrawModule = false;
+        public override void Initialize()
+        {
+            base.Initialize();
+            if (this is Draw.IDrawModule) ContainsDrawModule = true;
         }
 
 
@@ -32,9 +43,7 @@ namespace Mythonia.Framework.Game.Objects
         {
             UpdateBefore(gameTime);
             UpdateAfter(gameTime);
-        }
-
-        
+        }        
 
         protected void UpdateBefore(GameTime gameTime)
         {
@@ -43,6 +52,14 @@ namespace Mythonia.Framework.Game.Objects
         protected void UpdateAfter(GameTime gameTime)
         {
             Actions.Update(gameTime);
+            if (ContainsDrawModule) ((Draw.IDrawModule)this).SpriteObject.Update(gameTime);
         }
+
+        protected void Draw(SpriteBatch spriteBatch, float layer)
+        {
+            if (ContainsDrawModule) ((Draw.IDrawModule)this).SpriteObject.Draw(spriteBatch, layer);
+
+        }
+
     }
 }

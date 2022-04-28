@@ -6,21 +6,31 @@ namespace Mythonia.Resources.Texture
 {
     public class TextureSet : TextureBase
     {
-        public string Name { get; private set; }
 
         /// <summary>图集每行有多少帧</summary>
-        private int FrameCountPerRow;
+        public int FramePerRow { get; set; }
         /// <summary>图集一共有多少帧</summary>
-        private int FrameCount;
+        public int FrameCount { get; set; }
 
-        private List<Animation> Animations = new List<Animation>();
+        public List<Animation> Animations = new List<Animation>();
+
+
+
+        public TextureSet(string name) : base(name) { }
+
+
+        public override void InitializeTexture(Texture2D texture)
+        {
+            Texture = texture;
+        }
+
 
         public override Rectangle GetSourceRange(int frameNo)
         {
             if (frameNo >= FrameCount) throw new IndexOutOfRangeException($"TextureSet \"{Name}\" doesn't have frame #{frameNo}, it has only {FrameCount} frames");
             return new Rectangle(
-                new MVector(frameNo % FrameCountPerRow, frameNo / FrameCountPerRow) * Size,
-                Size);
+                (frameNo % FramePerRow, frameNo / FramePerRow) * FrameSize,
+                FrameSize);
         }
 
         public Animation GetAnimation(string aniName)

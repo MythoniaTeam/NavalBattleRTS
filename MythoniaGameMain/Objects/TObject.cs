@@ -1,12 +1,19 @@
 ﻿
+using Mythonia.Framework.Game.Objects.Draw;
 
 namespace Mythonia.Framework.Game.Objects
 {
-    public class TObject : MObject
+    public class TObject : MObject, IDrawModule
     {
+        public Sprite SpriteObject { get; set; }
+
+
+
         public TObject(MGame game, string name, MVector? position) : base(game, name, position)
         {
             this.LogConstruct(true);
+            Texture2D texture = game.Content.Load<Texture2D>("Images/RECTANGLE");
+            SpriteObject = new Sprite("TObjectSprite", game.ContentsManager["RECTANGLE"], Position);
         }
 
         public override void Initialize()
@@ -30,6 +37,11 @@ namespace Mythonia.Framework.Game.Objects
             this.Log(true, "Position: " + Position);
 
             base.UpdateAfter(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            SpriteObject.Draw(SpriteBatch, 0);
         }
 
         
