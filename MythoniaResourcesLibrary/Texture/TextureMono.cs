@@ -6,6 +6,7 @@ namespace Mythonia.Resources.Texture
 {
     public class TextureMono : TextureBase
     {
+        public TextureMono() { }
         public TextureMono(string name) : base(name) { }
 
         public override void InitializeTexture(Texture2D texture)

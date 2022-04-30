@@ -67,7 +67,7 @@ namespace Mythonia.Framework.Game.Objects.Draw
 
 
 
-        public override void Draw(SpriteBatch spriteBatch, float layer) => Draw(spriteBatch, CurrentFrame, layer);
+        public override void Draw(Camera cam, SpriteBatch spriteBatch, float layer) => Draw(cam, spriteBatch, CurrentFrame, layer);
         
 
 

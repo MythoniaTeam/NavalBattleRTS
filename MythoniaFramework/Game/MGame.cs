@@ -9,6 +9,7 @@ namespace Mythonia.Framework.Game
         public GraphicsDeviceManager Graphics;
         public SpriteBatch SpriteBatch;
         public MContentsManager ContentsManager;
+        public Camera CurrentCamera;
 
         public MGame()
         {
@@ -18,6 +19,7 @@ namespace Mythonia.Framework.Game
             IsFixedTimeStep = false;
 
             ContentsManager = new(this);
+            CurrentCamera = new(this, new(0));
         }
 
 
@@ -26,8 +28,8 @@ namespace Mythonia.Framework.Game
 
         protected override void Initialize()
         {
-
             base.Initialize();
+            Utility.Initialize(this);
         }
 
         protected override void LoadContent()
@@ -42,7 +44,7 @@ namespace Mythonia.Framework.Game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            FrameCounter.UpdateNewFrame();
+            FrameCounter.UpdateNewFrame(gameTime);
             Debug.WriteLine("");
             Debug.WriteLine("----------------------------------------------- new frame -----------------------------------------------");
             Debug.WriteLine($"Updating frame {FrameCounter.FrameCount},".PadRight(22) + $"elapse time: {gameTime.ElapsedGameTime.ToStandardFrame()}(F)".PadRight(18) + $" / {gameTime.ElapsedGameTime.TotalSeconds}(s)");
@@ -57,7 +59,13 @@ namespace Mythonia.Framework.Game
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            Utility.DrawLineHorizontal(CurrentCamera, 1, SpriteBatch, -9999, 9999, 0, Color.White, 3);
+            Utility.DrawLineHorizontal(CurrentCamera, 1, SpriteBatch, -9999, 9999, 200, Color.White, 1);
+            Utility.DrawLineHorizontal(CurrentCamera, 1, SpriteBatch, -9999, 9999, -200, Color.White, 1);
+            Utility.DrawLineVertical(CurrentCamera, 1, SpriteBatch, -9999, 9999, 0, Color.White, 3);
+            Utility.DrawLineVertical(CurrentCamera, 1, SpriteBatch, -9999, 9999, 200, Color.White, 1);
+            Utility.DrawLineVertical(CurrentCamera, 1, SpriteBatch, -9999, 9999, -200, Color.White, 1);
+
 
             base.Draw(gameTime);
         }

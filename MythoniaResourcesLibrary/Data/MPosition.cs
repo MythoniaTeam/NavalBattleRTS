@@ -24,7 +24,11 @@ namespace Mythonia.Resources.Data
         }
 
 
-        public Vector2 Vec => _vec;
+        public Vector2 Vec
+        {
+            get => _vec;
+            protected set => _vec = value;
+        }
 
         public float Length => _vec.Length();
         public float LengthSquared => _vec.LengthSquared();
@@ -87,21 +91,21 @@ namespace Mythonia.Resources.Data
 
 
 
-        public static MPosition operator +(MPosition v1, MPosition v2) => v1.Vec + v2.Vec;
-        public static MPosition operator -(MPosition v1, MPosition v2) => v1.Vec - v2.Vec;
-        public static MPosition operator *(MPosition v1, MPosition v2) => v1.Vec * v2.Vec;
-        public static MPosition operator /(MPosition v1, MPosition v2) => v1.Vec / v2.Vec;
-        public static MPosition operator %(MPosition v1, MPosition v2) => new(v1.X % v2.X, v1.Y % v2.Y);
+        public static MPosition operator +(MPosition v1, MPosition v2) { v1.Vec += v2.Vec; return v1; }
+        public static MPosition operator -(MPosition v1, MPosition v2) { v1.Vec -= v2.Vec; return v1; }
+        public static MPosition operator *(MPosition v1, MPosition v2) { v1.Vec *= v2.Vec; return v1; }
+        public static MPosition operator /(MPosition v1, MPosition v2) { v1.Vec /= v2.Vec; return v1; }
+        public static MPosition operator %(MPosition v1, MPosition v2) { v1.Vec = new(v1.X % v2.X, v1.Y % v2.Y); return v1; }
 
 
-        public static MPosition operator +(MPosition v1, float v2) => v1.Vec + new Vector2(v2);
-        public static MPosition operator -(MPosition v1, float v2) => v1.Vec - new Vector2(v2);
-        public static MPosition operator *(MPosition v1, float v2) => v1.Vec * v2;
-        public static MPosition operator /(MPosition v1, float v2) => v1.Vec / v2;
-        public static MPosition operator +(float v2, MPosition v1) => v1.Vec + new Vector2(v2);
-        public static MPosition operator -(float v2, MPosition v1) => v1.Vec - new Vector2(v2);
-        public static MPosition operator *(float v2, MPosition v1) => v1.Vec * v2;
-        public static MPosition operator /(float v2, MPosition v1) => v1.Vec / v2;
+        public static MPosition operator +(MPosition v1, float v2) { v1.Vec += new Vector2(v2); return v1; }
+        public static MPosition operator -(MPosition v1, float v2) { v1.Vec -= new Vector2(v2); return v1; }
+        public static MPosition operator *(MPosition v1, float v2) { v1.Vec *= v2; return v1; }
+        public static MPosition operator /(MPosition v1, float v2) { v1.Vec /= v2; return v1; }
+        public static MPosition operator +(float v2, MPosition v1) { v1.Vec += new Vector2(v2); return v1; }
+        public static MPosition operator -(float v2, MPosition v1) { v1.Vec -= new Vector2(v2); return v1; }
+        public static MPosition operator *(float v2, MPosition v1) { v1.Vec *= v2; return v1; }
+        public static MPosition operator /(float v2, MPosition v1) { v1.Vec /= v2; return v1; }
 
 
         public static MPosition operator -(MPosition v1) => -v1.Vec;

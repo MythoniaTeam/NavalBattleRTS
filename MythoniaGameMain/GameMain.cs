@@ -59,7 +59,7 @@ namespace MythoniaGameMain
             if(FrameCounter.FrameCount > 60)
                 SpriteBatch.DrawString(tSpriteFont, ((TObject)Components[0]).Position.X.ToString(), new(50, 64), Color.Black);
             SpriteBatch.DrawString(tSpriteFont, $"Frame: {FrameCounter.FrameCount}", new(50, 50), Color.Black);
-            SpriteBatch.DrawString(tSpriteFont, $"FPS: {60 / gameTime.ElapsedGameTime.ToStandardFrame()}", new(50, 150), Color.Black);
+            SpriteBatch.DrawString(tSpriteFont, $"FPS: {FrameCounter.AverageFPS}", new(50, 150), Color.Black);
 
             SpriteBatch.DrawString(tSpriteFont, "Test", new(150, 350), Color.Black);
             SpriteBatch.Draw(tSprite, new Vector2(150, 350), Color.White);

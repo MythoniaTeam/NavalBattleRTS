@@ -13,14 +13,11 @@ using TWrite = Mythonia.Resources.Texture.TextureMono;
 namespace Mythonia.Pipeline.Writers
 {
     [ContentTypeWriter]
-    internal class TextureMonoWriter : ContentTypeWriter<TWrite>
+    internal class TextureMonoWriter : TextureWriter<TWrite>
     {
         protected override void Write(ContentWriter output, TWrite value)
         {
-            output.Write(value.Name);
-            output.Write(value.ImagePath);
-
-
+            base.Write(output, value);
         }
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)

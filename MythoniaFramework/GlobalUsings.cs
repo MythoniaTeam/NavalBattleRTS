@@ -21,6 +21,7 @@ global using Mythonia.Framework.Game;
 
 
 global using Mythonia.Resources.Data;
+global using Mythonia.Resources.Extensions;
 global using Mythonia.Resources.Texture;
 global using Mythonia.Resources.Interfaces;
 

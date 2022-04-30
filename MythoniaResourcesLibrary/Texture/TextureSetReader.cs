@@ -3,21 +3,18 @@ using TRead = Mythonia.Resources.Texture.TextureBase;
 
 namespace Mythonia.Resources.Texture
 {
-    public class TextureSetReader : ContentTypeReader<TRead>
+    public class TextureSetReader : TextureReader<TextureSet>
     {
         protected override TRead Read(ContentReader input, TRead existingInstance)
         {
-            TextureSet textrue = new(input.ReadString());
-            textrue.ImagePath = input.ReadString();
+            TextureSet texture = (TextureSet)base.Read(input, existingInstance);
 
-            textrue.FramePerRow = input.ReadInt32();
-            textrue.FrameCount = input.ReadInt32();
-
-            textrue.FrameSize = input.ReadVector2();
+            texture.FramePerRow = input.ReadInt32();
+            texture.FrameCount = input.ReadInt32();
 
             int aniCount = input.ReadInt32();
             Animation ani;
-            textrue.Animations = new();
+            texture.Animations = new();
             for(int i = 0; i < aniCount; i++)
             {
                 ani = new(input.ReadString());
@@ -31,7 +28,7 @@ namespace Mythonia.Resources.Texture
             }
 
 
-            return textrue;
+            return texture;
         }
     }
 }

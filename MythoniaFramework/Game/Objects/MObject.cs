@@ -57,7 +57,7 @@ namespace Mythonia.Framework.Game.Objects
 
         protected void Draw(SpriteBatch spriteBatch, float layer)
         {
-            if (ContainsDrawModule) ((Draw.IDrawModule)this).SpriteObject.Draw(spriteBatch, layer);
+            if (ContainsDrawModule) ((Draw.IDrawModule)this).SpriteObject.Draw(MGame.CurrentCamera, spriteBatch, layer);
 
         }
 

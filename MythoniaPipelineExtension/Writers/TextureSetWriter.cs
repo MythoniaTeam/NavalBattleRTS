@@ -15,17 +15,14 @@ using TWrite = Mythonia.Resources.Texture.TextureSet;
 namespace Mythonia.Pipeline.Writers
 {
     [ContentTypeWriter]
-    internal class TextureSetWriter : ContentTypeWriter<TWrite>
+    internal class TextureSetWriter : TextureWriter<TWrite>
     {
         protected override void Write(ContentWriter output, TWrite value)
         {
-            output.Write(value.Name);
-            output.Write(value.ImagePath);
+            base.Write(output, value);
 
             output.Write(value.FramePerRow);
             output.Write(value.FrameCount);
-
-            output.Write(value.FrameSize);
 
             
             output.Write(value.Animations.Count);

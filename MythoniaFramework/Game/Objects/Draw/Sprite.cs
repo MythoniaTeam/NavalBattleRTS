@@ -149,20 +149,20 @@ namespace Mythonia.Framework.Game.Objects.Draw
             throw new ObjectNotFoundException("SubSprite", name);
         }*/
 
-        public virtual void Draw(SpriteBatch spriteBatch, float layer) => Draw(spriteBatch, 0, layer);
-        public void Draw(SpriteBatch spriteBatch, int frameNo, float layer)//, MAngle rotation,  float layer)
+        public virtual void Draw(Camera cam, SpriteBatch spriteBatch, float layer) => Draw(cam, spriteBatch, 0, layer);
+        public void Draw(Camera cam, SpriteBatch spriteBatch, int frameNo, float layer)//, MAngle rotation,  float layer)
         {
             MAngle rotation = Rotation;
             //rotation += Rotation;
 
             spriteBatch.Draw(
                 Texture.GetSourceTexture(),
-                OriginPos,
+                cam.ToScreenPos(OriginPos),
                 Texture.GetSourceRange(frameNo),
                 Color,
                 rotation + ((FlipStatus is Flip.XY) ? 180 : 0),
                 OriginDP + TextureSize / 2,
-                Scale,
+                Scale * cam.Scale,
                 FlipStatus switch
                 {
                     Flip.X => SpriteEffects.FlipVertically,

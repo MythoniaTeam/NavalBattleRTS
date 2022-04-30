@@ -3,12 +3,11 @@ using TRead = Mythonia.Resources.Texture.TextureBase;
 
 namespace Mythonia.Resources.Texture
 {
-    public class TextureMonoReader : ContentTypeReader<TRead>
+    public class TextureMonoReader : TextureReader<TextureMono>
     {
         protected override TRead Read(ContentReader input, TRead existingInstance)
         {
-            TextureMono textureBase = new(input.ReadString());
-            textureBase.ImagePath = input.ReadString();
+            TextureMono textureBase = (TextureMono)base.Read(input, existingInstance);
 
             return textureBase;
         }

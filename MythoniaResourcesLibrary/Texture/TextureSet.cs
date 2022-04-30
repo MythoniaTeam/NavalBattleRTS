@@ -15,7 +15,7 @@ namespace Mythonia.Resources.Texture
         public List<Animation> Animations = new List<Animation>();
 
 
-
+        public TextureSet() { }
         public TextureSet(string name) : base(name) { }
 
 

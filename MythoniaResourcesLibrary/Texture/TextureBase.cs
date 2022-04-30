@@ -9,12 +9,21 @@ namespace Mythonia.Resources.Texture
         public string Name { get; set; }
         public string ImagePath { get; set; }
 
+
         /// <summary>单帧贴图的尺寸</summary>
         public MVector FrameSize { get; set; }
 
+
+        public MVector OriginScale
+        {
+            set => Origin = (value + 1) / 2 * FrameSize;
+        }
+        public MVector Origin { get; set; } = new(0);
         protected Texture2D Texture { get; set; }
 
 
+
+        public TextureBase() { }
         public TextureBase(string name) => Name = name;
 
 
