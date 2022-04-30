@@ -38,25 +38,31 @@ namespace Mythonia.Framework.Game
         }
 
         public static void DrawLineVertical(int pixelTextureType, float x, Color color, int width = 1)
-            => DrawLineVertical(Game.CurrentCamera, pixelTextureType, Game.SpriteBatch, -99999, 99999, x, color, width);
+            => DrawLineY(Game.CurrentCamera, pixelTextureType, Game.SpriteBatch, -99999, 99999, x, color, width);
         public static void DrawLinHorizontall(int pixelTextureType, float y, Color color, int width = 1)
-            => DrawLineHorizontal(Game.CurrentCamera, pixelTextureType, Game.SpriteBatch, -99999, 99999, y, color, width);
+            => DrawLineX(Game.CurrentCamera, pixelTextureType, Game.SpriteBatch, -99999, 99999, y, color, width);
 
 
-        public static void DrawLineVertical(Camera cam, int pixelTextureType, SpriteBatch spriteBatch, float begin, float end, float x, Color color, int width = 1)
+        public static void DrawLineY(Camera cam, int pixelTextureType, SpriteBatch spriteBatch, float begin, float end, float x, Color color, int width = 1)
         {
             float max = MathF.Max(begin, end);
             float min = MathF.Min(begin, end);
 
-            spriteBatch.Draw(Pixel[pixelTextureType], cam.ToScreenPos(new(x, max)), null, color, 0, Vector2.Zero, new Vector2(width, max - min), SpriteEffects.None, 0);
+            MVector pMax = cam.ToScreenPos(new(x, min));
+            MVector pMin = cam.ToScreenPos(new(x, max));
+
+            spriteBatch.Draw(Pixel[pixelTextureType], pMin, null, color, 0, Vector2.Zero, new Vector2(width, pMax.Y - pMin.Y), SpriteEffects.None, 0);
         }
 
-        public static void DrawLineHorizontal(Camera cam, int pixelTextureType, SpriteBatch spriteBatch, float begin, float end, float y, Color color, int width = 1)
+        public static void DrawLineX(Camera cam, int pixelTextureType, SpriteBatch spriteBatch, float begin, float end, float y, Color color, int width = 1)
         {
             float max = MathF.Max(begin, end);
             float min = MathF.Min(begin, end);
 
-            spriteBatch.Draw(Pixel[pixelTextureType], cam.ToScreenPos(new(min, y)), null, color, 0, Vector2.Zero, new Vector2(max - min, width), SpriteEffects.None, 0);
+            MVector pMax = cam.ToScreenPos(new(max, y));
+            MVector pMin = cam.ToScreenPos(new(min, y));
+
+            spriteBatch.Draw(Pixel[pixelTextureType], pMin, null, color, 0, Vector2.Zero, new Vector2(pMax.X - pMin.X, width), SpriteEffects.None, 0);
         }
 
 

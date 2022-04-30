@@ -12,6 +12,7 @@
 
 /reference:..\..\MythoniaPipelineExtension\bin\Debug\netstandard2.1\Mythonia.Pipeline.dll
 /reference:..\..\MythoniaPipelineExtension\bin\Debug\netstandard2.1\Mythonia.Resources.dll
+/reference:..\..\Newtonsoft.Json.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -35,7 +36,9 @@
 /build:Images/BouncingBomb.png
 
 #begin Images/Json/BouncingBomb.json
-/copy:Images/Json/BouncingBomb.json
+/importer:JsonImporter
+/processor:TextureSetProcessor
+/build:Images/Json/BouncingBomb.json
 
 #begin Images/PX.png
 /importer:TextureImporter

@@ -25,11 +25,12 @@ namespace Mythonia.Framework.Game
 
         protected abstract string[] TextureLoadList();
 
-
+        public SpriteFont DefaultFont;
         protected override void Initialize()
         {
             base.Initialize();
             Utility.Initialize(this);
+            DefaultFont = Content.Load<SpriteFont>("Default");
         }
 
         protected override void LoadContent()
@@ -59,15 +60,35 @@ namespace Mythonia.Framework.Game
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            Utility.DrawLineHorizontal(CurrentCamera, 1, SpriteBatch, -9999, 9999, 0, Color.White, 3);
-            Utility.DrawLineHorizontal(CurrentCamera, 1, SpriteBatch, -9999, 9999, 200, Color.White, 1);
-            Utility.DrawLineHorizontal(CurrentCamera, 1, SpriteBatch, -9999, 9999, -200, Color.White, 1);
-            Utility.DrawLineVertical(CurrentCamera, 1, SpriteBatch, -9999, 9999, 0, Color.White, 3);
-            Utility.DrawLineVertical(CurrentCamera, 1, SpriteBatch, -9999, 9999, 200, Color.White, 1);
-            Utility.DrawLineVertical(CurrentCamera, 1, SpriteBatch, -9999, 9999, -200, Color.White, 1);
-
+            Utility.DrawLineX(CurrentCamera, 1, SpriteBatch, -9999, 9999, 0, Color.White, 3);
+            Utility.DrawLineX(CurrentCamera, 1, SpriteBatch, -9999, 9999, 200, Color.White, 1);
+            Utility.DrawLineX(CurrentCamera, 1, SpriteBatch, -9999, 9999, -200, Color.White, 1);
+            Utility.DrawLineY(CurrentCamera, 1, SpriteBatch, -9999, 9999, 0, Color.White, 3);
+            Utility.DrawLineY(CurrentCamera, 1, SpriteBatch, -9999, 9999, 200, Color.White, 1);
+            Utility.DrawLineY(CurrentCamera, 1, SpriteBatch, -9999, 9999, -200, Color.White, 1);
 
             base.Draw(gameTime);
+
+            KeyboardState key = Keyboard.GetState();
+            if (key.IsKeyDown(Keys.PageDown) || key.IsKeyDown(Keys.PageUp) ||
+                key.IsKeyDown(Keys.Down) || key.IsKeyDown(Keys.Up) ||
+                key.IsKeyDown(Keys.Left) || key.IsKeyDown(Keys.Right) ||
+                key.IsKeyDown(Keys.LeftAlt))
+            {
+                Utility.DrawLineX(CurrentCamera, 2, SpriteBatch, 10 / CurrentCamera.Scale.X + CurrentCamera.Position.X, -10 / CurrentCamera.Scale.X + CurrentCamera.Position.X, CurrentCamera.Position.Y, Color.White, 1);
+                Utility.DrawLineY(CurrentCamera, 2, SpriteBatch, 10 / CurrentCamera.Scale.X + CurrentCamera.Position.Y, -10 / CurrentCamera.Scale.X + CurrentCamera.Position.Y, CurrentCamera.Position.X, Color.White, 1);
+                SpriteBatch.DrawString(DefaultFont, CurrentCamera.Scale.ToString(), GraphicsDevice.Viewport.Size() / 2 + (0, 20), Color.Black  );
+                SpriteBatch.DrawString(DefaultFont, CurrentCamera.Position.ToString(), GraphicsDevice.Viewport.Size() / 2 + (0, 50), Color.Black);
+
+            }
+
+
+
+            SpriteBatch.DrawString(DefaultFont, $"Frame: {FrameCounter.FrameCount}", new(50, 50), Color.Black);
+            SpriteBatch.DrawString(DefaultFont, $"FPS: {FrameCounter.AverageFPS}", new(50, 150), Color.Black);
+
+            SpriteBatch.DrawString(DefaultFont, "Test", new(150, 280), Color.Black);
+            
         }
     }
 }

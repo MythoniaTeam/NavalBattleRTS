@@ -229,6 +229,16 @@ namespace Mythonia.Resources.Data
         public static implicit operator (float, float)(MVector v) => (v.X, v.Y);
         public static implicit operator MVector((float, float) v) => new(v.Item1, v.Item2);
 
+
+        public static explicit operator MVector(string v)
+        {
+            string[] vSplited = v.Split(',');
+            if (vSplited.Length != 2) throw new Exception($"The Given String has {vSplited.Length} elements after Splited by ',' but there Should have 2");
+            float x = float.Parse(vSplited[0]);
+            float y = float.Parse(vSplited[1]);
+            return new(x, y);
+        }
+
     }
 
 

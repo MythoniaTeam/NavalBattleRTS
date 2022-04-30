@@ -23,7 +23,7 @@ namespace Mythonia.Framework.Game.Contents
                 {
                     texture = Game.Content.Load<TextureBase>(basePath + @"Json\" + textureFileName);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     texture = new TextureMono(textureFileName);
                 }

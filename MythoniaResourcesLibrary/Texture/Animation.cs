@@ -8,29 +8,39 @@ namespace Mythonia.Resources.Texture
     {
         public string Name { get; set; }
         public int[] FramesNo { get; set; }
-        public int FrameNo
-        {
-            set => FramesNo = new int[] { value };
-        }
-        public int?[] FramesRange
-        {
-            set
-            {
-                if (value.Length != 2) throw new Exception($"Texture Json Exception, FrameRange should contains 2 int values but not {value.Length}");
-                int min = value[0] ?? 0;
-                int max = value[1] ?? FrameCount;
+        public int? FrameNo { get; set; }
+        public int?[] FramesRange { get; set; }
 
-                FramesNo = new int[max - min + 1];
-                for(int i = min; i <= max; i++)
-                    FramesNo[i] = i;
-
-            }
-        }
-
-        public int FrameCount => FramesNo.Length;
+        public int FrameCount { get; set; }
         
         public float FrameDuration { get; set; }
         public float CycleDuration => FrameDuration * FrameCount;
+
+
+
+        public void Initialize()
+        {
+            
+            if (FramesNo is not null);
+            //如果有FramesNo, 跳出循环
+            else if (FramesRange is not null)
+            {
+                if (FramesRange.Length != 2) throw new Exception($"Texture Json Exception, FrameRange should contains 2 int values but not {FramesRange.Length}");
+                int min = FramesRange[0] ?? 0;
+                int max = FramesRange[1] ?? (FrameCount - 1);
+
+                FramesNo = new int[max - min + 1];
+                for (int i = min; i <= max; i++)
+                    FramesNo[i] = i;
+                
+            }
+            //有FramesRange
+            else if (FrameNo is not null) FramesNo = new int[] { FrameNo ?? 0 };
+            //有FrameNo
+            else throw new Exception($"Both FramesNo, FrameNo, FramesRange are null, in Animation \"{Name}\"");
+            FrameCount = FramesNo.Length;
+        }
+
 
         public Animation(string name)
         {

@@ -81,6 +81,8 @@ namespace Mythonia.Framework.Game.Objects.Draw
         public MVector Scale => _scale;
         public void SetScale(float v) => _scale = new(v);
         public void SetScale(float x, float y) => _scale = new(x, y);
+        public void SetScale(MVector v) => _scale = v;
+
         public void SetScaleX(float v) => _scale.X = v;
         public void SetScaleY(float v) => _scale.Y = v;
 
@@ -128,11 +130,12 @@ namespace Mythonia.Framework.Game.Objects.Draw
         protected Flip FlipStatus => _flipStatus;
 
 
-        public Sprite(string name, TextureBase texture, MPosition originPos = null, MVector? originDP = null, MAngle? rotation = null)
+        public Sprite(string name, TextureBase texture, MPosition originPos = null, MVector? originDP = null, MVector? scale = null, MAngle? rotation = null)
         {
             Name = name;
             OriginPos = originPos ?? new(0);
             OriginDP = originDP ?? new(0);
+            SetScale(scale ?? new(1));
             Rotation = rotation ?? new(0);
 
             Texture = texture;

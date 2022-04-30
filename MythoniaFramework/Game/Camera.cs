@@ -25,9 +25,9 @@ namespace Mythonia.Framework.Game
         /// <returns>绘制坐标 (y向下增加, 坐标相对于屏幕左上角)</returns>
         public MVector ToScreenPos(MVector gamePos)
         {
-            MVector relativePos = gamePos - (MVector)Position;
+            MVector relativePos = (gamePos - (MVector)Position) * Scale;
             relativePos.Y *= -1;
-            return (relativePos + Game.GraphicsDevice.Viewport.Size() / 2) * Scale;
+            return (relativePos + Game.GraphicsDevice.Viewport.Size() / 2);
         }
     }
 }

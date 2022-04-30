@@ -4,8 +4,9 @@ using System.Text;
 
 namespace Mythonia.Framework.Game.Objects.Draw
 {
-    public abstract class SpriteAnimated : Sprite
+    public class SpriteAnimated : Sprite
     {
+        private TextureSet TextureAnimated => (TextureSet)Texture;
 
         private float _timeCount;
         /// <summary>记录当前循环时长的计时器(以标准帧F为单位)</summary>
@@ -36,7 +37,7 @@ namespace Mythonia.Framework.Game.Objects.Draw
 
         /// <summary>乘以速率后的 动画帧时长</summary>
         private float FrameDurationChanged => CurrentAnimation.FrameDuration * PlaySpeed;
-        private float _playSpeed;
+        private float _playSpeed = 1;
         /// <summary>播放速度</summary>
         public float PlaySpeed
         {
@@ -53,10 +54,15 @@ namespace Mythonia.Framework.Game.Objects.Draw
 
 
 
-        public SpriteAnimated(string name, TextureSet texture,
-            MPosition originPos = null, MVector? originDP = null, MAngle? rotation = null)
-            : base(name, texture, originPos, originDP, rotation)
-        { }
+        public SpriteAnimated(string name, TextureBase texture, string aniName,
+            MPosition originPos = null, MVector? originDP = null, float? playSpeed = null, MVector? scale = null, MAngle? rotation = null)
+            : base(name, texture, originPos, originDP, scale, rotation)
+        {
+            if (texture is not TextureSet) throw new Exception($"The Given Texture to SpriteAnimated \"{Name}\" is not TextureSet");
+            aniName ??= TextureAnimated.DefaultAnimation;
+            CurrentAnimation = (aniName is not null) ? TextureAnimated.GetAnimation(aniName) : TextureAnimated.Animations[0];
+            if(playSpeed is not null) PlaySpeed = playSpeed ?? 1;
+        }
 
 
 

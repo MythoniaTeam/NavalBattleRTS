@@ -1,23 +1,16 @@
 {
   "Name": "Test",
   "ImagePath": "Testing\\Test",
-  "Size": { //图片单帧尺寸
-    "X": 12,
-    "Y": 12
-  },
-  "Origin": { //图片的原点坐标
-    "X": 6,
-    "Y": 6
-  },
-  "OriginScale": { //图片的原点位置的比例, 以(0,0)为中心, (-1,-1)为左上, (1,1)为右下
-    "X": 0,
-    "Y": 0
-  },
+  "Size": "12, 12", //图片单帧尺寸
+  "Origin": "6, 6", //图片的原点坐标
+  "OriginScale": "0, 0", //图片的原点位置的比例, 以(0,0)为中心, (-1,-1)为左上, (1,1)为右下
 
 
   "FramePerRow": 4, //图片每行的动画帧数
   "FrameCount": 8, //图片一共有8动画帧
 
+
+  "DefaultAnimation": "Stand",
   "Animations": [
     {
       "Name": "Walk",

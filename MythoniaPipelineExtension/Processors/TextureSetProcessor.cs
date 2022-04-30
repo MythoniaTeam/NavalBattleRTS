@@ -6,17 +6,17 @@ using Newtonsoft.Json;
 
 using TInput = System.String;
 
-using TOutput = Mythonia.Resources.Texture.TextureMono;
+using TOutput = Mythonia.Resources.Texture.TextureSet;
 
 namespace MythoniaPipelineExtension
 {
-    [ContentProcessor(DisplayName = "TextureMono Processor")]
-    public class TextureMonoProcessor : ContentProcessor<TInput, TOutput>
+    [ContentProcessor(DisplayName = "TextureSet Processor")]
+    class TextureSetProcessor : ContentProcessor<TInput, TOutput>
     {
         public override TOutput Process(TInput input, ContentProcessorContext context)
         {
 
-            return JsonConvert.DeserializeObject<TOutput>(input);
+            return (TOutput)JsonConvert.DeserializeObject<TOutput>(input).InitializeData();
             
         }
     }

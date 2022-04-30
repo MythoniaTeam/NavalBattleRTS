@@ -6,15 +6,17 @@ namespace Mythonia.Framework.Game.Objects
 {
     public class TObject : MObject, IDrawModule
     {
-        public Sprite SpriteObject { get; set; }
+        protected SpriteAnimated SpriteObject { get; set; }
+        Sprite IDrawModule.SpriteObject { get => SpriteObject; }
 
 
 
         public TObject(MGame game, string name, MVector? position) : base(game, name, position)
         {
             this.LogConstruct(true);
-            Texture2D texture = game.Content.Load<Texture2D>("Images/RECTANGLE");
-            SpriteObject = new Sprite("TObjectSprite", game.ContentsManager["RECTANGLE"], Position);
+            //SpriteObject = new Sprite("TObjectSprite", game.ContentsManager["RECTANGLE"], Position);
+            SpriteObject = new SpriteAnimated("TObjectSprite", game.ContentsManager["BouncingBomb"], null, Position, null, null, new(4));
+
         }
 
         public override void Initialize()
@@ -33,7 +35,10 @@ namespace Mythonia.Framework.Game.Objects
 
         private float speed = 1.2f;
         private float speedCam = 3f;
-        private float speedCamZoom = 0.02f;
+        private float speedCamZoom = 1.1f;
+        private float maxCamZoom = 8;
+        private float minCamZoom = 0.125f;
+
 
         public override void Update(GameTime gameTime)
         {
@@ -49,9 +54,11 @@ namespace Mythonia.Framework.Game.Objects
             if (key.IsKeyDown(Keys.Left    )) /*Debug.WriteLine("KeyDown Down    ");*/MGame.CurrentCamera.Position -= (   speedCam * gameTime.ElapsedGameTime.ToStandardFrame(), 0);
             if (key.IsKeyDown(Keys.Up      )) /*Debug.WriteLine("KeyDown Right   ");*/MGame.CurrentCamera.Position += (0, speedCam * gameTime.ElapsedGameTime.ToStandardFrame()   );
             if (key.IsKeyDown(Keys.Down    )) /*Debug.WriteLine("KeyDown Left    ");*/MGame.CurrentCamera.Position -= (0, speedCam * gameTime.ElapsedGameTime.ToStandardFrame()   );
-            if (key.IsKeyDown(Keys.PageUp  )) /*Debug.WriteLine("KeyDown PageUp  ");*/MGame.CurrentCamera.Scale += speedCamZoom * gameTime.ElapsedGameTime.ToStandardFrame();
-            if (key.IsKeyDown(Keys.PageDown)) /*Debug.WriteLine("KeyDown PageDown");*/MGame.CurrentCamera.Scale -= speedCamZoom * gameTime.ElapsedGameTime.ToStandardFrame();
+            if (key.IsKeyDown(Keys.PageUp  )) /*Debug.WriteLine("KeyDown PageUp  ");*/MGame.CurrentCamera.Scale *= MathF.Pow(speedCamZoom, gameTime.ElapsedGameTime.ToStandardFrame());
+            if (key.IsKeyDown(Keys.PageDown)) /*Debug.WriteLine("KeyDown PageDown");*/MGame.CurrentCamera.Scale /= MathF.Pow(speedCamZoom, gameTime.ElapsedGameTime.ToStandardFrame());
 
+            if (MGame.CurrentCamera.Scale > maxCamZoom) MGame.CurrentCamera.Scale = new(maxCamZoom);
+            if (MGame.CurrentCamera.Scale < minCamZoom) MGame.CurrentCamera.Scale = new(minCamZoom);
 
             base.UpdateAfter(gameTime);
             this.Log(true, "Position: " + Position);

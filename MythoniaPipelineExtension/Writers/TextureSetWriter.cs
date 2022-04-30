@@ -15,7 +15,7 @@ using TWrite = Mythonia.Resources.Texture.TextureSet;
 namespace Mythonia.Pipeline.Writers
 {
     [ContentTypeWriter]
-    internal class TextureSetWriter : TextureWriter<TWrite>
+    public class TextureSetWriter : TextureWriter<TWrite>
     {
         protected override void Write(ContentWriter output, TWrite value)
         {
@@ -24,8 +24,10 @@ namespace Mythonia.Pipeline.Writers
             output.Write(value.FramePerRow);
             output.Write(value.FrameCount);
 
-            
-            output.Write(value.Animations.Count);
+
+            output.Write(value.DefaultAnimation);
+
+            output.Write(value.Animations.Length);
             foreach (Animation ani in value.Animations)
             {
                 output.Write(ani.Name);
@@ -42,7 +44,7 @@ namespace Mythonia.Pipeline.Writers
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            return "Mythonia.Resources.Texture.TextureMonoReader, TextureMonoReader";
+            return "Mythonia.Resources.Texture.TextureSetReader, Mythonia.Resources";
         }
     }
 }

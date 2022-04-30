@@ -9,19 +9,33 @@ namespace Mythonia.Resources.Texture
         public string Name { get; set; }
         public string ImagePath { get; set; }
 
+        public Vector2 A { get; set; }
 
         /// <summary>单帧贴图的尺寸</summary>
         public MVector FrameSize { get; set; }
 
-
-        public MVector OriginScale
+        private MVector _origin;
+        private bool _origin_invalid = true;
+        public MVector OriginScale { get; set; }
+        public MVector Origin
         {
-            set => Origin = (value + 1) / 2 * FrameSize;
+            get
+            {
+                if (_origin_invalid)
+                {
+                    _origin = (OriginScale + 1) / 2 * FrameSize;
+                    _origin_invalid = false;
+                }
+                return _origin;
+            }
+            set => _origin = value;
         }
-        public MVector Origin { get; set; } = new(0);
         protected Texture2D Texture { get; set; }
 
-
+        /*void a()
+        {
+            O*riginScale = 9;
+        }*/
 
         public TextureBase() { }
         public TextureBase(string name) => Name = name;
@@ -29,6 +43,10 @@ namespace Mythonia.Resources.Texture
 
         public abstract void InitializeTexture(Texture2D texture);
 
+        public virtual TextureBase InitializeData()
+        {
+            return this;
+        }
 
 
         /// <summary>获取需要绘制的帧, 在贴图资源中的范围</summary>

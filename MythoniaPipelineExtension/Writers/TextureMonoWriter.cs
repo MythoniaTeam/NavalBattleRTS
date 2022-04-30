@@ -13,7 +13,7 @@ using TWrite = Mythonia.Resources.Texture.TextureMono;
 namespace Mythonia.Pipeline.Writers
 {
     [ContentTypeWriter]
-    internal class TextureMonoWriter : TextureWriter<TWrite>
+    public class TextureMonoWriter : TextureWriter<TWrite>
     {
         protected override void Write(ContentWriter output, TWrite value)
         {
@@ -22,7 +22,7 @@ namespace Mythonia.Pipeline.Writers
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            return "Mythonia.Resources.Texture.TextureMonoReader, TextureMonoReader";
+            return "Mythonia.Resources.Texture.TextureMonoReader, Mythonia.Resources";
         }
     }
 }

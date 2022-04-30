@@ -12,9 +12,12 @@ namespace Mythonia.Resources.Texture
             texture.FramePerRow = input.ReadInt32();
             texture.FrameCount = input.ReadInt32();
 
+
+            texture.DefaultAnimation = input.ReadString();
+
             int aniCount = input.ReadInt32();
             Animation ani;
-            texture.Animations = new();
+            texture.Animations = new Animation[aniCount];
             for(int i = 0; i < aniCount; i++)
             {
                 ani = new(input.ReadString());
@@ -25,6 +28,8 @@ namespace Mythonia.Resources.Texture
                 {
                     ani.FramesNo[j] = input.ReadInt32();
                 }
+                texture.Animations[i] = ani;
+                ani.FrameCount = frameCount;
             }
 
 

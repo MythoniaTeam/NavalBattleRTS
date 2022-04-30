@@ -6,6 +6,6 @@ namespace Mythonia.Framework.Game.Objects.Draw
 {
     public interface IDrawModule : XNA.IDrawable
     {
-        Sprite SpriteObject { get; }
+        public Sprite SpriteObject { get; }
     }
 }

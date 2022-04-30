@@ -6,22 +6,31 @@ namespace Mythonia.Resources.Texture
 {
     public class TextureSet : TextureBase
     {
-
         /// <summary>图集每行有多少帧</summary>
         public int FramePerRow { get; set; }
         /// <summary>图集一共有多少帧</summary>
         public int FrameCount { get; set; }
 
-        public List<Animation> Animations = new List<Animation>();
+        public string DefaultAnimation { get; set; } = "Normal";
+        public Animation[] Animations { get; set; }
 
 
         public TextureSet() { }
         public TextureSet(string name) : base(name) { }
 
-
+        /// <summary>在游戏加载时被调用, 用于绑定Texture2D对象</summary>
+        /// <param name="texture"></param>
         public override void InitializeTexture(Texture2D texture)
         {
             Texture = texture;
+        }
+        ///<summary>在ContantProcessor中被调用, 初始化动画的FramesNo数据</summary>
+        ///<returns>自身Texture对象</returns>
+        public override TextureBase InitializeData()
+        {
+            base.InitializeData();
+            foreach (Animation ani in Animations) ani.Initialize();
+            return this;
         }
 
 

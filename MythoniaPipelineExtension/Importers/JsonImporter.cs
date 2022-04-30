@@ -8,7 +8,7 @@ using TImport = System.String;
 
 namespace MythoniaPipelineExtension
 {
-    [ContentImporter(".json", DisplayName = "Json Importer", DefaultProcessor = "Processor1")]
+    [ContentImporter(".json", DisplayName = "Json Importer", DefaultProcessor = "TextureSetProcessor")]
     public class JsonImporter : ContentImporter<TImport>
     {
         public override TImport Import(string filename, ContentImporterContext context)

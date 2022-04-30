@@ -9,7 +9,8 @@ namespace MythoniaGameMain
             => new string[]
             {
                 "RECTANGLE",
-                "RECTANGLE_RED"
+                "RECTANGLE_RED",
+                "BouncingBomb"
             };
 
         public GameMain()
@@ -18,15 +19,15 @@ namespace MythoniaGameMain
             IsMouseVisible = true;
         }
 
-        SpriteFont tSpriteFont;
+        
         Texture2D tSprite;
         protected override void Initialize()
         {
-
+            
             //IsFixedTimeStep = false;
             base.Initialize();
 
-            tSpriteFont = Content.Load<SpriteFont>("Default");
+            
             tSprite = Content.Load<Texture2D>(@"Images\RECTANGLE");
 
         }
@@ -52,20 +53,17 @@ namespace MythoniaGameMain
         protected override void Draw(GameTime gameTime)
         {
 
-            SpriteBatch.Begin();
+            SpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointWrap);
 
             base.Draw(gameTime);
 
-            if(FrameCounter.FrameCount > 60)
-                SpriteBatch.DrawString(tSpriteFont, ((TObject)Components[0]).Position.X.ToString(), new(50, 64), Color.Black);
-            SpriteBatch.DrawString(tSpriteFont, $"Frame: {FrameCounter.FrameCount}", new(50, 50), Color.Black);
-            SpriteBatch.DrawString(tSpriteFont, $"FPS: {FrameCounter.AverageFPS}", new(50, 150), Color.Black);
 
-            SpriteBatch.DrawString(tSpriteFont, "Test", new(150, 350), Color.Black);
-            SpriteBatch.Draw(tSprite, new Vector2(150, 350), Color.White);
+            if (FrameCounter.FrameCount > 60)
+                SpriteBatch.DrawString(DefaultFont, ((TObject)Components[0]).Position.X.ToString(), new(50, 72), Color.Black);
+            SpriteBatch.Draw(tSprite, new Vector2(150, 400), Color.White);
 
-            
-            
+
+
 
             SpriteBatch.End();
 

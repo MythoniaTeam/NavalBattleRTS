@@ -10,7 +10,8 @@ namespace Mythonia.Resources.Texture
         {
             T texture = new();
             texture.Name = input.ReadString();
-            texture.ImagePath = input.ReadString();
+            if(input.ReadBoolean())
+                texture.ImagePath = input.ReadString();
             texture.Origin = input.ReadVector2();
             texture.FrameSize = input.ReadVector2();
 
