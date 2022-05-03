@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mythonia.Resources.Data
+namespace Mythonia.Resources.Data.Shapes
 {
 
     /// <summary>

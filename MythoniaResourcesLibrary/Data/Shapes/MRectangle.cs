@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mythonia.Resources.Data
+namespace Mythonia.Resources.Data.Shapes
 {
     
 
@@ -10,7 +10,7 @@ namespace Mythonia.Resources.Data
     public class MRectangle : IRectangle
     {
         private MVector _size;
-        private MVector _position;
+        private IVector _position;
         
         public float X
         {
@@ -22,7 +22,7 @@ namespace Mythonia.Resources.Data
             get => _position.Y;
             set => _position.Y = value;
         }
-        public MVector Position
+        public IVector Position
         {
             get => _position;
             set => _position = value;
@@ -46,6 +46,11 @@ namespace Mythonia.Resources.Data
         }
 
         public IRectangle Interfacenize() => this;
+
+        public MRectangle(MVector position, MVector size)
+        {
+
+        }
 
     }
 }

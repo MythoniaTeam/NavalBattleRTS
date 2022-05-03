@@ -9,6 +9,18 @@ using Mythonia.Resources.Extensions;
 
 namespace Mythonia.Resources.Data
 {
+    public enum VecDir
+    {
+        TopLeft = 1,
+        Top = 2,
+        TopRight = 3,
+        Left = 4,
+        Center = 5,
+        Right = 6,
+        BottomLeft = 7,
+        Bottom = 8,
+        BottomRight = 9,
+    }
 
     public struct MVector : IMVector<MVector>, IEquatable<MVector>
     {
@@ -35,8 +47,11 @@ namespace Mythonia.Resources.Data
 
         public MVector(Vector2 vec) => _vec = vec;
         public MVector(float x, float y) => _vec = new(x, y);
+        public MVector(VecDir dir, float x = 1, float y = 1) => _vec = new MVector(x, y) * (MVector)dir;
+
         public MVector(float x) : this(x, x) { }
 
+        
 
 
         public void Round() => _vec.Round();
@@ -50,8 +65,10 @@ namespace Mythonia.Resources.Data
 
         public void RevertXY() => _vec.RevertXY();
 
-        public void ChangeSign(float xSign, float ySign) => ChangeSign(new(xSign, ySign));
-        public void ChangeSign(Vector2 Sign) => _vec *= Sign;
+        public MVector ChangeSign(float xSign, float ySign) => ChangeSign(new(xSign, ySign));
+        public MVector ChangeSign(Vector2 Sign) => _vec * Sign;
+        public MVector ChangeSignY() => ChangeSign(1, -1);
+
         public void Abs() => _vec.Absolutization();
 
         public void Reflect(Vector2 normal) => _vec.Reflect(normal);
@@ -210,6 +227,8 @@ namespace Mythonia.Resources.Data
 
         /// <summary>XNA.Vector2 转 MVector</summary>
         public static implicit operator MVector(Vector2 v) => new MVector(v);
+        public static implicit operator MVector(Point v) => new MVector(v.X, v.Y);
+
 
 
 
@@ -238,6 +257,50 @@ namespace Mythonia.Resources.Data
             float y = float.Parse(vSplited[1]);
             return new(x, y);
         }
+
+
+
+        /// <summary>
+        /// 给定一个以中心点为 (0, 0), 左下 / 右上角为 -/+ (1, 1) 的比例向量, 和一个尺寸, 算出该比例代表的坐标 (以左上为原点的坐标系)
+        /// </summary>
+        /// <returns></returns>
+        public MVector ScaleToScreenPosition(MVector size, bool topLeft = true)
+        {
+            MVector v = this.ChangeSignY();
+            v = (v + (topLeft ? 1 : 0)) / 2;
+            return v * size;
+        }
+
+
+        public VecDir GetSign => new MVector(MathF.Sign(X), MathF.Sign(Y));
+
+
+        public static implicit operator MVector(VecDir v) => v switch
+        {
+            VecDir.TopLeft => (-1, 1),
+            VecDir.Top => (0, 1),
+            VecDir.TopRight => (1, 1),
+            VecDir.Left => (-1, 0),
+            VecDir.Center => (0, 0),
+            VecDir.Right => (1, 0),
+            VecDir.BottomLeft => (-1, -1),
+            VecDir.Bottom => (0, -1),
+            VecDir.BottomRight => (1, -1),
+            _ => throw new IndexOutOfRangeException($"The Value of Enum \"VecDir\" should belong the range [1, 9], but it's {v} now"),
+        };
+        public static implicit operator VecDir(MVector v) => (v.X, v.Y) switch
+        {
+            (-1, 1) => VecDir.TopLeft,
+            (0, 1) => VecDir.Top,
+            (1, 1) => VecDir.TopRight,
+            (-1, 0) => VecDir.Left,
+            (0, 0) => VecDir.Center,
+            (1, 0) => VecDir.Right,
+            (-1, -1) => VecDir.BottomLeft,
+            (0, -1) => VecDir.Bottom,
+            (1, -1) => VecDir.BottomRight,
+            _ => throw new IndexOutOfRangeException($"The Value of Enum \"VecDir\" should belong the range [1, 9], but it's {v} now"),
+        };
 
     }
 

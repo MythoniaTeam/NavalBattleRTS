@@ -4,7 +4,7 @@
 
 namespace Mythonia.Framework.Game.Objects
 {
-    public class MObject : DrawableGameComponent, INamed
+    public abstract class MObject : DrawableGameComponent, INamed
     {
         private string _name;
         public string Name
@@ -13,7 +13,6 @@ namespace Mythonia.Framework.Game.Objects
             private set => _name = value;
         }
 
-        public MPosition Position;
 
 
         protected MActionManager Actions = new MActionManager();
@@ -21,10 +20,9 @@ namespace Mythonia.Framework.Game.Objects
         protected MGame MGame => (MGame)Game;
 
 
-        public MObject (MGame game, string name, MVector? position) : base(game)
+        public MObject (MGame game, string name) : base(game)
         {
             Name = name;
-            Position = position ?? new(0);
         }
 
         private bool ContainsDrawModule = false;
@@ -45,11 +43,11 @@ namespace Mythonia.Framework.Game.Objects
             UpdateAfter(gameTime);
         }        
 
-        protected void UpdateBefore(GameTime gameTime)
+        protected virtual void UpdateBefore(GameTime gameTime)
         {
             base.Update(gameTime);
         }
-        protected void UpdateAfter(GameTime gameTime)
+        protected virtual void UpdateAfter(GameTime gameTime)
         {
             Actions.Update(gameTime);
             if (ContainsDrawModule) ((Draw.IDrawModule)this).SpriteObject.Update(gameTime);

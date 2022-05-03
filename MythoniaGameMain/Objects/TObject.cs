@@ -1,13 +1,10 @@
 ﻿
-using Mythonia.Framework.Game.Objects.Draw;
 using Microsoft.Xna.Framework.Input;
 
 namespace Mythonia.Framework.Game.Objects
 {
-    public class TObject : MObject, IDrawModule
+    public class TObject : GameObject
     {
-        protected SpriteAnimated SpriteObject { get; set; }
-        Sprite IDrawModule.SpriteObject { get => SpriteObject; }
 
 
 
@@ -15,8 +12,7 @@ namespace Mythonia.Framework.Game.Objects
         {
             this.LogConstruct(true);
             //SpriteObject = new Sprite("TObjectSprite", game.ContentsManager["RECTANGLE"], Position);
-            SpriteObject = new SpriteAnimated("TObjectSprite", game.ContentsManager["BouncingBomb"], null, Position, null, null, new(4));
-
+            SpriteObject = new SpriteAnimated(MGame, "TObjectSprite", game.ContentsManager["BouncingBomb"], null, 1, Position, null, true, new(4));
         }
 
         public override void Initialize()

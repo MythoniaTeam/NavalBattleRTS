@@ -25,8 +25,8 @@ namespace Mythonia.Resources.Data
 
         public void RevertXY();
 
-        public void ChangeSign(float xSign, float ySign);
-        public void ChangeSign(Vector2 Sign);
+        public T ChangeSign(float xSign, float ySign);
+        public T ChangeSign(Vector2 Sign);
         public void Abs();
 
         public void Reflect(Vector2 normal);
@@ -97,5 +97,8 @@ namespace Mythonia.Resources.Data
         public T Clone();
 
         public bool Equals(T other);
+
+        /// <summary>获取一个 |x或y| ∈ { 0, 1 } 的向量, 符号和当前相同</summary>
+        public VecDir GetSign { get; }
     }
 }

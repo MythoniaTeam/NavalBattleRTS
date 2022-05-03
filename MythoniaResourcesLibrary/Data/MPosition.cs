@@ -53,8 +53,8 @@ namespace Mythonia.Resources.Data
 
         public void RevertXY() => _vec.RevertXY();
 
-        public void ChangeSign(float xSign, float ySign) => ChangeSign(new(xSign, ySign));
-        public void ChangeSign(Vector2 Sign) => _vec *= Sign;
+        public MPosition ChangeSign(float xSign, float ySign) => ChangeSign(new(xSign, ySign));
+        public MPosition ChangeSign(Vector2 Sign) => _vec *= Sign;
         public void Abs() => _vec.Absolutization();
 
         public void Reflect(Vector2 normal) => _vec.Reflect(normal);
@@ -209,5 +209,36 @@ namespace Mythonia.Resources.Data
 
         public static implicit operator (float, float)(MPosition v) => (v.X, v.Y);
         public static implicit operator MPosition((float, float) v) => new(v.Item1, v.Item2);
+
+
+
+        public VecDir GetSign => new MPosition(MathF.Sign(X), MathF.Sign(Y));
+
+        public static implicit operator MPosition(VecDir v) => v switch
+        {
+            VecDir.TopLeft => (-1, 1),
+            VecDir.Top => (0, 1),
+            VecDir.TopRight => (1, 1),
+            VecDir.Left => (-1, 0),
+            VecDir.Center => (0, 0),
+            VecDir.Right => (1, 0),
+            VecDir.BottomLeft => (-1, -1),
+            VecDir.Bottom => (0, -1),
+            VecDir.BottomRight => (1, -1),
+            _ => throw new IndexOutOfRangeException($"The Value of Enum \"VecDir\" should belong the range [1, 9], but it's {v} now"),
+        };
+        public static implicit operator VecDir(MPosition v) => (v.X, v.Y) switch
+        {
+            (-1, 1) => VecDir.TopLeft,
+            (0, 1) => VecDir.Top,
+            (1, 1) => VecDir.TopRight,
+            (-1, 0) => VecDir.Left,
+            (0, 0) => VecDir.Center,
+            (1, 0) => VecDir.Right,
+            (-1, -1) => VecDir.BottomLeft,
+            (0, -1) => VecDir.Bottom,
+            (1, -1) => VecDir.BottomRight,
+            _ => throw new IndexOutOfRangeException($"The Value of Enum \"VecDir\" should belong the range [1, 9], but it's {v} now"),
+        };
     }
 }

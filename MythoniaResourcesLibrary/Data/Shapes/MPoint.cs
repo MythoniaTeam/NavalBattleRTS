@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mythonia.Resources.Data
+namespace Mythonia.Resources.Data.Shapes
 {
     public class MPoint : IPoint
     {
-        private MVector _position;
-        public MVector Position
+        private IVector _position;
+        public IVector Position
         {
             get => _position;
             set => _position = value;
@@ -28,7 +28,7 @@ namespace Mythonia.Resources.Data
         public MPoint(float x, float y) : this(new(x, y)) { }
 
 
-        public static implicit operator MVector(MPoint pt) => pt.Position;
+        public static implicit operator MVector(MPoint pt) => pt.Position.Vec;
         public static implicit operator MPoint(MVector pt) => new(pt);
     }
 }

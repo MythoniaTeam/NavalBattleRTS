@@ -30,6 +30,10 @@ namespace MythoniaGameMain
             
             tSprite = Content.Load<Texture2D>(@"Images\RECTANGLE");
 
+
+
+
+
         }
 
         protected override void LoadContent()
@@ -41,12 +45,26 @@ namespace MythoniaGameMain
         {
             base.Update(gameTime);
 
-            if(FrameCounter.FrameCount == 60)
+            if (FrameCounter.FrameCount == 60)
             {
+
                 Components.Add(new TObject(this, "Test", new(0)));
+                Components.Add(new TOutputObject(this, "Test1", 2));
+
+                /*Components.Add(new TUI(this, "Test", VecDir.BottomRight));
+                Components.Add(new TUI(this, "Test", VecDir.Bottom));
+                Components.Add(new TUI(this, "Test", VecDir.BottomLeft));
+                Components.Add(new TUI(this, "Test", VecDir.Right));
+                Components.Add(new TUI(this, "Test", VecDir.TopRight));
+                Components.Add(new TUI(this, "Test", VecDir.Top));
+                Components.Add(new TUI(this, "Test", VecDir.TopLeft));
+                Components.Add(new TUI(this, "Test", VecDir.Left));*/
+
+
+
                 //Components[0].Initialize();
             }
-            
+
 
         }
 

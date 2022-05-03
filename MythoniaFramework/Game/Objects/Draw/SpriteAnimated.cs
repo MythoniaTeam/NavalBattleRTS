@@ -54,14 +54,14 @@ namespace Mythonia.Framework.Game.Objects.Draw
 
 
 
-        public SpriteAnimated(string name, TextureBase texture, string aniName,
-            MPosition originPos = null, MVector? originDP = null, float? playSpeed = null, MVector? scale = null, MAngle? rotation = null)
-            : base(name, texture, originPos, originDP, scale, rotation)
+        public SpriteAnimated(MGame game, string name, TextureBase texture, string aniName, float playSpeed = 1,
+            MPosition originPos = null, MVector? originDP = null, bool isGameObject = true, MVector? scale = null, MAngle? rotation = null)
+            : base(game, name, texture, originPos, originDP, isGameObject, scale, rotation)
         {
             if (texture is not TextureSet) throw new Exception($"The Given Texture to SpriteAnimated \"{Name}\" is not TextureSet");
             aniName ??= TextureAnimated.DefaultAnimation;
             CurrentAnimation = (aniName is not null) ? TextureAnimated.GetAnimation(aniName) : TextureAnimated.Animations[0];
-            if(playSpeed is not null) PlaySpeed = playSpeed ?? 1;
+            PlaySpeed = playSpeed;
         }
 
 
@@ -73,7 +73,7 @@ namespace Mythonia.Framework.Game.Objects.Draw
 
 
 
-        public override void Draw(Camera cam, SpriteBatch spriteBatch, float layer) => Draw(cam, spriteBatch, CurrentFrame, layer);
+        public override void Draw(Camera cam, SpriteBatch spriteBatch, float layer, MVector? position = null) => Draw(cam, spriteBatch, CurrentFrame, layer, position);
         
 
 

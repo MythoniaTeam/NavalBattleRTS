@@ -37,32 +37,32 @@ namespace Mythonia.Framework.Game
             Debug.WriteLine($"DrawLine fr: {begin} to: {end}");
         }
 
-        public static void DrawLineVertical(int pixelTextureType, float x, Color color, int width = 1)
-            => DrawLineY(Game.CurrentCamera, pixelTextureType, Game.SpriteBatch, -99999, 99999, x, color, width);
-        public static void DrawLinHorizontall(int pixelTextureType, float y, Color color, int width = 1)
-            => DrawLineX(Game.CurrentCamera, pixelTextureType, Game.SpriteBatch, -99999, 99999, y, color, width);
+        public static void DrawLineY(int pixelTextureType, float x, Color color, int width = 1)
+            => DrawLineY(pixelTextureType, -99999, 99999, x, color, width);
+        public static void DrawLineX(int pixelTextureType, float y, Color color, int width = 1)
+            => DrawLineX(pixelTextureType, -99999, 99999, y, color, width);
 
 
-        public static void DrawLineY(Camera cam, int pixelTextureType, SpriteBatch spriteBatch, float begin, float end, float x, Color color, int width = 1)
+        public static void DrawLineY(int pixelTextureType, float begin, float end, float x, Color color, int width = 1, bool screenPos = false)
         {
             float max = MathF.Max(begin, end);
             float min = MathF.Min(begin, end);
 
-            MVector pMax = cam.ToScreenPos(new(x, min));
-            MVector pMin = cam.ToScreenPos(new(x, max));
+            MVector pMax = screenPos ? Game.CurrentCamera.ToTopLeftPos(new(x, min)) : Game.CurrentCamera.ToScreenPos(new(x, min));
+            MVector pMin = screenPos ? Game.CurrentCamera.ToTopLeftPos(new(x, max)) : Game.CurrentCamera.ToScreenPos(new(x, max));
 
-            spriteBatch.Draw(Pixel[pixelTextureType], pMin, null, color, 0, Vector2.Zero, new Vector2(width, pMax.Y - pMin.Y), SpriteEffects.None, 0);
+            Game.SpriteBatch.Draw(Pixel[pixelTextureType], pMin, null, color, 0, Vector2.Zero, new Vector2(width, pMax.Y - pMin.Y), SpriteEffects.None, 0);
         }
 
-        public static void DrawLineX(Camera cam, int pixelTextureType, SpriteBatch spriteBatch, float begin, float end, float y, Color color, int width = 1)
+        public static void DrawLineX(int pixelTextureType, float begin, float end, float y, Color color, int width = 1, bool screenPos = false)
         {
             float max = MathF.Max(begin, end);
             float min = MathF.Min(begin, end);
 
-            MVector pMax = cam.ToScreenPos(new(max, y));
-            MVector pMin = cam.ToScreenPos(new(min, y));
+            MVector pMax = screenPos ? Game.CurrentCamera.ToTopLeftPos(new(max, y)) : Game.CurrentCamera.ToScreenPos(new(max, y));
+            MVector pMin = screenPos ? Game.CurrentCamera.ToTopLeftPos(new(min, y)) : Game.CurrentCamera.ToScreenPos(new(min, y));
 
-            spriteBatch.Draw(Pixel[pixelTextureType], pMin, null, color, 0, Vector2.Zero, new Vector2(pMax.X - pMin.X, width), SpriteEffects.None, 0);
+            Game.SpriteBatch.Draw(Pixel[pixelTextureType], pMin, null, color, 0, Vector2.Zero, new Vector2(pMax.X - pMin.X, width), SpriteEffects.None, 0);
         }
 
 

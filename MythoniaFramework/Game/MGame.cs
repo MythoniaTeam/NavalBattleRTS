@@ -14,12 +14,15 @@ namespace Mythonia.Framework.Game
         public MGame()
         {
             Graphics = new GraphicsDeviceManager(this);
+
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
 
             ContentsManager = new(this);
             CurrentCamera = new(this, new(0));
+
+            Window.AllowUserResizing = true;
         }
 
 
@@ -60,12 +63,12 @@ namespace Mythonia.Framework.Game
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            Utility.DrawLineX(CurrentCamera, 1, SpriteBatch, -9999, 9999, 0, Color.White, 3);
-            Utility.DrawLineX(CurrentCamera, 1, SpriteBatch, -9999, 9999, 200, Color.White, 1);
-            Utility.DrawLineX(CurrentCamera, 1, SpriteBatch, -9999, 9999, -200, Color.White, 1);
-            Utility.DrawLineY(CurrentCamera, 1, SpriteBatch, -9999, 9999, 0, Color.White, 3);
-            Utility.DrawLineY(CurrentCamera, 1, SpriteBatch, -9999, 9999, 200, Color.White, 1);
-            Utility.DrawLineY(CurrentCamera, 1, SpriteBatch, -9999, 9999, -200, Color.White, 1);
+            Utility.DrawLineX(1, -9999, 9999, 0, Color.White, 3);
+            Utility.DrawLineX(1, -9999, 9999, 200, Color.White, 1);
+            Utility.DrawLineX(1, -9999, 9999, -200, Color.White, 1);
+            Utility.DrawLineY(1, -9999, 9999, 0, Color.White, 3);
+            Utility.DrawLineY(1, -9999, 9999, 200, Color.White, 1);
+            Utility.DrawLineY(1, -9999, 9999, -200, Color.White, 1);
 
             base.Draw(gameTime);
 
@@ -75,8 +78,8 @@ namespace Mythonia.Framework.Game
                 key.IsKeyDown(Keys.Left) || key.IsKeyDown(Keys.Right) ||
                 key.IsKeyDown(Keys.LeftAlt))
             {
-                Utility.DrawLineX(CurrentCamera, 2, SpriteBatch, 10 / CurrentCamera.Scale.X + CurrentCamera.Position.X, -10 / CurrentCamera.Scale.X + CurrentCamera.Position.X, CurrentCamera.Position.Y, Color.White, 1);
-                Utility.DrawLineY(CurrentCamera, 2, SpriteBatch, 10 / CurrentCamera.Scale.X + CurrentCamera.Position.Y, -10 / CurrentCamera.Scale.X + CurrentCamera.Position.Y, CurrentCamera.Position.X, Color.White, 1);
+                Utility.DrawLineX(2, 200, -200, 0, Color.White, 1, true);
+                Utility.DrawLineY(2, 200, -200, 0, Color.White, 1, true);
                 SpriteBatch.DrawString(DefaultFont, CurrentCamera.Scale.ToString(), GraphicsDevice.Viewport.Size() / 2 + (0, 20), Color.Black  );
                 SpriteBatch.DrawString(DefaultFont, CurrentCamera.Position.ToString(), GraphicsDevice.Viewport.Size() / 2 + (0, 50), Color.Black);
 

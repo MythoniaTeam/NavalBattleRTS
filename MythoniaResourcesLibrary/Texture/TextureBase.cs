@@ -14,7 +14,7 @@ namespace Mythonia.Resources.Texture
         /// <summary>单帧贴图的尺寸</summary>
         public MVector FrameSize { get; set; }
 
-        private MVector _origin;
+        private MVector _origin = new(0, 0);
         private bool _origin_invalid = true;
         public MVector OriginScale { get; set; }
         public MVector Origin

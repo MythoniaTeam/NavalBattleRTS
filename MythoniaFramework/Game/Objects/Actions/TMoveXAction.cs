@@ -6,7 +6,7 @@ namespace Mythonia.Framework.Game.Objects.Actions
 {
     public class TMoveXAction : MAction<Args.Numerical>
     {
-        MObject obj;
+        GameObject obj;
 
         public TMoveXAction(float duration, Args.Numerical moveDistance) : base(duration, moveDistance)
         {
