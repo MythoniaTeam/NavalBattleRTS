@@ -29,7 +29,7 @@ namespace Mythonia.Framework.Game.Objects
         public override void Initialize()
         {
             base.Initialize();
-            if (this is Draw.IDrawModule) ContainsDrawModule = true;
+            if (this is IDrawModule) ContainsDrawModule = true;
         }
 
 
@@ -50,14 +50,26 @@ namespace Mythonia.Framework.Game.Objects
         protected virtual void UpdateAfter(GameTime gameTime)
         {
             Actions.Update(gameTime);
-            if (ContainsDrawModule) ((Draw.IDrawModule)this).SpriteObject.Update(gameTime);
+            if (ContainsDrawModule) ((IDrawModule)this).SpriteObject.UpdateSprite(gameTime);
         }
 
-        protected void Draw(SpriteBatch spriteBatch, float layer)
-        {
-            if (ContainsDrawModule) ((Draw.IDrawModule)this).SpriteObject.Draw(MGame.CurrentCamera, spriteBatch, layer);
+        //protected void Draw(SpriteBatch spriteBatch, float layer)
+        //{
+        //    if (ContainsDrawModule) ((IDrawModule)this).SpriteObject.DrawSprite(MGame.CurrentCamera, spriteBatch, layer);
 
-        }
+        //}
+
+        //public override void Draw(GameTime gameTime)
+        //{
+        //    base.Draw(gameTime);
+        //    Draw(MGame.SpriteBatch, 0);
+        //}
+
+
+
+
+        public override string ToString() => $"MObject \"{Name}\"";
+
 
     }
 }

@@ -9,7 +9,7 @@ namespace Mythonia.Framework.Game.Objects.Actions
         public void Update(GameTime gameTime)
         {
             List<IAction> removeList = new List<IAction>();
-            this.Log(true, $"Actions Count: {Count}");
+            this.Log(false, $"Actions Count: {Count}");
 
             foreach (IAction action in this) 
                 if(action.ActionUpdate(gameTime)) 

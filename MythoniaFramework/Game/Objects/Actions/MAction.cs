@@ -75,7 +75,7 @@ namespace Mythonia.Framework.Game.Objects.Actions
             //本帧 所需要执行动作的 多少部分 (如需要走10步中的2步, rate将会是1/5)
             float actionRate = ActionRate(frameDuration);
 
-            this.Log(true, $"ActionUpdate: FrameDuration: {frameDuration}, ActionRate: {actionRate}");
+            this.Log(false, $"ActionUpdate: FrameDuration: {frameDuration}, ActionRate: {actionRate}");
             //调用Main, 并传递 *Rate 后的Arg
             Main.Invoke(Arg.MultipleRate(actionRate));
 

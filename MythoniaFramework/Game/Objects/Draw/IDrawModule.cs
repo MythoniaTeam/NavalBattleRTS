@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Mythonia.Framework.Game.Objects.Draw
 {
-    public interface IDrawModule : XNA.IDrawable
+    public interface IDrawModule //: XNA.IDrawable
     {
-        public SpriteBase SpriteObject { get; }
+        public Sprite SpriteObject { get; }
     }
 }

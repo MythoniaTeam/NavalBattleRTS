@@ -4,17 +4,23 @@ using System.Text;
 
 namespace Mythonia.Framework.Game.Objects
 {
-    public class GameObject : MObject, Draw.IDrawModule
+    public class GameObject : MObject, IDrawModule
     {
         public MPosition Position;
 
-        public Draw.SpriteBase SpriteObject { get; set; }
+        public Sprite SpriteObject { get; set; }
 
 
 
         public GameObject(MGame game, string name, MVector? position) : base(game, name)
         {
-            Position = Position ?? new(0);
+            Position = position ?? new(0);
         }
+
+
+        
+
+
+        public override string ToString() => $"GameObject \"{Name}\"";
     }
 }

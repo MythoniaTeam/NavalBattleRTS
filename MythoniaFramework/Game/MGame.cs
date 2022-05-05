@@ -6,10 +6,12 @@ namespace Mythonia.Framework.Game
 {
     public abstract class MGame : XNA.Game
     {
-        public GraphicsDeviceManager Graphics;
-        public SpriteBatch SpriteBatch;
-        public MContentsManager ContentsManager;
-        public Camera CurrentCamera;
+        public GraphicsDeviceManager Graphics { get; set; }
+        public SpriteBatch SpriteBatch { get; set; }
+        public MContentsManager ContentsManager { get; set; }
+        public Camera CurrentCamera { get; set; }
+
+        public DrawManager DrawManager { get; set; }
 
         public MGame()
         {
@@ -26,7 +28,22 @@ namespace Mythonia.Framework.Game
         }
 
 
-        protected abstract string[] TextureLoadList();
+        protected abstract string[] _TextureLoadList { get; }
+        /// <summary>
+        /// <para>初始化图层时, 提供的数据, </para>
+        /// <para><b>重载</b> 该字段以 <b>修改</b> 初始图层结构</para>
+        /// <i>*直接以树状结构, 传递</i>
+        /// (<see cref="string"/> name, <see cref="float"/> weight, <see cref="Layer.InitArgs"/>[] sublayers) 
+        /// <i>即可, <br/> 将会自动转换为</i> 
+        /// <see cref="Layer.InitArgs"/>, 
+        /// <i>无需</i> <see langword="new"/>
+        /// </summary>
+        protected abstract Layer.InitArgs[] _LayerInitArgsList { get; }
+
+        public LayerInfo _GetDefaultLayerInfo(INamed obj) => _GetDefaultLayerInfo(obj.Name);
+        public virtual LayerInfo _GetDefaultLayerInfo(string name) => new("Game", 0, name);
+
+
 
         public SpriteFont DefaultFont;
         protected override void Initialize()
@@ -38,7 +55,9 @@ namespace Mythonia.Framework.Game
 
         protected override void LoadContent()
         {
-            ContentsManager.LoadTextures(TextureLoadList());
+            ContentsManager.LoadTextures(_TextureLoadList);
+
+            DrawManager = new(this, _LayerInitArgsList);
 
             SpriteBatch = new SpriteBatch(GraphicsDevice);
         }
@@ -59,9 +78,17 @@ namespace Mythonia.Framework.Game
             base.Update(gameTime);
         }
 
+
+
+
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+        //    DrawMiddle(gameTime);
+        //    DrawAfter(gameTime);
+        //}
+
+        //protected void DrawMiddle(GameTime gameTime)
+        //{
 
             Utility.DrawLineX(1, -9999, 9999, 0, Color.White, 3);
             Utility.DrawLineX(1, -9999, 9999, 200, Color.White, 1);
@@ -84,14 +111,27 @@ namespace Mythonia.Framework.Game
                 SpriteBatch.DrawString(DefaultFont, CurrentCamera.Position.ToString(), GraphicsDevice.Viewport.Size() / 2 + (0, 50), Color.Black);
 
             }
+            if (key.IsKeyDown(Keys.LeftAlt))
+            {
+                this.Log(true, "MGame", "---------Alt--------");
+            }
 
 
 
             SpriteBatch.DrawString(DefaultFont, $"Frame: {FrameCounter.FrameCount}", new(50, 50), Color.Black);
-            SpriteBatch.DrawString(DefaultFont, $"FPS: {FrameCounter.AverageFPS}", new(50, 150), Color.Black);
+            SpriteBatch.DrawString(DefaultFont, $"FPS: {FrameCounter.AverageFPS}", new(50, 80), Color.Black);
+            SpriteBatch.DrawString(DefaultFont, $"Mouse: {Mouse.GetState().Position}", new(50, 110), Color.Black);
+
 
             SpriteBatch.DrawString(DefaultFont, "Test", new(150, 280), Color.Black);
-            
+
+
+            //DrawManager.AddSpritesToDrawList();
+            DrawManager.DrawAll(SpriteBatch);
         }
+
+        //protected void DrawAfter(GameTime gameTime) { }
+
+
     }
 }

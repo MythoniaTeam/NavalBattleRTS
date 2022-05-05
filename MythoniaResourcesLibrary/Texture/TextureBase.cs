@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Mythonia.Resources.Texture
 {
+    public enum Flip { N, X, Y, XY }
     public abstract class TextureBase : INamed
     {
         public string Name { get; set; }
@@ -13,6 +14,8 @@ namespace Mythonia.Resources.Texture
 
         /// <summary>单帧贴图的尺寸</summary>
         public MVector FrameSize { get; set; }
+
+        public MVector BasicScale { get; set; } = new(1);
 
         private MVector _origin = new(0, 0);
         private bool _origin_invalid = true;
@@ -56,5 +59,28 @@ namespace Mythonia.Resources.Texture
 
         /// <summary>获取贴图资源</summary>
         public virtual Texture2D GetSourceTexture() => Texture;
+
+
+
+        public void DrawTexture(SpriteBatch spriteBatch, int frameNo, float layer, MVector position, MVector scale, MAngle rotation, Color color, Flip flip = Flip.N)
+        {
+
+            spriteBatch.Draw(
+                GetSourceTexture(),
+                position,
+                GetSourceRange(frameNo),
+                color,
+                rotation + ((flip is Flip.XY) ? 180 : 0),
+                Origin,
+                scale * BasicScale,
+                flip switch
+                {
+                    Flip.X => SpriteEffects.FlipVertically,
+                    Flip.Y => SpriteEffects.FlipHorizontally,
+                    _ => SpriteEffects.None
+                },
+                layer
+            );
+        }
     }
 }

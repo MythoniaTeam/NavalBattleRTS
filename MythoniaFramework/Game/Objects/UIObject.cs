@@ -27,7 +27,7 @@ namespace Mythonia.Framework.Game.Objects
 
 
 
-        public Draw.SpriteBase SpriteObject { get; set; }
+        public Draw.Sprite SpriteObject { get; set; }
 
         
         public UIObject(MGame game, string name,
@@ -48,14 +48,13 @@ namespace Mythonia.Framework.Game.Objects
 
         protected override void UpdateAfter(GameTime gameTime)
         {
-            SpriteObject.Update(gameTime);
+            SpriteObject.UpdateSprite(gameTime);
             base.UpdateAfter(gameTime);
         }
 
-        public override void Draw(GameTime gameTime)
-        {
-            SpriteObject.Draw(MGame.CurrentCamera, MGame.SpriteBatch, 0, ScreenPosition);
-        }
+
+
+        public override string ToString() => $"UIObject \"{Name}\"";
 
     }
 }

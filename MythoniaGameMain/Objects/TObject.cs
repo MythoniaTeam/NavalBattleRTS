@@ -8,11 +8,16 @@ namespace Mythonia.Framework.Game.Objects
 
 
 
-        public TObject(MGame game, string name, MVector? position) : base(game, name, position)
+        public TObject(MGame game, string name, MVector? position, string layer, float layerWeight) : base(game, name, position)
         {
             this.LogConstruct(true);
             //SpriteObject = new Sprite("TObjectSprite", game.ContentsManager["RECTANGLE"], Position);
-            SpriteObject = new SpriteAnimated(MGame, "TObjectSprite", game.ContentsManager["BouncingBomb"], null, 1, Position, null, true, new(4));
+            SpriteObject = 
+                new SpriteAnimated(
+                    MGame, $"TObject\"{name}\"Sprite", 
+                    game.ContentsManager["BouncingBomb"], 
+                    null, 1, Position, true, 
+                    new(layer, layerWeight, name), new(4));
         }
 
         public override void Initialize()
@@ -57,13 +62,9 @@ namespace Mythonia.Framework.Game.Objects
             if (MGame.CurrentCamera.Scale < minCamZoom) MGame.CurrentCamera.Scale = new(minCamZoom);
 
             base.UpdateAfter(gameTime);
-            this.Log(true, "Position: " + Position);
+            this.Log(false, "Position: " + Position);
         }
 
-        public override void Draw(GameTime gameTime)
-        {
-            SpriteObject.Draw(MGame.CurrentCamera, SpriteBatch, 0);
-        }
 
         
     }

@@ -54,9 +54,26 @@ namespace Mythonia.Framework.Game.Objects.Draw
 
 
 
-        public SpriteAnimated(MGame game, string name, TextureBase texture, string aniName, float playSpeed = 1,
-            MPosition originPos = null, MVector? originDP = null, bool isGameObject = true, MVector? scale = null, MAngle? rotation = null)
-            : base(game, name, texture, originPos, originDP, isGameObject, scale, rotation)
+        public SpriteAnimated(MGame game, string name, TextureBase texture, 
+            string aniName, float playSpeed = 1,
+            MPosition originPos = null, /*MVector? originDP = null,*/ bool isWorldPos = true, LayerInfo? layerInfo = null,
+            MVector? scale = null, MAngle? rotation = null)
+            : base(game, name, texture, originPos, /*originDP,*/ isWorldPos, layerInfo, scale, rotation)
+        {
+            _Constructor(texture, aniName, playSpeed);
+        }
+
+        public SpriteAnimated(MGame game, string name, TextureBase texture,
+            string aniName, float playSpeed = 1,
+            Func<MVector> getOriginPosMethod = null, /*MVector? originDP = null,*/ bool isWorldPos = true, LayerInfo? layerInfo = null,
+            MVector? scale = null, MAngle? rotation = null)
+            : base(game, name, texture, getOriginPosMethod,/* originDP,*/ isWorldPos, layerInfo, scale, rotation)
+        {
+            _Constructor(texture, aniName, playSpeed);
+        }
+
+
+        private void _Constructor(TextureBase texture, string aniName, float playSpeed)
         {
             if (texture is not TextureSet) throw new Exception($"The Given Texture to SpriteAnimated \"{Name}\" is not TextureSet");
             aniName ??= TextureAnimated.DefaultAnimation;
@@ -66,14 +83,14 @@ namespace Mythonia.Framework.Game.Objects.Draw
 
 
 
-        public override void Update(GameTime gameTime)
+        public override void UpdateSprite(GameTime gameTime)
         {
             TimeCount += gameTime.ElapsedGameTime.ToStandardFrame();
         }
 
 
 
-        public override void Draw(Camera cam, SpriteBatch spriteBatch, float layer, MVector? position = null) => Draw(cam, spriteBatch, CurrentFrame, layer, position);
+        public override void DrawSprite(Camera cam, SpriteBatch spriteBatch, float layer) => DrawFrame(cam, spriteBatch, CurrentFrame, layer);
         
 
 
