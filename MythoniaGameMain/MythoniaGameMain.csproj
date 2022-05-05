@@ -5,8 +5,8 @@
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
     <LangVersion>10.0</LangVersion>
-    <RootNamespace>TestGame</RootNamespace>
-    <AssemblyName>TestGame</AssemblyName>
+    <RootNamespace>Mythonia.GameMain</RootNamespace>
+    <AssemblyName>Mythonia.GameMain</AssemblyName>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -29,6 +29,7 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MythoniaFramework\MythoniaFramework.csproj" />
