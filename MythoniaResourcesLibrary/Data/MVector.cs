@@ -9,8 +9,20 @@ using Mythonia.Resources.Extensions;
 
 namespace Mythonia.Resources.Data
 {
+    public enum VecDir
+    {
+        TopLeft = 1,
+        Top = 2,
+        TopRight = 3,
+        Left = 4,
+        Center = 5,
+        Right = 6,
+        BottomLeft = 7,
+        Bottom = 8,
+        BottomRight = 9,
+    }
 
-    public struct MVector : IVector, IEquatable<MVector>
+    public struct MVector : IMVector<MVector>, IEquatable<MVector>
     {
         private Vector2 _vec;
         public float X
@@ -35,8 +47,11 @@ namespace Mythonia.Resources.Data
 
         public MVector(Vector2 vec) => _vec = vec;
         public MVector(float x, float y) => _vec = new(x, y);
+        public MVector(VecDir dir, float x = 1, float y = 1) => _vec = new MVector(x, y) * (MVector)dir;
+
         public MVector(float x) : this(x, x) { }
 
+        
 
 
         public void Round() => _vec.Round();
@@ -50,8 +65,10 @@ namespace Mythonia.Resources.Data
 
         public void RevertXY() => _vec.RevertXY();
 
-        public void ChangeSign(float xSign, float ySign) => ChangeSign(new(xSign, ySign));
-        public void ChangeSign(Vector2 Sign) => _vec *= Sign;
+        public MVector ChangeSign(float xSign, float ySign) => ChangeSign(new(xSign, ySign));
+        public MVector ChangeSign(Vector2 Sign) => _vec * Sign;
+        public MVector ChangeSignY() => ChangeSign(1, -1);
+
         public void Abs() => _vec.Absolutization();
 
         public void Reflect(Vector2 normal) => _vec.Reflect(normal);
@@ -106,12 +123,31 @@ namespace Mythonia.Resources.Data
         public static MVector operator *(MVector v1, float v2) => v1.Vec * v2;
         public static MVector operator /(MVector v1, float v2) => v1.Vec / v2;
 
+        public static MVector operator +(float v2, MVector v1) => v1.Vec + new Vector2(v2);
+        public static MVector operator -(float v2, MVector v1) => v1.Vec - new Vector2(v2);
+        public static MVector operator *(float v2, MVector v1) => v1.Vec * v2;
+        public static MVector operator /(float v2, MVector v1) => v1.Vec / v2;
+
 
         public static MVector operator -(MVector v1) => -v1.Vec;
 
 
         public static bool operator <(MVector v1, MVector v2) => v1._SnS(v2);
         public static bool operator >(MVector v1, MVector v2) => v1._LnL(v2);
+
+        public static bool operator ==(MVector v1, float v2) => v1.X == v2 && v1.Y == v2;
+        public static bool operator !=(MVector v1, float v2) => v1.X != v2 && v1.Y != v2;
+        public static bool operator <=(MVector v1, float v2) => v1.X <= v2 && v1.Y <= v2;
+        public static bool operator >=(MVector v1, float v2) => v1.X >= v2 && v1.Y >= v2;
+        public static bool operator <(MVector v1, float v2) => v1.X < v2 && v1.Y < v2;
+        public static bool operator >(MVector v1, float v2) => v1.X > v2 && v1.Y > v2;
+        public static bool operator ==(float v1, MVector v2) => v1 == v2.X && v1 == v2.Y;
+        public static bool operator !=(float v1, MVector v2) => v1 != v2.X && v1 != v2.Y;
+        public static bool operator <=(float v1, MVector v2) => v1 <= v2.X && v1 <= v2.Y;
+        public static bool operator >=(float v1, MVector v2) => v1 >= v2.X && v1 >= v2.Y;
+        public static bool operator <(float v1, MVector v2) => v1 < v2.X && v1 < v2.Y;
+        public static bool operator >(float v1, MVector v2) => v1 > v2.X && v1 > v2.Y;
+
 
 
 
@@ -153,7 +189,7 @@ namespace Mythonia.Resources.Data
         public bool _LEoSE(MVector v) => X >= v.X || Y <= v.Y;
         /// <summary>X比v小 或相等, 且Y比v小 或相等<br/>v位于BL位置外, 或边缘上</summary>
         public bool _SEoSE(MVector v) => X <= v.X || Y <= v.Y;
-       
+
         public bool _EoE(MVector v) => X == v.X || Y == v.Y;
         public bool _EoL(MVector v) => X == v.X || Y > v.Y;
         public bool _EoLE(MVector v) => X == v.X || Y >= v.Y;
@@ -163,7 +199,7 @@ namespace Mythonia.Resources.Data
         public bool _LEoE(MVector v) => X >= v.X || Y == v.Y;
         public bool _SoE(MVector v) => X < v.X || Y == v.Y;
         public bool _SEoE(MVector v) => X <= v.X || Y == v.Y;
-                    
+
         public bool _EnE(MVector v) => X == v.X && Y == v.Y;
         public bool _EnL(MVector v) => X == v.X && Y > v.Y;
         public bool _EnLE(MVector v) => X == v.X && Y >= v.Y;
@@ -176,30 +212,96 @@ namespace Mythonia.Resources.Data
 
 
 
+        public MVector Clone() => new MVector(Vec);
+
+        public bool Equals(MVector other) => _EnE(other);
+
+        public override string ToString() => $"(X: {X}, Y: {Y})";
 
 
 
 
         /// <summary>MVector 转 XNA.Vector2</summary>
         public static implicit operator Vector2(MVector v) => v.Vec;
+        public static implicit operator Point(MVector v) => v.Vec.ToPoint();
+
         /// <summary>XNA.Vector2 转 MVector</summary>
         public static implicit operator MVector(Vector2 v) => new MVector(v);
+        public static implicit operator MVector(Point v) => new MVector(v.X, v.Y);
+
+
+
 
         /// <summary>MVector(值类型) 转 MVectorR(引用类型)</summary>
-        public static implicit operator MVectorR(MVector v) => new MVectorR(v.Vec);
+        public static implicit operator MPosition(MVector v) => new MPosition(v.Vec);
         /// <summary>MVectorR(引用类型) 转 MVector(值类型)</summary>
-        public static implicit operator MVector(MVectorR v) => new MVector(v.Vec);
+        public static implicit operator MVector(MPosition v) => new MVector(v.Vec);
 
         ///// <summary>Record 转 MVector</summary>
         //public static implicit operator MVector(VectorRecord v) => new MVector(v.Vec);
 
 
 
-        public MVector Clone() => new MVector(Vec);
 
-        public bool Equals(MVector other) => _EnE(other);
 
-        public override string ToString() => $"(X: {X}, Y: {Y})";
+
+        public static implicit operator (float, float)(MVector v) => (v.X, v.Y);
+        public static implicit operator MVector((float, float) v) => new(v.Item1, v.Item2);
+
+
+        public static explicit operator MVector(string v)
+        {
+            string[] vSplited = v.Split(',');
+            if (vSplited.Length != 2) throw new Exception($"The Given String has {vSplited.Length} elements after Splited by ',' but there Should have 2");
+            float x = float.Parse(vSplited[0]);
+            float y = float.Parse(vSplited[1]);
+            return new(x, y);
+        }
+
+
+
+        /// <summary>
+        /// 给定一个以中心点为 (0, 0), 左下 / 右上角为 -/+ (1, 1) 的比例向量, 和一个尺寸, 算出该比例代表的坐标 (以左上为原点的坐标系)
+        /// </summary>
+        /// <returns></returns>
+        public MVector ScaleToScreenPosition(MVector size, bool topLeft = true)
+        {
+            MVector v = this.ChangeSignY();
+            v = (v + (topLeft ? 1 : 0)) / 2;
+            return v * size;
+        }
+
+
+        public VecDir GetSign => new MVector(MathF.Sign(X), MathF.Sign(Y));
+
+
+        public static implicit operator MVector(VecDir v) => v switch
+        {
+            VecDir.TopLeft => (-1, 1),
+            VecDir.Top => (0, 1),
+            VecDir.TopRight => (1, 1),
+            VecDir.Left => (-1, 0),
+            VecDir.Center => (0, 0),
+            VecDir.Right => (1, 0),
+            VecDir.BottomLeft => (-1, -1),
+            VecDir.Bottom => (0, -1),
+            VecDir.BottomRight => (1, -1),
+            _ => throw new IndexOutOfRangeException($"The Value of Enum \"VecDir\" should belong the range [1, 9], but it's {v} now"),
+        };
+        public static implicit operator VecDir(MVector v) => (v.X, v.Y) switch
+        {
+            (-1, 1) => VecDir.TopLeft,
+            (0, 1) => VecDir.Top,
+            (1, 1) => VecDir.TopRight,
+            (-1, 0) => VecDir.Left,
+            (0, 0) => VecDir.Center,
+            (1, 0) => VecDir.Right,
+            (-1, -1) => VecDir.BottomLeft,
+            (0, -1) => VecDir.Bottom,
+            (1, -1) => VecDir.BottomRight,
+            _ => throw new IndexOutOfRangeException($"The Value of Enum \"VecDir\" should belong the range [1, 9], but it's {v} now"),
+        };
+
     }
 
 

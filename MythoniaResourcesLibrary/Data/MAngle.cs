@@ -48,10 +48,31 @@ namespace Mythonia.Resources.Data
             str.Where(w => w.StartsWith("a")).Min(w => w.Length);
         }
 
-        public MVector TransformCoordinate(MVector p) => new(p.Y * Sin + p.X * Cos, p.Y * Cos - p.X * Sin);
+        public MVector Rotate(MVector p) => new(p.Y * Sin + p.X * Cos, p.Y * Cos - p.X * Sin);
 
 
 
+
+
+        public static MAngle operator +(MAngle v1, MAngle v2) => new(v1.Degree + v2.Degree);
+        public static MAngle operator -(MAngle v1, MAngle v2) => new(v1.Degree - v2.Degree);
+        public static MAngle operator *(MAngle v1, float v2) => new(v1.Degree * v2);
+        public static MAngle operator /(MAngle v1, float v2) => new(v1.Degree / v2);
+        public static MAngle operator -(MAngle v) => new(-v.Degree);
+
+        public static bool operator ==(MAngle v1, float v2) => v1.Degree == v2;
+        public static bool operator !=(MAngle v1, float v2) => v1.Degree != v2;
+        public static bool operator >(MAngle v1, float v2) => v1.Degree > v2;
+        public static bool operator <(MAngle v1, float v2) => v1.Degree < v2;
+        public static bool operator >=(MAngle v1, float v2) => v1.Degree >= v2;
+        public static bool operator <=(MAngle v1, float v2) => v1.Degree <= v2;
+
+        public static bool operator ==(float v1, MAngle v2) => v1 == v2.Degree;
+        public static bool operator !=(float v1, MAngle v2) => v1 != v2.Degree;
+        public static bool operator > (float v1, MAngle v2) => v1 >  v2.Degree;
+        public static bool operator < (float v1, MAngle v2) => v1 <  v2.Degree;
+        public static bool operator >=(float v1, MAngle v2) => v1 >= v2.Degree;
+        public static bool operator <=(float v1, MAngle v2) => v1 <= v2.Degree;
 
 
 
@@ -63,6 +84,12 @@ namespace Mythonia.Resources.Data
         public static implicit operator MVector(MAngle v) => v.ToVector;
         /// <summary>向量 转 角度</summary>
         public static implicit operator MAngle(MVector v) => v.ToAngle;
+
+        public static implicit operator float(MAngle v) => v.Degree;
+        public static implicit operator MAngle(float v) => new(v);
+
+
+
 
 
         /// <summary>将弧度 转换为角度</summary>

@@ -4,19 +4,18 @@ using System.Text;
 
 namespace Mythonia.Framework.Game.Objects.Actions
 {
-    public class TMoveXAction : ActionBase<Args.Numerical>
+    public class TMoveXAction : MAction<Args.Numerical>
     {
-        MObject obj;
+        GameObject obj;
 
         public TMoveXAction(float duration, Args.Numerical moveDistance) : base(duration, moveDistance)
         {
             Main = MainAction;
         }
 
-        private bool MainAction(Args.Numerical args)
+        private void MainAction(Args.Numerical args)
         {
             obj.Position.X += args.Value;
-            return true;
         }
     }
 }

@@ -14,10 +14,13 @@ global using MAction = Mythonia.Framework.Game.Objects.Actions;
 global using ActionArgs = Mythonia.Framework.Game.Objects.Actions.Args;
 
 global using Mythonia.Framework.Game.Objects;
+global using Mythonia.Framework.Game.Objects.Draw;
+
 global using Mythonia.Framework.Game.Time;
 global using Mythonia.Framework.Game;
-global using Mythonia.Framework.Debugger;
+global using Mythonia.Resources.Debugger;
 
 
 
 global using Mythonia.Resources.Data;
+global using Mythonia.Resources.Data.Shapes;

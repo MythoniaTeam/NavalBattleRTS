@@ -16,4 +16,9 @@
   <ItemGroup>
     <ProjectReference Include="..\MythoniaResourcesLibrary\MythoniaResourcesLibrary.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

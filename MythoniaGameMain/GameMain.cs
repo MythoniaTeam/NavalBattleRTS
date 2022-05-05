@@ -5,63 +5,104 @@ namespace MythoniaGameMain
     public class GameMain : MGame
     {
 
+
+        protected override string[] _TextureLoadList
+            => new string[]
+            {
+                "RECTANGLE",
+                "RECTANGLE_RED",
+                "BouncingBomb"
+            };
+
+        protected override Layer.InitArgs[] _LayerInitArgsList
+            => new Layer.InitArgs[]
+            {
+                ("Background", 0),
+                ("Game", 5, new Layer.InitArgs[] 
+                {
+                    ("Scenery", 0),
+                    ("Entity", 5),
+                    ("Projectile", 10)
+                }),
+                ("UI", 10),
+            };
+
         public GameMain()
         {
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
-        SpriteFont tSpriteFont;
+        
         Texture2D tSprite;
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            
             //IsFixedTimeStep = false;
             base.Initialize();
 
-            tSpriteFont = Content.Load<SpriteFont>("Default");
+            
             tSprite = Content.Load<Texture2D>(@"Images\RECTANGLE");
+
+
+
+
 
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            base.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            if(FrameCounter.FrameCount == 60)
+            if (FrameCounter.FrameCount == 60)
             {
-                Components.Add(new TObject(this, "Test", new(0)));
+                Components.Add(new TObject(this, "Test1", new(-20), "Game.Projectile", 10));
+                Components.Add(new TObject(this, "Test2", new(0), "Game.Entity", 10));
+                Components.Add(new TObject(this, "Test3", new(20), "Game.Projectile", 10));
+
+                Components.Add(new TOutputObject(this, "Test1", 2));
+
+                /*Components.Add(new TUI(this, "Test", VecDir.BottomRight));
+                Components.Add(new TUI(this, "Test", VecDir.Bottom));
+                Components.Add(new TUI(this, "Test", VecDir.BottomLeft));
+                Components.Add(new TUI(this, "Test", VecDir.Right));
+                Components.Add(new TUI(this, "Test", VecDir.TopRight));
+                Components.Add(new TUI(this, "Test", VecDir.Top));
+                Components.Add(new TUI(this, "Test", VecDir.TopLeft));
+                Components.Add(new TUI(this, "Test", VecDir.Left));*/
+
+
+
                 //Components[0].Initialize();
             }
-            
+
 
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            base.Draw(gameTime);
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin();
+            SpriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointWrap);
 
-            if(FrameCounter.FrameCount > 60)
-                _spriteBatch.DrawString(tSpriteFont, ((TObject)Components[0]).Position.X.ToString(), new(50, 64), Color.Black);
-            _spriteBatch.DrawString(tSpriteFont, $"Frame: {FrameCounter.FrameCount}", new(50, 50), Color.Black);
-            _spriteBatch.DrawString(tSpriteFont, "Test", new(150, 150), Color.Black);
-            _spriteBatch.Draw(tSprite, new Vector2(150, 150), Color.White);
+            base.Draw(gameTime);
 
 
+            if (FrameCounter.FrameCount > 60)
+                SpriteBatch.DrawString(DefaultFont, ((TObject)Components[0]).Position.ToString(), new(50, 300), Color.Black);
+            //tSprite = Content.Load<Texture2D>(@"Images\BouncingBomb");
 
-            _spriteBatch.End();
+            SpriteBatch.Draw(tSprite, new Vector2(150, 400), Color.White);
 
 
-            // TODO: Add your drawing code here
+
+
+            SpriteBatch.End();
 
         }
     }
