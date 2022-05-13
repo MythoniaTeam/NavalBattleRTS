@@ -8,9 +8,11 @@ namespace Mythonia.Framework.Game
     {
         public GraphicsDeviceManager Graphics { get; set; }
         public SpriteBatch SpriteBatch { get; set; }
-        public MContentsManager ContentsManager { get; set; }
-        public Camera CurrentCamera { get; set; }
 
+        public MContentsManager ContentsManager { get; set; }
+
+        public Camera CurrentCamera { get; set; }
+        public Screen Screen { get; set; }
         public DrawManager DrawManager { get; set; }
 
         public MGame()
@@ -23,6 +25,7 @@ namespace Mythonia.Framework.Game
 
             ContentsManager = new(this);
             CurrentCamera = new(this, new(0));
+            Screen = new(this);
 
             Window.AllowUserResizing = true;
         }
@@ -107,8 +110,8 @@ namespace Mythonia.Framework.Game
             {
                 Utility.DrawLineX(2, 200, -200, 0, Color.White, 1, true);
                 Utility.DrawLineY(2, 200, -200, 0, Color.White, 1, true);
-                SpriteBatch.DrawString(DefaultFont, CurrentCamera.Scale.ToString(), GraphicsDevice.Viewport.Size() / 2 + (0, 20), Color.Black  );
-                SpriteBatch.DrawString(DefaultFont, CurrentCamera.Position.ToString(), GraphicsDevice.Viewport.Size() / 2 + (0, 50), Color.Black);
+                SpriteBatch.DrawString(DefaultFont, CurrentCamera.Scale.ToString(), Screen.Size / 2 + (0, 20), Color.Black  );
+                SpriteBatch.DrawString(DefaultFont, CurrentCamera.Position.ToString(), Screen.Size / 2 + (0, 50), Color.Black);
 
             }
             if (key.IsKeyDown(Keys.LeftAlt))

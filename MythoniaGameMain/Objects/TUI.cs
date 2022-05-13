@@ -12,7 +12,7 @@ namespace Mythonia.Framework.Game.Objects
                 new Sprite(
                     MGame, "TUISprite", 
                     game.ContentsManager["RECTANGLE"], 
-                    () => ScreenPosition, false, 
+                    () => Position.ScreenPosition, false, 
                     new LayerInfo(layer, layerWeight, name), new(2));
         }
     }

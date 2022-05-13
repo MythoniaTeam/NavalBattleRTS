@@ -52,9 +52,7 @@ namespace Mythonia.Framework.Game.Objects.Draw
             }
         }
 
-
-
-        public SpriteAnimated(MGame game, string name, TextureBase texture, 
+        public SpriteAnimated(MGame game, string name, TextureBase texture,
             string aniName, float playSpeed = 1,
             MPosition originPos = null, /*MVector? originDP = null,*/ bool isWorldPos = true, LayerInfo? layerInfo = null,
             MVector? scale = null, MAngle? rotation = null)

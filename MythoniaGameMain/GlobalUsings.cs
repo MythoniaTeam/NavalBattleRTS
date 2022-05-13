@@ -23,4 +23,3 @@ global using Mythonia.Resources.Debugger;
 
 
 global using Mythonia.Resources.Data;
-global using Mythonia.Resources.Data.Shapes;

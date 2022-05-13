@@ -34,7 +34,7 @@ namespace Mythonia.Resources.Data
         public float Tan => MathF.Tan(Radian);
 
         /// <summary>获取该方向的 单位向量</summary>
-        public MVector ToVector => new MVector(Cos, Sin);
+        public MVector ToVector => (MVector)this;
 
 
         public MAngle() { }
@@ -81,9 +81,9 @@ namespace Mythonia.Resources.Data
 
 
         /// <summary>角度 转 单位向量</summary>
-        public static implicit operator MVector(MAngle v) => v.ToVector;
+        public static implicit operator MVector(MAngle v) => new MVector(v.Cos, v.Sin);
         /// <summary>向量 转 角度</summary>
-        public static implicit operator MAngle(MVector v) => v.ToAngle;
+        public static explicit operator MAngle(MVector v) => new(v.Direction);
 
         public static implicit operator float(MAngle v) => v.Degree;
         public static implicit operator MAngle(float v) => new(v);

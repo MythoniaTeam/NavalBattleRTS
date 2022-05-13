@@ -125,6 +125,7 @@ namespace Mythonia.Framework.Game.Objects.Draw
             SetScale(scale ?? new(1));
             Rotation = rotation ?? new(0);
         }
+
         public Sprite(MGame game, string name, TextureBase texture,
             MPosition originPos, /*MVector? originDP = null,*/ bool isWorldPos = true, LayerInfo? layerInfo = null,
             MVector? scale = null, MAngle? rotation = null)

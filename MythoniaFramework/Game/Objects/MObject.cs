@@ -25,11 +25,10 @@ namespace Mythonia.Framework.Game.Objects
             Name = name;
         }
 
-        private bool ContainsDrawModule = false;
+        
         public override void Initialize()
         {
             base.Initialize();
-            if (this is IDrawModule) ContainsDrawModule = true;
         }
 
 
@@ -50,7 +49,7 @@ namespace Mythonia.Framework.Game.Objects
         protected virtual void UpdateAfter(GameTime gameTime)
         {
             Actions.Update(gameTime);
-            if (ContainsDrawModule) ((IDrawModule)this).SpriteObject.UpdateSprite(gameTime);
+            if (this is IDrawModule obj) obj.SpriteObject.UpdateSprite(gameTime);
         }
 
         //protected void Draw(SpriteBatch spriteBatch, float layer)
