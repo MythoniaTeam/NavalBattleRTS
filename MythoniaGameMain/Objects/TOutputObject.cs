@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mythonia.Framework.Game.Objects
+namespace Mythonia.Game.Objects
 {
     public class TOutputObject : MObject
     {

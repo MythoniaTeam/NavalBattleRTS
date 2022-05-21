@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mythonia.Framework.Game.Objects.Draw
+namespace Mythonia.Game.Objects.Draw
 {
-    public interface ILayerItem : INamed
+    public interface ILayerItem : IMClass
     {
         /// <summary>
         /// <b>所属图层</b> 的信息

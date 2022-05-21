@@ -2,12 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mythonia.Framework.Game.Objects.Draw
+namespace Mythonia.Game.Objects.Draw
 {
     public class Layer : List<ILayerItem>, ILayerItem
     {
-        private string _name;
-        public string Name { get => '#' + _name; set => _name = value; }
+        //---------- Implement - IMClass ----------
+
+        private readonly string _name;
+        /// <summary><inheritdoc/><para><i>Layer的名称前, 会加上 <b>字符 "#"</b></i></para></summary>
+        public string Name => "#" + _name;
+        private readonly MGame _game;
+        public MGame MGame => _game;
+
+        //----------------------------------------
+
+
+
+        //--------------- Props ---------------
 
         public LayerInfo LayerInfo { get; set; }
 
@@ -31,6 +42,16 @@ namespace Mythonia.Framework.Game.Objects.Draw
                 ((string name, float weight) v) => new(v.name, v.weight, null);
         }
 
+
+        protected ILayerItem this[string requestName]
+        {
+            get => Find(layer => layer.Name == requestName);
+        }
+
+
+
+        //--------------- Constructor ---------------
+
         /// <summary>
         /// 初始化一个图层
         /// </summary>
@@ -41,7 +62,7 @@ namespace Mythonia.Framework.Game.Objects.Draw
         public Layer(string name, string path, float weight, InitArgs[] sublayers = null)
         {
             if (path is null) path = "";
-            Name = name;
+            _name = name;
             LayerInfo = new(path, weight, name);
             if (sublayers != null)
                 foreach (InitArgs sublayer in sublayers)
@@ -54,14 +75,10 @@ namespace Mythonia.Framework.Game.Objects.Draw
                 }
         }
 
-        
-        
 
 
-        protected ILayerItem this[string requestName]
-        {
-            get => Find(layer => layer.Name == requestName);
-        }
+        //--------------- Methods ---------------
+
         /// <summary>
         /// 给定图层名称, 返回对应的子图层.
         /// </summary>
@@ -115,6 +132,8 @@ namespace Mythonia.Framework.Game.Objects.Draw
             
         }
 
+
+
         //---------- Implement - ILayerItem ----------
 
         public int ItemsCount()
@@ -127,6 +146,7 @@ namespace Mythonia.Framework.Game.Objects.Draw
             return count;
         }
 
+
         public ICollection<Sprite> GetLayerSprites()
         {
             List<Sprite> itemsList = new();
@@ -137,6 +157,9 @@ namespace Mythonia.Framework.Game.Objects.Draw
             return itemsList;
         }
 
+
+
+        //--------------- Operators ---------------
 
         public static implicit operator Layer
             ((string name, float weight) v)
@@ -155,6 +178,9 @@ namespace Mythonia.Framework.Game.Objects.Draw
 
         //public static implicit operator Layer((string name, float weight) v) => new(v.name, new("", v.weight));
         //public static implicit operator Layer((string name, float weight, Layer[] layers) v) => new(v.name, new("", v.weight), v.layers);
+
+
+        //---------- Override Methods ----------
 
         public override string ToString() => $"Layer, {LayerInfo}";
     }

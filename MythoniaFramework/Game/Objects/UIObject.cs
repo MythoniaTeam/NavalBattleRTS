@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace Mythonia.Framework.Game.Objects
+namespace Mythonia.Game.Objects
 {
     public abstract class UIObject : MObject, IDrawModule, IRectangle
     {
-        public readonly RelativePos Position;
+
+        public MVector ScreenPosition => AsRect.Position;
 
         public Sprite SpriteObject { get; set; }
 
@@ -16,7 +17,7 @@ namespace Mythonia.Framework.Game.Objects
             MVector? align = null, MVector? offset = null, MVector? origin = null) :base(game, name)
         {
             //if (this is not IRectangle) throw new NotImplementedException("UIObject should implementing IRectangle");
-            Position = new(() => SpriteObject.TextureSize, game.Screen, align, offset, origin);
+            
         }
 
         public override void Update(GameTime gameTime)

@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.Xna.Framework.Input;
 
-namespace Mythonia.Framework.Game.Objects
+namespace Mythonia.Game.Objects
 {
     public class TObject : GameObject
     {
@@ -13,11 +13,15 @@ namespace Mythonia.Framework.Game.Objects
             this.LogConstruct(true);
             //SpriteObject = new Sprite("TObjectSprite", game.ContentsManager["RECTANGLE"], Position);
             SpriteObject = 
-                new SpriteAnimated(
-                    MGame, $"TObject\"{name}\"Sprite", 
-                    game.ContentsManager["BouncingBomb"], 
-                    null, 1, () => Position, true, 
-                    new(layer, layerWeight, name), new(4));
+                new Sprite(
+                    MGame, $"TObject\"{name}\"Sprite",
+                    texture: game.ContentsManager.GetAnimatedTexture("BouncingBomb"), 
+                    getOriginPosMethod: () => Position,
+                    isWorldPos: true,
+                    isGameObject: true,
+                    layerInfo: new(layer, layerWeight, name),
+                    scale: new(4)
+                    );
         }
 
         public override void Initialize()

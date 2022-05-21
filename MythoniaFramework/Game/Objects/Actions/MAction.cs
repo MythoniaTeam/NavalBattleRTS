@@ -1,7 +1,7 @@
 ﻿
 
 
-namespace Mythonia.Framework.Game.Objects.Actions
+namespace Mythonia.Game.Objects.Actions
 {
     public class MAction<ArgsType> : IAction<ArgsType> where ArgsType : IActionArg<ArgsType>
     {

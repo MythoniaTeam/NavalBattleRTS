@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mythonia.Framework.Game
+namespace Mythonia.Game
 {
     public class Screen : IRectangle
     {
@@ -14,7 +14,6 @@ namespace Mythonia.Framework.Game
         public MVector Size => new(Viewport.Width, Viewport.Height);
         public IVector Position => new MVector(0);
 
-        public IRectangle AsRect => this;
         
 
 
@@ -23,6 +22,17 @@ namespace Mythonia.Framework.Game
             _game = game;
             _graphics = game.GraphicsDevice;
         }
+
+
+        //---------- Implement - IRectangle ----------
+
+        public IRectangle AsRect => this;
+
+        float? IRectangle.WidthSource => Viewport.Width;
+        float? IRectangle.HeightSource => Viewport.Height;
+
+        float? IRectangle.XCenterSource => 0;
+        float? IRectangle.YCenterSource => 0;
 
     }
 }

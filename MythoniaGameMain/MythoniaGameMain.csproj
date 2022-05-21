@@ -32,7 +32,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MythoniaFramework\MythoniaFramework.csproj" />
-    <ProjectReference Include="..\MythoniaResourcesLibrary\MythoniaResourcesLibrary.csproj" />
+    <ProjectReference Include="..\MythoniaFramework\MythoniaLibrary.csproj" />
   </ItemGroup>
 </Project>

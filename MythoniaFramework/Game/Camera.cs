@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mythonia.Framework.Game
+namespace Mythonia.Game
 {
     public class Camera
     {
@@ -11,6 +11,8 @@ namespace Mythonia.Framework.Game
         public MPosition Position = new(0);
 
         public MVector Scale = new(1);
+        public MVector UIScale = new(1);
+
 
         public Camera(MGame game, MPosition pos)
         {

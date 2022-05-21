@@ -2,27 +2,28 @@
 
 
 
-namespace Mythonia.Framework.Game.Objects
+namespace Mythonia.Game.Objects
 {
-    public abstract class MObject : DrawableGameComponent, INamed
+    public abstract class MObject : DrawableGameComponent, IMClass
     {
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            private set => _name = value;
-        }
+        //---------- Implement - IMClass ----------
+
+        private readonly string _name;
+        public string Name => _name;
+        public MGame MGame => (MGame) Game;
+
+        //----------------------------------------
 
 
+
+        //--------------- Props ---------------
 
         protected MActionManager Actions = new MActionManager();
         protected SpriteBatch SpriteBatch => MGame.SpriteBatch;
-        protected MGame MGame => (MGame)Game;
-
 
         public MObject (MGame game, string name) : base(game)
         {
-            Name = name;
+            _name = name;
         }
 
         

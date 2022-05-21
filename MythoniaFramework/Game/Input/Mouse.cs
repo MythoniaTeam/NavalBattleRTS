@@ -1,7 +1,7 @@
 ﻿using XNAinput = Microsoft.Xna.Framework.Input;
 
 
-namespace Mythonia.Framework.Game.Input
+namespace Mythonia.Game.Input
 {
     public class Mouse : GameComponent
     {

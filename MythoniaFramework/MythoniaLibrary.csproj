@@ -2,15 +2,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>10.0</LangVersion>
-    <RootNamespace>Mythonia.Framework</RootNamespace>
-    <AssemblyName>Mythonia.Framework</AssemblyName>
+    <RootNamespace>Mythonia</RootNamespace>
+    <AssemblyName>Mythonia</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MythoniaResourcesLibrary\MythoniaResourcesLibrary.csproj" />
   </ItemGroup>
 </Project>

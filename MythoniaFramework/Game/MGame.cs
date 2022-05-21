@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Mythonia.Framework.Game
+namespace Mythonia.Game
 {
     public abstract class MGame : XNA.Game
     {
@@ -43,7 +43,7 @@ namespace Mythonia.Framework.Game
         /// </summary>
         protected abstract Layer.InitArgs[] _LayerInitArgsList { get; }
 
-        public LayerInfo _GetDefaultLayerInfo(INamed obj) => _GetDefaultLayerInfo(obj.Name);
+        public LayerInfo _GetDefaultLayerInfo(IMClass obj) => _GetDefaultLayerInfo(obj.Name);
         public virtual LayerInfo _GetDefaultLayerInfo(string name) => new("Game", 0, name);
 
 

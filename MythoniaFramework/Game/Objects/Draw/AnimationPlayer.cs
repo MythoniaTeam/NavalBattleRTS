@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mythonia.Framework.Game.Objects.Draw
+namespace Mythonia.Game.Objects.Draw
 {
-    public class SpriteAnimated : Sprite
+    public class AnimationPlayer : ITexture, IMClass
     {
-        private TextureSet TextureAnimated => (TextureSet)Texture;
+        private readonly string _name;
+        public string Name => _name;
+        private readonly MGame _game;
+        public MGame MGame => _game;
+
+
+        private TextureSet TextureAnimated { get; }
 
         private float _timeCount;
         /// <summary>记录当前循环时长的计时器(以标准帧F为单位)</summary>
@@ -52,51 +58,61 @@ namespace Mythonia.Framework.Game.Objects.Draw
             }
         }
 
-        public SpriteAnimated(MGame game, string name, TextureBase texture,
-            string aniName, float playSpeed = 1,
-            MPosition originPos = null, /*MVector? originDP = null,*/ bool isWorldPos = true, LayerInfo? layerInfo = null,
-            MVector? scale = null, MAngle? rotation = null)
-            : base(game, name, texture, originPos, /*originDP,*/ isWorldPos, layerInfo, scale, rotation)
+        public AnimationPlayer(MGame game, string name) { _game = game; _name = name;  }    
+        public AnimationPlayer(TextureSet texture, string aniName = null, float playSpeed = 1) : this(texture.MGame, $"AnimationPlayer-{texture.Name}")
         {
-            _Constructor(texture, aniName, playSpeed);
-        }
+            TextureAnimated = texture;
+            //if (texture is not TextureSet) throw new Exception($"The Given Texture to SpriteAnimated \"{Name}\" is not TextureSet");
 
-        public SpriteAnimated(MGame game, string name, TextureBase texture,
-            string aniName, float playSpeed = 1,
-            Func<MVector> getOriginPosMethod = null, /*MVector? originDP = null,*/ bool isWorldPos = true, LayerInfo? layerInfo = null,
-            MVector? scale = null, MAngle? rotation = null)
-            : base(game, name, texture, getOriginPosMethod,/* originDP,*/ isWorldPos, layerInfo, scale, rotation)
-        {
-            _Constructor(texture, aniName, playSpeed);
-        }
-
-
-        private void _Constructor(TextureBase texture, string aniName, float playSpeed)
-        {
-            if (texture is not TextureSet) throw new Exception($"The Given Texture to SpriteAnimated \"{Name}\" is not TextureSet");
+            //如果 aniName 为 null, 将它设为 Texture 的 DefaultAnimation
             aniName ??= TextureAnimated.DefaultAnimation;
+            //如果 Default 也是null, 获取第一个动画
             CurrentAnimation = (aniName is not null) ? TextureAnimated.GetAnimation(aniName) : TextureAnimated.Animations[0];
+
             PlaySpeed = playSpeed;
         }
 
 
-
-        public override void UpdateSprite(GameTime gameTime)
+        /// <summary>
+        /// 每帧Update调用的函数, 用于更新贴图TimeCount
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public void UpdateAnimation(GameTime gameTime)
         {
             TimeCount += gameTime.ElapsedGameTime.ToStandardFrame();
         }
 
 
-
-        public override void DrawSprite(Camera cam, SpriteBatch spriteBatch, float layer) => DrawFrame(cam, spriteBatch, CurrentFrame, layer);
-        
-
-
+        /// <summary>
+        /// 给定动画名称, 设置播放的动画
+        /// </summary>
+        /// <param name="aniName">动画名称</param>
+        /// <param name="playSpeed">播放速度, 默认为1</param>
+        /// <exception cref="ObjectNotFoundException"></exception>
         public void SetAnimation(string aniName, float playSpeed = 1)
         {
-            CurrentAnimation = ((TextureSet)Texture).GetAnimation(aniName);
+            CurrentAnimation = TextureAnimated.GetAnimation(aniName);
             TimeCount = 0;
             PlaySpeed = playSpeed;
         }
+
+
+
+        //---------- Implement - ITexture ----------
+
+        Texture2D ITexture.SourceTexture => TextureAnimated.SourceTexture;
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// <para>
+        /// <i>根据 <see cref="CurrentFrame"/>(当前帧), 调用 <see cref="TextureAnimated"/>(贴图资源) 的 GetSourceRange(..) 方法</i>
+        /// </para>
+        /// </summary>
+        Rectangle ITexture.SourceRange => TextureAnimated.GetSourceRange(CurrentFrame);
+
+        MVector ITexture.TextureBasicScale => TextureAnimated.TextureBasicScale;
+
+        MVector ITexture.TextureOrigin => TextureAnimated.Origin;
+
     }
 }

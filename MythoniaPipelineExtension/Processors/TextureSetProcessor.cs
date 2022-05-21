@@ -16,7 +16,7 @@ namespace MythoniaPipelineExtension
         public override TOutput Process(TInput input, ContentProcessorContext context)
         {
 
-            return (TOutput)JsonConvert.DeserializeObject<TOutput>(input).InitializeData();
+            return (TOutput)JsonConvert.DeserializeObject<TOutput>(input).ProcessData();
             
         }
     }

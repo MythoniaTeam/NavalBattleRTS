@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mythonia.Resources.Extensions
+namespace Mythonia.Resources.Texture
 {
     public static class ETexture
     {

@@ -2,6 +2,9 @@
 global using System.IO;
 global using System.Collections.Generic;
 global using System.Diagnostics;
+global using System.Linq;
+
+
 
 global using Microsoft.Xna.Framework;
 global using XNA = Microsoft.Xna.Framework;
@@ -9,24 +12,24 @@ global using Microsoft.Xna.Framework.Content;
 global using Microsoft.Xna.Framework.Graphics;
 global using Microsoft.Xna.Framework.Input;
 
-global using MF = Mythonia.Framework.Game;
+global using MF = Mythonia.Game;
 
-global using Mythonia.Framework.Game.Objects.Actions;
-global using ActionArgs = Mythonia.Framework.Game.Objects.Actions.Args;
+global using Mythonia.Game.Objects.Actions;
+global using ActionArgs = Mythonia.Game.Objects.Actions.Args;
 
-global using Mythonia.Framework.Game.Shapes;
+global using Mythonia.Game.Shapes;
 
-global using Mythonia.Framework.Game.Objects;
-global using Mythonia.Framework.Game.Objects.Draw;
-global using Mythonia.Framework.Game.Objects.InputReactions;
+global using Mythonia.Game.Objects;
+global using Mythonia.Game.Objects.Draw;
+global using Mythonia.Game.Objects.InputReactions;
 
-global using Mythonia.Framework.Game.Time;
-global using Mythonia.Framework.Game.Contents;
-global using Mythonia.Framework.Game;
+
+global using Mythonia.Game.Contents;
+global using Mythonia.Game;
 
 
 global using Mythonia.Resources.Data;
-global using Mythonia.Resources.Extensions;
+global using Mythonia.Resources.Time;
 global using Mythonia.Resources.Texture;
 global using Mythonia.Resources.Interfaces;
 

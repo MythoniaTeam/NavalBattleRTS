@@ -6,7 +6,7 @@ using Mythonia.Resources.Utilities;
 
 
 
-namespace Mythonia.Resources.Extensions
+namespace Mythonia.Resources.Data
 {
     public static class EVector
     {

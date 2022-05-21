@@ -1,4 +1,7 @@
-﻿namespace Mythonia.Framework.Game.Time
+﻿
+
+
+namespace Mythonia.Resources.Time
 {
     public class FrameCounter
     {

@@ -2,7 +2,7 @@
 
 
 
-namespace Mythonia.Framework.Game.Shapes
+namespace Mythonia.Game.Shapes
 {
 
 
@@ -12,6 +12,8 @@ namespace Mythonia.Framework.Game.Shapes
         public IRectangle AsRect { get; }
 
         public sealed MVector Position => new(XCenter, YCenter);
+        public MVector ScreenPosition => Position;
+
 
         public sealed MVector Size => new(Width, Height);
         public sealed float Height => (HeightSource, YTopSource, YCenterSource, YBottomSource) switch
@@ -97,5 +99,44 @@ namespace Mythonia.Framework.Game.Shapes
         public sealed MVector PointTR => new(XRight, YTop);
         public sealed MVector PointBL => new(XLeft, YBottom);
         public sealed MVector PointBR => new(XRight, YBottom);
+
+        /// <summary>
+        /// 给定一个<see cref="MVector"/>比例, 返回对应比例表示的位置
+        /// <list type="table">
+        /// <item>
+        /// <term><paramref name="scale"/></term>
+        /// <description><br/>
+        /// 一个<see cref="MVector"/>类型的比例, (也可使用<see cref="VecDir"/>), x y ∈ {-1,0,1}<br/>
+        /// 以 (0,0) 为中心点, (1,1) 为右上方. 
+        /// </description>
+        /// </item>
+        /// </list>
+        /// </summary>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        public sealed MVector Point(MVector scale) => scale / 2 * Size + Position;
+
+        /// <summary>
+        /// 调用此方法, 返回自身IRectangle对象和scale后的坐标, 配合扩展方法To(..)使用
+        /// </summary>
+        /// <param name="scaleFrPt"></param>
+        /// <returns></returns>
+        public sealed (IRectangle @this, MVector pos) 
+            DirectFrom(MVector scaleFrPt) 
+            => (this, Point(scaleFrPt));
+    }
+
+    public static class EDirectFrom
+    {
+        /// <summary>
+        /// <code>DirectFrom(pointA).To(pointB)</code>
+        /// 获取一个从 点A 开始, 朝向 点B 的<see cref="VecDir"/>方向
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="scaleToPt"></param>
+        /// <returns></returns>
+        public static (MVector pos, VecDir dir) 
+            To(this (IRectangle @this, MVector pos) v, MVector scaleToPt) 
+            => v.pos.DirectTo(v.@this.Point(scaleToPt));
     }
 }

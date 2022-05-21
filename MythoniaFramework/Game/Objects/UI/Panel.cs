@@ -2,7 +2,7 @@
 
 
 
-namespace Mythonia.Framework.Game.Objects.UI
+namespace Mythonia.Game.Objects.UI
 {
     //public class Panel : IRectangle
     //{

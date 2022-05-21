@@ -30,7 +30,7 @@ namespace Mythonia.Resources.Debugger
         }
 
 
-        private static string GetName(object obj, string str = "{0}") => (obj is INamed) ? string.Format(str, ((INamed)obj).Name) : "";
+        private static string GetName(object obj, string str = "{0}") => (obj is IMClass) ? string.Format(str, ((IMClass)obj).Name) : "";
 
         public static void LogConstruct(this object v, bool activate, string type)
         {
