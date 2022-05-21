@@ -22,7 +22,7 @@ namespace Mythonia.Resources.Texture
         //---------- Implement - IMClass ----------
 
         private string _name = null;
-        public string Name => _name;
+        public string Name { get => _name; set { if (_name is null) _name = value; } }
         
         private MGame _game = null;
         public MGame MGame => _game;
@@ -81,7 +81,7 @@ namespace Mythonia.Resources.Texture
         /// 在读取<seealso cref="TextureBase"/>资源对象后被调用
         /// </i></para>
         /// <para>
-        /// <b>继承规则:</b><br/><i>
+        /// <b>继承:</b><br/><i>
         /// 需在开头加上 <see langword="base"/>.LoadInitialize(..)
         /// </i></para>
         /// </summary>

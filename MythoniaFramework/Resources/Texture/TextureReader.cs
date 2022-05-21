@@ -9,7 +9,7 @@ namespace Mythonia.Resources.Texture
         protected override TRead Read(ContentReader input, TRead existingInstance)
         {
             T texture = new();
-            texture.ini= input.ReadString();
+            texture.ReadInitialize(input.ReadString());
             if(input.ReadBoolean())
                 texture.ImagePath = input.ReadString();
             texture.Origin = input.ReadVector2();

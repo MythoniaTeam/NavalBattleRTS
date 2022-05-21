@@ -2,7 +2,7 @@
   "Name": "BouncingBomb",
   "A": "12, 12",
   "FrameSize": "12, 12",
-  "OriginScale": "0, 0",
+  "Origin": "0, 0",
 
   "FrameCount": 4,
   "FramePerRow": 4,

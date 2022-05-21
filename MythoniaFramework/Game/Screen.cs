@@ -4,9 +4,19 @@ using System.Text;
 
 namespace Mythonia.Game
 {
-    public class Screen : IRectangle
+    public class Screen : IRectangle, IMClass
     {
+        //---------- Implement - IMClass ----------
+        public string Name => "Screen";
         private readonly MGame _game;
+        public MGame MGame => _game;
+
+        //----------------------------------------
+
+
+
+        //--------------- Props ---------------
+        
         private readonly GraphicsDevice _graphics;
         private Viewport Viewport => _graphics.Viewport;
 

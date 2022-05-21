@@ -15,17 +15,13 @@ namespace Mythonia.Game
         public Screen Screen { get; set; }
         public DrawManager DrawManager { get; set; }
 
-        public MGame()
+        public MGame() : base()
         {
             Graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
-
-            ContentsManager = new(this);
-            CurrentCamera = new(this, new(0));
-            Screen = new(this);
 
             Window.AllowUserResizing = true;
         }
@@ -51,6 +47,10 @@ namespace Mythonia.Game
         public SpriteFont DefaultFont;
         protected override void Initialize()
         {
+            ContentsManager = new(this);
+            CurrentCamera = new(this, new(0));
+            Screen = new(this);
+
             base.Initialize();
             Utility.Initialize(this);
             DefaultFont = Content.Load<SpriteFont>("Default");

@@ -6,6 +6,10 @@ namespace Mythonia.Game.Objects.Draw
 {
     /// <summary>
     /// 用于绘制贴图, 管理相关动态数据的 <see cref="Sprite"/> 对象 (eg: 动态缩放率, 透明度, 旋转等)
+    /// <para>
+    /// <b>继承:</b><br/><i>
+    /// 继承用于修改
+    /// </i></para>
     /// </summary>
     public class Sprite : ILayerItem
     {
@@ -77,15 +81,19 @@ namespace Mythonia.Game.Objects.Draw
         /// <b>返回:</b> <br/><i>
         /// <b>转换后的, 绘制时的缩放率</b></i>
         /// </para>
+        /// <inheritdoc cref="_getTransformedScale"/>
+        /// </summary>
+        private Func<Sprite, Camera, MVector> GetTransformedScale => _getTransformedScale;
+        /// <summary>
         /// <para>
         /// <b>默认:</b> <br/>
         /// <code>(@this, cam) => <br/>
         ///     @this.IsGameObject ? @this.SpriteScale * cam.Scale : @this.SpriteScale * cam.UIScale;
         /// </code>
-        /// </para><br/>
+        /// </para>
         /// </summary>
-        private Func<Sprite, Camera, MVector> GetTransformedScale = (@this, cam) => 
-            @this.IsGameObject ? @this.SpriteScale * cam.Scale : @this.SpriteScale * cam.UIScale;
+        private readonly Func<Sprite, Camera, MVector> _getTransformedScale =
+            (@this, cam) => @this.IsGameObject ? @this.SpriteScale * cam.Scale : @this.SpriteScale * cam.UIScale;
 
         protected MVector DrawScale(Camera cam) => GetTransformedScale(this, cam);
 
@@ -140,8 +148,6 @@ namespace Mythonia.Game.Objects.Draw
 
         //---------- Prop - Position ----------
 
-        ///// <summary>绘制在屏幕上的坐标</summary>
-        //protected MVector GetDrawPos(Camera cam) => OriginToScreenPos(GetOriginPos(), cam);
         /// <summary>
         /// 获取Origin坐标的算法委托, 在外部定义用于传递变量, <br/> 在构造函数中被赋值
         /// <para>
@@ -158,7 +164,7 @@ namespace Mythonia.Game.Objects.Draw
         /// </i></para>
         /// <para>
         /// <b>示例:</b> <br/>
-        /// 如下所示, 可传递 TestObject 的 TestObjectPos 属性
+        /// <i>如下所示, 可传递 TestObject 的 TestObjectPos 属性</i>
         /// <code>
         /// <see langword="class"/> TestObject : <see cref="GameObject"/>
         /// {                                                                                                                   
@@ -170,8 +176,20 @@ namespace Mythonia.Game.Objects.Draw
         /// }                                                                                                                   
         /// </code>
         /// </para>
+        /// <inheritdoc cref="_getOriginPos"/>
         /// </summary>
-        private Func<MVector> GetOriginPos;
+        private Func<MVector> GetOriginPos => _getOriginPos;
+        /// <summary>
+        /// <para>
+        /// <b>默认:</b> <br/>
+        /// <code>(@this, cam) => <br/>
+        ///     @this.IsWorldPos? cam.ToScreenPos(@this.GetOriginPos()) : cam.ToTopLeftPos(@this.GetOriginPos());
+        /// </code>
+        /// </para><br/>
+        /// </summary>
+        private readonly Func<MVector> _getOriginPos;
+
+
 
         /// <summary>
         /// 获取 <b>转化后坐标</b> 的方法委托, 
@@ -185,6 +203,10 @@ namespace Mythonia.Game.Objects.Draw
         /// <b>返回:</b> <br/><i>
         /// <b>转换后的, 屏幕上的绘制坐标</b></i>
         /// </para>
+        /// <inheritdoc cref="_getTransformedPos"/>
+        /// </summary>
+        public Func<Sprite, Camera, MVector> GetTransformedPos => _getTransformedPos;
+        /// <summary>
         /// <para>
         /// <b>默认:</b> <br/>
         /// <code>(@this, cam) => <br/>
@@ -192,8 +214,9 @@ namespace Mythonia.Game.Objects.Draw
         /// </code>
         /// </para><br/>
         /// </summary>
-        private Func<Sprite, Camera, MVector> GetTransformedPos = (@this, cam) =>
-            @this.IsWorldPos ? cam.ToScreenPos(@this.GetOriginPos()) : cam.ToTopLeftPos(@this.GetOriginPos());
+        private readonly Func<Sprite, Camera, MVector> _getTransformedPos =
+            (@this, cam) => @this.IsWorldPos ? cam.ToScreenPos(@this.GetOriginPos()) : cam.ToTopLeftPos(@this.GetOriginPos());
+
 
         /// <summary>绘制在屏幕上的坐标, 自动调用 <see cref="GetTransformedPos"/> 委托方法</summary>
         /// <param name="cam">转换坐标用的 <seealso cref="Camera"/> 对象</param>
@@ -281,9 +304,9 @@ namespace Mythonia.Game.Objects.Draw
             IsWorldPos = isWorldPos;
             IsGameObject = isGameObject ?? !isWorldPos;
 
-            GetOriginPos = getOriginPosMethod;
-            if (getTransformedPosMethod is not null) GetTransformedPos = getTransformedPosMethod;
-            if (getTransformedScaleMethod is not null) GetTransformedScale = getTransformedScaleMethod;
+            _getOriginPos = getOriginPosMethod;
+            if (getTransformedPosMethod is not null) _getTransformedPos = getTransformedPosMethod;
+            if (getTransformedScaleMethod is not null) _getTransformedScale = getTransformedScaleMethod;
 
 
         }
@@ -313,7 +336,10 @@ namespace Mythonia.Game.Objects.Draw
         /// 每帧执行的
         /// </summary>
         /// <param name="gameTime"></param>
-        public virtual void UpdateSprite(GameTime gameTime) { }
+        public virtual void UpdateSprite(GameTime gameTime)
+        {
+            if (Texture is AnimationPlayer ani) ani.UpdateAnimation(gameTime); 
+        }
 
 
 
