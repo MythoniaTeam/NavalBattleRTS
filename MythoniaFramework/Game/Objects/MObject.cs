@@ -6,17 +6,20 @@ namespace Mythonia.Game.Objects
 {
     public abstract class MObject : DrawableGameComponent, IMClass
     {
-        //---------- Implement - IMClass ----------
+
+
+
+        #region Implement - IMClass 
 
         private readonly string _name;
         public string Name => _name;
         public MGame MGame => (MGame) Game;
 
-        //----------------------------------------
+        #endregion
 
 
 
-        //--------------- Props ---------------
+        #region Props 
 
         protected MActionManager Actions = new MActionManager();
         protected SpriteBatch SpriteBatch => MGame.SpriteBatch;
@@ -26,7 +29,12 @@ namespace Mythonia.Game.Objects
             _name = name;
         }
 
-        
+        #endregion
+
+
+
+        #region Methods
+
         public override void Initialize()
         {
             base.Initialize();
@@ -70,6 +78,7 @@ namespace Mythonia.Game.Objects
 
         public override string ToString() => $"MObject \"{Name}\"";
 
+        #endregion
 
     }
 }

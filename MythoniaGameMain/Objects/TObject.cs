@@ -1,14 +1,15 @@
 ﻿
 using Microsoft.Xna.Framework.Input;
+using Mythonia.Game.Objects.Interfaces;
 
 namespace Mythonia.Game.Objects
 {
-    public class TObject : GameObject
+    public class TObject : GameObject, IPosition
     {
 
 
 
-        public TObject(MGame game, string name, MVector? position, string layer, float layerWeight) : base(game, name, position)
+        public TObject(MGame game, string name, MVector? position, string layerPath, float layerWeight) : base(game, name, position)
         {
             this.LogConstruct(true);
             //SpriteObject = new Sprite("TObjectSprite", game.ContentsManager["RECTANGLE"], Position);
@@ -16,10 +17,10 @@ namespace Mythonia.Game.Objects
                 new Sprite(
                     MGame, $"TObject\"{name}\"Sprite",
                     texture: game.ContentsManager.GetAnimatedTexture("BouncingBomb"), 
-                    getOriginPosMethod: () => Position,
+                    refObj: this,
                     isWorldPos: true,
                     isGameObject: true,
-                    layerInfo: new(layer, layerWeight, name),
+                    layerInfo: new(layerPath, layerWeight),
                     scale: new(4)
                     );
         }
@@ -70,6 +71,11 @@ namespace Mythonia.Game.Objects
         }
 
 
-        
+
+        #region  Implement - IPosition 
+
+        MVector IPosition.Position => Position;
+
+        #endregion
     }
 }

@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+
 
 namespace Mythonia.Game
 {
     public class Screen : IRectangle, IMClass
     {
-        //---------- Implement - IMClass ----------
+
+        #region Implement - IMClass 
         public string Name => "Screen";
         private readonly MGame _game;
         public MGame MGame => _game;
 
-        //----------------------------------------
+        #endregion
 
+        //123abcd321
 
-
-        //--------------- Props ---------------
+        #region Props 
         
         private readonly GraphicsDevice _graphics;
         private Viewport Viewport => _graphics.Viewport;
@@ -24,8 +24,11 @@ namespace Mythonia.Game
         public MVector Size => new(Viewport.Width, Viewport.Height);
         public IVector Position => new MVector(0);
 
-        
+        #endregion
 
+
+
+        #region Constructors
 
         public Screen(MGame game)
         {
@@ -33,16 +36,20 @@ namespace Mythonia.Game
             _graphics = game.GraphicsDevice;
         }
 
+        #endregion
 
-        //---------- Implement - IRectangle ----------
+        
+
+        #region Implement - IRectangle 
 
         public IRectangle AsRect => this;
 
-        float? IRectangle.WidthSource => Viewport.Width;
-        float? IRectangle.HeightSource => Viewport.Height;
+        float IRectangle.Width => Viewport.Width;
+        float IRectangle.Height => Viewport.Height;
 
-        float? IRectangle.XCenterSource => 0;
-        float? IRectangle.YCenterSource => 0;
+        float IRectangle.CenterX => 0;
+        float IRectangle.CenterY => 0;
 
+        #endregion
     }
 }

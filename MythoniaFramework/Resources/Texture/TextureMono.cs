@@ -1,13 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+
 
 namespace Mythonia.Resources.Texture
 {
     public class TextureMono : TextureBase, ITexture
     {
+        #region Constructors
+
         public TextureMono() { }
         public TextureMono(string name) : base(name) { }
+
+        #endregion
+
+
+
+        #region Methods - Initialize
 
         /// <summary>
         /// <para>
@@ -23,12 +30,16 @@ namespace Mythonia.Resources.Texture
             FrameSize = Texture.Size();
         }
 
+        #endregion
 
 
-        //---------- Implement - ITexture ----------
+
+        #region Implement - ITexture 
 
         Texture2D ITexture.SourceTexture => Texture;
         MVector ITexture.TextureOrigin => DrawOrigin;
         public Rectangle SourceRange => new(new(0), FrameSize);
+
+        #endregion
     }
 }

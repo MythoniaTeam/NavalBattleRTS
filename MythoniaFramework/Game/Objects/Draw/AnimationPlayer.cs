@@ -1,16 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+
 
 namespace Mythonia.Game.Objects.Draw
 {
     public class AnimationPlayer : ITexture, IMClass
     {
+        #region Implement - IMClass
+
         private readonly string _name;
         public string Name => _name;
         private readonly MGame _game;
         public MGame MGame => _game;
 
+        #endregion
+
+
+
+        #region Props
 
         private TextureSet TextureAnimated { get; }
 
@@ -58,6 +64,12 @@ namespace Mythonia.Game.Objects.Draw
             }
         }
 
+        #endregion
+
+
+
+        #region Constructors
+
         public AnimationPlayer(MGame game, string name) { _game = game; _name = name;  }    
         public AnimationPlayer(TextureSet texture, string aniName = null, float playSpeed = 1) : this(texture.MGame, $"AnimationPlayer-{texture.Name}")
         {
@@ -72,6 +84,11 @@ namespace Mythonia.Game.Objects.Draw
             PlaySpeed = playSpeed;
         }
 
+        #endregion
+
+
+
+        #region Methods
 
         /// <summary>
         /// 每帧Update调用的函数, 用于更新贴图TimeCount
@@ -96,9 +113,11 @@ namespace Mythonia.Game.Objects.Draw
             PlaySpeed = playSpeed;
         }
 
+        #endregion
 
 
-        //---------- Implement - ITexture ----------
+
+        #region Implement - ITexture 
 
         Texture2D ITexture.SourceTexture => TextureAnimated.SourceTexture;
 
@@ -114,5 +133,6 @@ namespace Mythonia.Game.Objects.Draw
 
         MVector ITexture.TextureOrigin => TextureAnimated.Origin;
 
+        #endregion
     }
 }

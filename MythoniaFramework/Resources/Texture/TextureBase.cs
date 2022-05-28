@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+
 
 namespace Mythonia.Resources.Texture
 {
@@ -19,7 +18,11 @@ namespace Mythonia.Resources.Texture
 
     public abstract class TextureBase : IMClass
     {
-        //---------- Implement - IMClass ----------
+
+
+
+
+        #region Implement - IMClass 
 
         private string _name = null;
         public string Name { get => _name; set { if (_name is null) _name = value; } }
@@ -27,11 +30,13 @@ namespace Mythonia.Resources.Texture
         private MGame _game = null;
         public MGame MGame => _game;
 
-        //----------------------------------------
+        //
+
+        #endregion
 
 
 
-        //--------------- Props ---------------
+        #region Props 
 
         public string ImagePath { get; set; }
 
@@ -65,9 +70,20 @@ namespace Mythonia.Resources.Texture
             O*riginScale = 9;
         }*/
 
+        #endregion
+
+
+
+        #region Constructors
+
         public TextureBase() { }
         public TextureBase(string name) => _name = name;
 
+        #endregion
+
+
+
+        #region Methods - Initialize
 
         /// <summary>
         /// 用于初始化资源<list type="number">
@@ -110,6 +126,12 @@ namespace Mythonia.Resources.Texture
             _name = name;
         }
 
+        #endregion
+
+
+
+        #region Methods
+
         /// <summary>
         /// 在ContantProcessor中被调用, 初始化动画的FramesNo数据
         /// </summary>
@@ -124,7 +146,7 @@ namespace Mythonia.Resources.Texture
         /// <summary>获取贴图资源</summary>
         public virtual Texture2D SourceTexture => Texture;
 
-
+        #endregion
 
         /*public void DrawTexture(SpriteBatch spriteBatch, int frameNo, float layer, MVector position, MVector scale, MAngle rotation, Color color, Flip flip = Flip.N)
         {

@@ -1,5 +1,6 @@
 ﻿
 
+
 namespace MythoniaGameMain
 {
     public class GameMain : MGame
@@ -67,15 +68,16 @@ namespace MythoniaGameMain
 
                 Components.Add(new TOutputObject(this, "Test1", 2));
 
-                /*Components.Add(new TUI(this, "Test", VecDir.BottomRight));
-                Components.Add(new TUI(this, "Test", VecDir.Bottom));
-                Components.Add(new TUI(this, "Test", VecDir.BottomLeft));
-                Components.Add(new TUI(this, "Test", VecDir.Right));
-                Components.Add(new TUI(this, "Test", VecDir.TopRight));
-                Components.Add(new TUI(this, "Test", VecDir.Top));
-                Components.Add(new TUI(this, "Test", VecDir.TopLeft));
-                Components.Add(new TUI(this, "Test", VecDir.Left));*/
-
+                Components.Add(new TUI(this, "Test", VecDir.BottomRight, "UI", 10));
+                Components.Add(new TUI(this, "Test", VecDir.Bottom, "UI", 10));
+                Components.Add(new TUI(this, "Test", VecDir.BottomLeft, "UI", 10));
+                Components.Add(new TUI(this, "Test", VecDir.Right, "UI", 10));
+                Components.Add(new TUI(this, "Test", VecDir.Center, "UI", 10));
+                Components.Add(new TUI(this, "Test", VecDir.Left, "UI", 10));
+                Components.Add(new TUI(this, "Test", VecDir.TopRight, "UI", 10));
+                Components.Add(new TUI(this, "Test", VecDir.Top, "UI", 10));
+                Components.Add(new TUI(this, "Test", VecDir.TopLeft, "UI", 10));
+                Components.Add(new TUI(this, "Test", (0.5f, 0.5f), "UI", 10));
 
 
                 //Components[0].Initialize();

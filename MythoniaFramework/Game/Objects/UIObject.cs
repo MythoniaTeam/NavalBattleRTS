@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+
 
 
 namespace Mythonia.Game.Objects
 {
-    public abstract class UIObject : MObject, IDrawModule, IRectangle
+    public abstract class UIObject : MObject, IDrawModule
     {
-
-        public MVector ScreenPosition => AsRect.Position;
 
         public Sprite SpriteObject { get; set; }
 
 
-        public UIObject(MGame game, string name,
-            MVector? align = null, MVector? offset = null, MVector? origin = null) :base(game, name)
+        public UIObject(MGame game, string name) :base(game, name)
         {
             //if (this is not IRectangle) throw new NotImplementedException("UIObject should implementing IRectangle");
             
@@ -37,10 +33,6 @@ namespace Mythonia.Game.Objects
 
 
 
-        //---------- Implement - IRectangle ----------
-
-        public IRectangle AsRect => this;
-
-        //float? IRectangle.WidthSource => 100;
+        
     }
 }

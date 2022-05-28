@@ -1,37 +1,58 @@
 ﻿
-using Mythonia.Game.Shapes;
 
 
 namespace Mythonia.Game.Objects
 {
-    internal class TUI : UIObject, IRectangle
+    internal class TUI : UIObject, IAlignedRectangle
     {
 
-        public TUI(MGame game, string name, MVector align, string layer, float layerWeight) : base(game, name, align, new(50,30))
+        #region Constructors
+
+        public TUI(MGame game, string name, MVector align, string layerPath, float layerWeight) : base(game, name)
         {
+            _align = align;
+
             this.LogConstruct(true);
             SpriteObject = 
                 new Sprite(
                     MGame, "TUISprite", 
                     texture: game.ContentsManager["RECTANGLE"], 
-                    getOriginPosMethod: () => ScreenPosition,
+                    refObj: this,
                     isWorldPos: false, 
-                    layerInfo: new(layer, layerWeight, name),
+                    layerInfo: new(layerPath, layerWeight),
                     scale: new(2)
                     );
         }
 
+        #endregion
 
 
-        //---------- Implement - IRectangle ----------
 
-        float? IRectangle.WidthSource => SpriteObject.TextureDrawSize.X;
-        float? IRectangle.HeightSource => SpriteObject.TextureDrawSize.Y;
+        #region Implement - IRectangle 
 
-        private MVector PointTL => MGame.Screen.AsRect.DirectFrom(VecDir.TopLeft).To(VecDir.Center).For(30, 15);
+        public IRectangle AsRect => this;
 
-        float? IRectangle.YTopSource => PointTL.Y;
-        float? IRectangle.XLeftSource => PointTL.X;
+        private readonly MVector _align;
+
+        IRectangle IAlignedRectangle.RefObj => MGame.Screen.AsRect;
+        MVector IAlignedRectangle.RefAlignPosScale => _align;
+        MVector IAlignedRectangle.RefAlignPosDisplacement => (30, 20);
+
+
+
+
+        float IRectangle. Width => SpriteObject.TextureDrawSize.X;
+        float IRectangle.Height => SpriteObject.TextureDrawSize.Y;
+
+        //float IRectangle.Top => PointTL.Y;
+        //float IRectangle.Left => PointTL.X;
+
+        //float IRectangle.CenterX => AsRect.Left + AsRect.Width / 2;
+        //float IRectangle.CenterY => AsRect.Top  - AsRect.Height / 2;
+
+        //private MVector PointTL => MGame.Screen.AsRect.DirectFrom(VecDir.TopLeft).To(VecDir.Center).For(30, 15);
+
+        #endregion
 
     }
 }

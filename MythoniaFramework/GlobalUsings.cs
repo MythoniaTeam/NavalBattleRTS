@@ -17,19 +17,20 @@ global using MF = Mythonia.Game;
 global using Mythonia.Game.Objects.Actions;
 global using ActionArgs = Mythonia.Game.Objects.Actions.Args;
 
-global using Mythonia.Game.Shapes;
+global using Mythonia.Game.Objects.Interfaces;
 
 global using Mythonia.Game.Objects;
 global using Mythonia.Game.Objects.Draw;
 global using Mythonia.Game.Objects.InputReactions;
 
 
+global using Mythonia.Game.Time;
 global using Mythonia.Game.Contents;
 global using Mythonia.Game;
 
 
 global using Mythonia.Resources.Data;
-global using Mythonia.Resources.Time;
+global using Mythonia.Resources.Data.Tree;
 global using Mythonia.Resources.Texture;
 global using Mythonia.Resources.Interfaces;
 

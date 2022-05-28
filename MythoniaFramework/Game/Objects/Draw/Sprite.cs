@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+
 
 namespace Mythonia.Game.Objects.Draw
 {
@@ -11,28 +10,31 @@ namespace Mythonia.Game.Objects.Draw
     /// 继承用于修改
     /// </i></para>
     /// </summary>
-    public class Sprite : ILayerItem
+    public class Sprite : NodeLeave<Sprite>
     {
-        //---------- Implement - IMClass ----------
+
+        #region Implement - IMClass 
 
         private readonly string _name;
         public string Name => _name;
         private readonly MGame _game;
         public MGame MGame => _game;
 
-        //----------------------------------------
+        #endregion
 
 
 
-        //---------- Prop - Texture ----------
+        #region Prop - Texture 
 
         protected ITexture Texture { get; private set; }
         /// <summary>贴图绘制时的大小 (未经CameraTransform)</summary>
         public MVector TextureDrawSize => Texture.SourceTexture.Size() * SpriteScale;
 
+        #endregion
 
 
-        //---------- Prop - Color ----------
+
+        #region Prop - Color 
 
         /// <summary>透明度</summary>
         public float Transparency
@@ -61,9 +63,11 @@ namespace Mythonia.Game.Objects.Draw
         public Color DrawColor() => _color;
         private Color _color = Color.White;
 
+        #endregion
 
 
-        //---------- Prop - Scale ----------
+
+        #region Prop - Scale 
 
         private MVector _scale = new(1);
         /// <summary>绘制时的缩放率 (算上贴图本身BasicScale) (未经CameraTransform)</summary>
@@ -103,9 +107,11 @@ namespace Mythonia.Game.Objects.Draw
         public void SetScaleX(float v) => _scale.X = v;
         public void SetScaleY(float v) => _scale.Y = v;
 
+        #endregion
 
 
-        //---------- Prop - Flip ----------
+
+        #region Prop - Flip 
 
         public bool FlipX
         {
@@ -144,9 +150,16 @@ namespace Mythonia.Game.Objects.Draw
         private Flip _flipStatus = 0;
         protected Flip FlipStatus => _flipStatus;
 
+        #endregion
 
 
-        //---------- Prop - Position ----------
+
+        #region Prop - Position 
+
+
+        private readonly MObject _refObj;
+        public IPosition ObjPos => _refObj as IPosition;
+
 
         /// <summary>
         /// 获取Origin坐标的算法委托, 在外部定义用于传递变量, <br/> 在构造函数中被赋值
@@ -178,7 +191,7 @@ namespace Mythonia.Game.Objects.Draw
         /// </para>
         /// <inheritdoc cref="_getOriginPos"/>
         /// </summary>
-        private Func<MVector> GetOriginPos => _getOriginPos;
+        private Func<Sprite, MVector> GetOriginPos => _getOriginPos;
         /// <summary>
         /// <para>
         /// <b>默认:</b> <br/>
@@ -187,8 +200,7 @@ namespace Mythonia.Game.Objects.Draw
         /// </code>
         /// </para><br/>
         /// </summary>
-        private readonly Func<MVector> _getOriginPos;
-
+        private readonly Func<Sprite, MVector> _getOriginPos = (@this) => @this.ObjPos.Position;
 
 
         /// <summary>
@@ -215,7 +227,7 @@ namespace Mythonia.Game.Objects.Draw
         /// </para><br/>
         /// </summary>
         private readonly Func<Sprite, Camera, MVector> _getTransformedPos =
-            (@this, cam) => @this.IsWorldPos ? cam.ToScreenPos(@this.GetOriginPos()) : cam.ToTopLeftPos(@this.GetOriginPos());
+            (@this, cam) => @this.IsWorldPos ? cam.ToScreenPos(@this.GetOriginPos(@this)) : cam.ToTopLeftPos(@this.GetOriginPos(@this));
 
 
         /// <summary>绘制在屏幕上的坐标, 自动调用 <see cref="GetTransformedPos"/> 委托方法</summary>
@@ -242,78 +254,101 @@ namespace Mythonia.Game.Objects.Draw
         /// </summary>
         protected bool IsGameObject { get; set; }
 
+        #endregion
 
 
-        //---------- Prop - Rotation ----------
+
+        #region Prop - Rotation 
 
         public MAngle DrawRotation() => FlipStatus is Flip.XY ? Rotation + 180 : Rotation;
         public MAngle Rotation { get; set; }
 
+        #endregion
 
 
-        //--------------- Constructor ---------------
+
+        #region Constructor 
 
 
-        private Sprite(MGame game, string name) { _game = game; _name = name; }
 
         /// <summary>
         /// 生成一个Sprite贴图对象, 用于绘制自己
         /// </summary>
+        /// 
         /// <param name="game">所属的 <see cref="MGame"/> 游戏对象</param>
         /// <param name="name">对象的名称</param>
+        /// 
         /// <param name="texture">贴图对象</param>
-        /// <param name="getOriginPosMethod">
-        /// 获取Origin坐标的算法
-        /// <para>
-        /// <b>参见:</b> <i><seealso cref="GetOriginPos"/></i>
-        /// </para>
-        /// </param>
+        /// <param name="refObj">参考的对象 (如坐标等均参考该对象)</param>
+        /// <param name="layerInfo"> 图层的数据</param>
+        /// 
+        /// <param name="scale">初始的缩放比例</param>
+        /// <param name="rotation">初始的旋转角度</param>
+        /// 
         /// <param name="isWorldPos">
         /// 是相对 <see cref="Camera"/> 的 世界坐标 吗?
         /// <para><b>参见:</b> <i><seealso cref="IsWorldPos"/></i></para>
         /// </param>
+        /// 
         /// <param name="isGameObject">
         /// 是游戏对象吗吗?<list type="table">
         /// <item><term><see langword="null"/> (default)</term><description><i> 设为 <paramref name="isWorldPos"/> 的值</i></description></item>
         /// </list>
         /// <para><b>参见:</b> <i><seealso cref="IsGameObject"/></i></para>
         /// </param>
-        /// <param name="layerInfo"> 图层的数据</param>
-        /// <param name="scale">初始的缩放比例</param>
-        /// <param name="rotation">初始的旋转角度</param>
+        /// 
         /// <param name="getTransformedPosMethod">
-        /// 获取 <b>转化后坐标</b> 的方法委托, 将<paramref name="getOriginPosMethod"/> 获取后的坐标进行转化
+        /// 获取 <b>转化后坐标</b> 的方法委托, <br/>
+        /// 将<paramref name="getOriginPosMethod"/> 获取后的坐标, 结合<seealso cref="Camera"/>进行转化
         /// <para><b>参见:</b> <i><seealso cref="GetTransformedPos"/></i></para>
         /// </param>
+        /// 
+        /// <param name="getTransformedScaleMethod">
+        /// 获取 <b>转化后缩放率</b> 的方法委托, <br/>
+        /// 将<see cref="_scale"/> 结合 <seealso cref="Camera"/> 的缩放率进行转化
+        /// <para><b>参见:</b> <i><seealso cref="GetTransformedScale"/></i></para>
+        /// </param>
+        /// 
+        /// <param name="getOriginPosMethod">
+        /// 获取Origin坐标的算法
+        /// <para><b>参见:</b> <i><seealso cref="GetOriginPos"/></i></para>
+        /// </param>
         public Sprite(MGame game, string name, ITexture texture,
-            Func<MVector> getOriginPosMethod, /*MVector? originDP,*/ 
-            bool isWorldPos = true, bool? isGameObject = null, LayerInfo? layerInfo = null,
+            MObject refObj, LayerInfo? layerInfo = null,
             MVector? scale = null, MAngle? rotation = null,
+            bool isWorldPos = true, bool? isGameObject = null,
+            Func<Sprite, MVector> getOriginPosMethod = null, /*MVector? originDP,*/
             Func<Sprite, Camera, MVector> getTransformedPosMethod = null, Func<Sprite, Camera, MVector> getTransformedScaleMethod = null
-            ) : this(game, name)
+            ) 
+            : base(name, (layerInfo ??= game._GetDefaultLayerInfo(name)).Weight) 
         { 
+            _game = game;
 
-            Texture = texture; 
+            Texture = texture;
 
-            LayerInfo = layerInfo ?? game._GetDefaultLayerInfo(name);
-            game.DrawManager.Layers.AddItem(this);
+            LayerInfo layer = layerInfo ?? game._GetDefaultLayerInfo(name);
+            game.DrawManager.Layers.Add(this, layer.Path);
 
             SetScale(scale ?? new(1));
-            Rotation = rotation ?? new(0);
+            Rotation = rotation ?? new(0); 
 
             IsWorldPos = isWorldPos;
-            IsGameObject = isGameObject ?? !isWorldPos;
+            //如果没有独立设置 isGameObject, 且是世界坐标系 (isWorldPos), 那么视为游戏对象 (isGameObject)
+            IsGameObject = isGameObject ?? isWorldPos;
 
-            _getOriginPos = getOriginPosMethod;
+            _refObj = refObj;
+            if (getOriginPosMethod is not null) _getOriginPos = getOriginPosMethod;
             if (getTransformedPosMethod is not null) _getTransformedPos = getTransformedPosMethod;
             if (getTransformedScaleMethod is not null) _getTransformedScale = getTransformedScaleMethod;
 
 
         }
 
+        #endregion
 
 
-        //--------------- Methods ---------------
+
+        #region Methods 
 
         public void DrawSprite(Camera cam, SpriteBatch spriteBatch, float layer)
         {
@@ -341,21 +376,25 @@ namespace Mythonia.Game.Objects.Draw
             if (Texture is AnimationPlayer ani) ani.UpdateAnimation(gameTime); 
         }
 
+        #endregion
 
 
-        //---------- Override Methods ----------
+
+        #region Override Methods 
 
         public override string ToString() => $"\"{Name}\" at layer: {LayerInfo}";
 
+        #endregion
 
 
-        //---------- Implement - ILayerItem ----------
+
+        #region Implement - ILayerItem 
 
         public LayerInfo LayerInfo { get; set; }
         public int ItemsCount() => 1;
         public ICollection<Sprite> GetLayerSprites() => new Sprite[] { this };
 
+        #endregion
 
-        
     }
 }

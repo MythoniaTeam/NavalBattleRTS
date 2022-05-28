@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+
 
 namespace Mythonia.Game.Contents
 {
     public class MContentsManager : IMClass
     {
-        //---------- Implement - IMClass ----------
+
+        #region Implement - IMClass 
 
         private readonly string _name;
         public string Name => _name;
         private readonly MGame _game;
         public MGame MGame => _game;
 
-        //----------------------------------------
+        #endregion
 
 
 
-        //------------- Props ---------------
+        #region Props 
 
         private Dictionary<string, TextureBase> Textures { get; set; } = new();
 
@@ -36,9 +36,11 @@ namespace Mythonia.Game.Contents
             get => GetTexture(textureName);
         }
 
+        #endregion
 
 
-        //--------------- Constructor ---------------
+
+        #region Constructor 
 
         public MContentsManager(MGame game)
         {
@@ -46,9 +48,11 @@ namespace Mythonia.Game.Contents
             _name = "ContentsManager";
         }
 
+        #endregion
 
 
-        //--------------- Methods ---------------
+
+        #region Methods 
 
         /// <summary>
         /// 给定材质名称, 获取指定 <seealso cref="ITexture"/> 类型材质对象
@@ -110,7 +114,7 @@ namespace Mythonia.Game.Contents
             }
         }
 
-
+        #endregion
 
     }
 }

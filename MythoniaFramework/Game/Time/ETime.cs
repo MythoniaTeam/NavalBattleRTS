@@ -1,8 +1,7 @@
 ﻿
 
 
-
-namespace Mythonia.Resources.Time
+namespace Mythonia.Game.Time
 {
 
     public static class ETime

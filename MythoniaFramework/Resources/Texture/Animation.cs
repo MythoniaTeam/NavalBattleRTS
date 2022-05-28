@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+
 
 namespace Mythonia.Resources.Texture
 {
     public class Animation : IMClass
     {
 
-        //---------- Implement - IMClass ----------
+        #region Implement - IMClass 
 
         private string _name = null;
         public string Name => _name;
@@ -15,11 +14,11 @@ namespace Mythonia.Resources.Texture
         private MGame _game = null;
         public MGame MGame => _game;
 
-        //----------------------------------------
+        #endregion
 
 
 
-        //--------------- Props ---------------
+        #region Props 
 
         public int[] FramesNo { get; set; }
         public int? FrameNo { get; set; }
@@ -30,15 +29,19 @@ namespace Mythonia.Resources.Texture
         public float FrameDuration { get; set; }
         public float CycleDuration => FrameDuration * FrameCount;
 
+        #endregion
 
 
-        //--------------- Constructor ---------------
+
+        #region Constructor 
 
         public Animation(string name) { _name = name; }
 
+        #endregion
 
 
-        //--------------- Methods ---------------
+
+        #region Methods 
 
         /// <summary>
         /// 用于初始化资源<list type="number">
@@ -87,7 +90,7 @@ namespace Mythonia.Resources.Texture
             FrameCount = FramesNo.Length;
         }
 
-
+        #endregion
 
     }
 }

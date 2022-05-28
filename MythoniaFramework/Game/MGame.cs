@@ -39,8 +39,8 @@ namespace Mythonia.Game
         /// </summary>
         protected abstract Layer.InitArgs[] _LayerInitArgsList { get; }
 
-        public LayerInfo _GetDefaultLayerInfo(IMClass obj) => _GetDefaultLayerInfo(obj.Name);
-        public virtual LayerInfo _GetDefaultLayerInfo(string name) => new("Game", 0, name);
+        //public LayerInfo _GetDefaultLayerInfo(IMClass obj) => _GetDefaultLayerInfo(obj.Name);
+        public virtual LayerInfo _GetDefaultLayerInfo(string name) => new("Game", DrawManager.Layers.FindBranch("Game").WeightRange.Max);
 
 
 
