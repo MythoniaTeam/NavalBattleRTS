@@ -2,27 +2,26 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Mythonia.Framework.Game
+namespace Mythonia.Game
 {
     public abstract class MGame : XNA.Game
     {
         public GraphicsDeviceManager Graphics { get; set; }
         public SpriteBatch SpriteBatch { get; set; }
-        public MContentsManager ContentsManager { get; set; }
-        public Camera CurrentCamera { get; set; }
 
+        public MContentsManager ContentsManager { get; set; }
+
+        public Camera CurrentCamera { get; set; }
+        public Screen Screen { get; set; }
         public DrawManager DrawManager { get; set; }
 
-        public MGame()
+        public MGame() : base()
         {
             Graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
-
-            ContentsManager = new(this);
-            CurrentCamera = new(this, new(0));
 
             Window.AllowUserResizing = true;
         }
@@ -40,14 +39,18 @@ namespace Mythonia.Framework.Game
         /// </summary>
         protected abstract Layer.InitArgs[] _LayerInitArgsList { get; }
 
-        public LayerInfo _GetDefaultLayerInfo(INamed obj) => _GetDefaultLayerInfo(obj.Name);
-        public virtual LayerInfo _GetDefaultLayerInfo(string name) => new("Game", 0, name);
+        //public LayerInfo _GetDefaultLayerInfo(IMClass obj) => _GetDefaultLayerInfo(obj.Name);
+        public virtual LayerInfo _GetDefaultLayerInfo(string name) => new("Game", DrawManager.Layers.FindBranch("Game").WeightRange.Max);
 
 
 
         public SpriteFont DefaultFont;
         protected override void Initialize()
         {
+            ContentsManager = new(this);
+            CurrentCamera = new(this, new(0));
+            Screen = new(this);
+
             base.Initialize();
             Utility.Initialize(this);
             DefaultFont = Content.Load<SpriteFont>("Default");
@@ -107,8 +110,8 @@ namespace Mythonia.Framework.Game
             {
                 Utility.DrawLineX(2, 200, -200, 0, Color.White, 1, true);
                 Utility.DrawLineY(2, 200, -200, 0, Color.White, 1, true);
-                SpriteBatch.DrawString(DefaultFont, CurrentCamera.Scale.ToString(), GraphicsDevice.Viewport.Size() / 2 + (0, 20), Color.Black  );
-                SpriteBatch.DrawString(DefaultFont, CurrentCamera.Position.ToString(), GraphicsDevice.Viewport.Size() / 2 + (0, 50), Color.Black);
+                SpriteBatch.DrawString(DefaultFont, CurrentCamera.Scale.ToString(), Screen.Size / 2 + (0, 20), Color.Black  );
+                SpriteBatch.DrawString(DefaultFont, CurrentCamera.Position.ToString(), Screen.Size / 2 + (0, 50), Color.Black);
 
             }
             if (key.IsKeyDown(Keys.LeftAlt))

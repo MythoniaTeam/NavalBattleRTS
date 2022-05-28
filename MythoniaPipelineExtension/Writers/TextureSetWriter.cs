@@ -44,7 +44,7 @@ namespace Mythonia.Pipeline.Writers
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            return "Mythonia.Resources.Texture.TextureSetReader, Mythonia.Resources";
+            return "Mythonia.Resources.Texture.TextureSetReader, Mythonia";
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
-namespace Mythonia.Framework.Game
+
+namespace Mythonia.Game
 {
     public class Camera
     {
@@ -11,6 +10,8 @@ namespace Mythonia.Framework.Game
         public MPosition Position = new(0);
 
         public MVector Scale = new(1);
+        public MVector UIScale = new(1);
+
 
         public Camera(MGame game, MPosition pos)
         {
@@ -24,10 +25,10 @@ namespace Mythonia.Framework.Game
         /// <param name="WorldPos"></param>
         /// <returns>绘制坐标 (y向下增加, 坐标相对于屏幕左上角)</returns>
         public MVector ToScreenPos(MVector gamePos)
-            => ToTopLeftPos((gamePos - (MVector)Position) * Scale);
+            => ToTopLeftPos((gamePos - Position.Vec) * Scale);
 
         public MVector ToTopLeftPos(MVector centerPos)
-            => centerPos.ChangeSignY() + MGame.GraphicsDevice.Viewport.Size() / 2;
+            => centerPos.ChangeSignY() + MGame.Screen.Size / 2;
         
     }
 }

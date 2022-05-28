@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
-namespace Mythonia.Framework.Game.Time
+
+namespace Mythonia.Game.Time
 {
     public class MTime
     {
@@ -28,11 +27,4 @@ namespace Mythonia.Framework.Game.Time
 
     }
 
-    public static class ETime
-    {
-        public static float ToStandardFrame(this TimeSpan v) => MTime.ToStandardFrame(v);
-
-        public static float FramePerSecond(this GameTime v) => MTime.StandardFrameRate / v.ElapsedGameTime.ToStandardFrame();
-        //public static float TotalFrame;
-    }
 }

@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
-namespace Mythonia.Framework.Game.Objects.Draw
+
+namespace Mythonia.Game.Objects.Draw
 {
-    public class DrawManager
+    public class DrawManager : Tree<Sprite>
     {
         MGame Game { get; set; }
 
-        public Layer Layers { get; set; }
+        public LayerRoot Layers { get; set; }
 
 
-        public DrawManager(MGame game, Layer.InitArgs[] layers)
+        public DrawManager(MGame game, Layer.InitArgs[] layers) : base()
         {
             Game = game;
-            Layers = new("#", null, 0, layers);
+            Layers = new(game, layers);
         }
 
         /// <summary>
@@ -23,9 +22,9 @@ namespace Mythonia.Framework.Game.Objects.Draw
         public List<Action<SpriteBatch>> AddSpritesToDrawList()
         {
             List<Action<SpriteBatch>> drawList = new();
-            int count = Layers.ItemsCount();
+            int count = Layers.LeavesCount;
             float i = 0;
-            ICollection<Sprite> sprites = Layers.GetLayerSprites();
+            ICollection<Sprite> sprites = Layers.GetAllLeaves();
             foreach (Sprite sprite in sprites)
             {
                 //sprite.DrawSprite(Game.CurrentCamera, Game.SpriteBatch, 0.5f);// (count - i) / count);

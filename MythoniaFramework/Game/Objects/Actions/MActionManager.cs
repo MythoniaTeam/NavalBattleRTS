@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
-namespace Mythonia.Framework.Game.Objects.Actions
+
+namespace Mythonia.Game.Objects.Actions
 {
     public class MActionManager : List<IAction>
     {

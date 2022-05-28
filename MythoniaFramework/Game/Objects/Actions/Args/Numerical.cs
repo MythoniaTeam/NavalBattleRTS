@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
-namespace Mythonia.Framework.Game.Objects.Actions.Args
+
+namespace Mythonia.Game.Objects.Actions.Args
 {
     public struct Numerical : IActionArg<Numerical>
     {

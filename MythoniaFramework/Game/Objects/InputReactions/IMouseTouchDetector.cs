@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
-namespace Mythonia.Framework.Game.Objects.InputReactions
+
+namespace Mythonia.Game.Objects.InputReactions
 {
     public interface IMouseTouchDetector
     {

@@ -2,34 +2,42 @@
 
 
 
-namespace Mythonia.Framework.Game.Objects
+namespace Mythonia.Game.Objects
 {
-    public abstract class MObject : DrawableGameComponent, INamed
+    public abstract class MObject : DrawableGameComponent, IMClass
     {
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            private set => _name = value;
-        }
 
 
+
+        #region Implement - IMClass 
+
+        private readonly string _name;
+        public string Name => _name;
+        public MGame MGame => (MGame) Game;
+
+        #endregion
+
+
+
+        #region Props 
 
         protected MActionManager Actions = new MActionManager();
         protected SpriteBatch SpriteBatch => MGame.SpriteBatch;
-        protected MGame MGame => (MGame)Game;
-
 
         public MObject (MGame game, string name) : base(game)
         {
-            Name = name;
+            _name = name;
         }
 
-        private bool ContainsDrawModule = false;
+        #endregion
+
+
+
+        #region Methods
+
         public override void Initialize()
         {
             base.Initialize();
-            if (this is IDrawModule) ContainsDrawModule = true;
         }
 
 
@@ -50,7 +58,7 @@ namespace Mythonia.Framework.Game.Objects
         protected virtual void UpdateAfter(GameTime gameTime)
         {
             Actions.Update(gameTime);
-            if (ContainsDrawModule) ((IDrawModule)this).SpriteObject.UpdateSprite(gameTime);
+            if (this is IDrawModule obj) obj.SpriteObject.UpdateSprite(gameTime);
         }
 
         //protected void Draw(SpriteBatch spriteBatch, float layer)
@@ -70,6 +78,7 @@ namespace Mythonia.Framework.Game.Objects
 
         public override string ToString() => $"MObject \"{Name}\"";
 
+        #endregion
 
     }
 }

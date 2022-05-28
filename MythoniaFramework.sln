@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32228.343
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MythoniaPipelineExtension", "MythoniaPipelineExtension\MythoniaPipelineExtension.csproj", "{B47457F3-09DD-48FC-A4A8-B93F64E4B4A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MythoniaPipelineExtension", "MythoniaPipelineExtension\MythoniaPipelineExtension.csproj", "{B47457F3-09DD-48FC-A4A8-B93F64E4B4A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MythoniaGameMain", "MythoniaGameMain\MythoniaGameMain.csproj", "{F0CB09BA-4DEC-4EE5-9828-C02A2C0B0213}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MythoniaResourcesLibrary", "MythoniaResourcesLibrary\MythoniaResourcesLibrary.csproj", "{1E97AD21-13E0-4351-9DDD-437580666E0C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MythoniaFramework", "MythoniaFramework\MythoniaFramework.csproj", "{4E25AC5F-E991-4253-9BAA-4527AF2EECB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MythoniaLibrary", "MythoniaFramework\MythoniaLibrary.csproj", "{4E25AC5F-E991-4253-9BAA-4527AF2EECB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +23,6 @@ Global
 		{F0CB09BA-4DEC-4EE5-9828-C02A2C0B0213}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0CB09BA-4DEC-4EE5-9828-C02A2C0B0213}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0CB09BA-4DEC-4EE5-9828-C02A2C0B0213}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1E97AD21-13E0-4351-9DDD-437580666E0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E97AD21-13E0-4351-9DDD-437580666E0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E97AD21-13E0-4351-9DDD-437580666E0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E97AD21-13E0-4351-9DDD-437580666E0C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E25AC5F-E991-4253-9BAA-4527AF2EECB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E25AC5F-E991-4253-9BAA-4527AF2EECB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E25AC5F-E991-4253-9BAA-4527AF2EECB1}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
-namespace Mythonia.Framework.Game.Objects
+
+namespace Mythonia.Game.Objects
 {
     public class GameObject : MObject, IDrawModule
     {

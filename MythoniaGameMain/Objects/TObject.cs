@@ -1,23 +1,28 @@
 ﻿
 using Microsoft.Xna.Framework.Input;
+using Mythonia.Game.Objects.Interfaces;
 
-namespace Mythonia.Framework.Game.Objects
+namespace Mythonia.Game.Objects
 {
-    public class TObject : GameObject
+    public class TObject : GameObject, IPosition
     {
 
 
 
-        public TObject(MGame game, string name, MVector? position, string layer, float layerWeight) : base(game, name, position)
+        public TObject(MGame game, string name, MVector? position, string layerPath, float layerWeight) : base(game, name, position)
         {
             this.LogConstruct(true);
             //SpriteObject = new Sprite("TObjectSprite", game.ContentsManager["RECTANGLE"], Position);
             SpriteObject = 
-                new SpriteAnimated(
-                    MGame, $"TObject\"{name}\"Sprite", 
-                    game.ContentsManager["BouncingBomb"], 
-                    null, 1, Position, true, 
-                    new(layer, layerWeight, name), new(4));
+                new Sprite(
+                    MGame, $"TObject\"{name}\"Sprite",
+                    texture: game.ContentsManager.GetAnimatedTexture("BouncingBomb"), 
+                    refObj: this,
+                    isWorldPos: true,
+                    isGameObject: true,
+                    layerInfo: new(layerPath, layerWeight),
+                    scale: new(4)
+                    );
         }
 
         public override void Initialize()
@@ -47,14 +52,14 @@ namespace Mythonia.Framework.Game.Objects
 
 
             KeyboardState key = Keyboard.GetState();
-            if (key.IsKeyDown(Keys.D       )) /*Debug.WriteLine("KeyDown W       ");*/Position += (   speed * gameTime.ElapsedGameTime.ToStandardFrame(), 0);
-            if (key.IsKeyDown(Keys.A       )) /*Debug.WriteLine("KeyDown S       ");*/Position -= (   speed * gameTime.ElapsedGameTime.ToStandardFrame(), 0);
-            if (key.IsKeyDown(Keys.W       )) /*Debug.WriteLine("KeyDown D       ");*/Position += (0, speed * gameTime.ElapsedGameTime.ToStandardFrame()   );
-            if (key.IsKeyDown(Keys.S       )) /*Debug.WriteLine("KeyDown A       ");*/Position -= (0, speed * gameTime.ElapsedGameTime.ToStandardFrame()   );
-            if (key.IsKeyDown(Keys.Right   )) /*Debug.WriteLine("KeyDown Up      ");*/MGame.CurrentCamera.Position += (   speedCam * gameTime.ElapsedGameTime.ToStandardFrame(), 0);
-            if (key.IsKeyDown(Keys.Left    )) /*Debug.WriteLine("KeyDown Down    ");*/MGame.CurrentCamera.Position -= (   speedCam * gameTime.ElapsedGameTime.ToStandardFrame(), 0);
-            if (key.IsKeyDown(Keys.Up      )) /*Debug.WriteLine("KeyDown Right   ");*/MGame.CurrentCamera.Position += (0, speedCam * gameTime.ElapsedGameTime.ToStandardFrame()   );
-            if (key.IsKeyDown(Keys.Down    )) /*Debug.WriteLine("KeyDown Left    ");*/MGame.CurrentCamera.Position -= (0, speedCam * gameTime.ElapsedGameTime.ToStandardFrame()   );
+            if (key.IsKeyDown(Keys.D       )) /*Debug.WriteLine("KeyDown W       ");*/Position.Vec += (   speed * gameTime.ElapsedGameTime.ToStandardFrame(), 0);
+            if (key.IsKeyDown(Keys.A       )) /*Debug.WriteLine("KeyDown S       ");*/Position.Vec -= (   speed * gameTime.ElapsedGameTime.ToStandardFrame(), 0);
+            if (key.IsKeyDown(Keys.W       )) /*Debug.WriteLine("KeyDown D       ");*/Position.Vec += (0, speed * gameTime.ElapsedGameTime.ToStandardFrame()   );
+            if (key.IsKeyDown(Keys.S       )) /*Debug.WriteLine("KeyDown A       ");*/Position.Vec -= (0, speed * gameTime.ElapsedGameTime.ToStandardFrame()   );
+            if (key.IsKeyDown(Keys.Right   )) /*Debug.WriteLine("KeyDown Up      ");*/MGame.CurrentCamera.Position.Vec += (   speedCam * gameTime.ElapsedGameTime.ToStandardFrame(), 0);
+            if (key.IsKeyDown(Keys.Left    )) /*Debug.WriteLine("KeyDown Down    ");*/MGame.CurrentCamera.Position.Vec -= (   speedCam * gameTime.ElapsedGameTime.ToStandardFrame(), 0);
+            if (key.IsKeyDown(Keys.Up      )) /*Debug.WriteLine("KeyDown Right   ");*/MGame.CurrentCamera.Position.Vec += (0, speedCam * gameTime.ElapsedGameTime.ToStandardFrame()   );
+            if (key.IsKeyDown(Keys.Down    )) /*Debug.WriteLine("KeyDown Left    ");*/MGame.CurrentCamera.Position.Vec -= (0, speedCam * gameTime.ElapsedGameTime.ToStandardFrame()   );
             if (key.IsKeyDown(Keys.PageUp  )) /*Debug.WriteLine("KeyDown PageUp  ");*/MGame.CurrentCamera.Scale *= MathF.Pow(speedCamZoom, gameTime.ElapsedGameTime.ToStandardFrame());
             if (key.IsKeyDown(Keys.PageDown)) /*Debug.WriteLine("KeyDown PageDown");*/MGame.CurrentCamera.Scale /= MathF.Pow(speedCamZoom, gameTime.ElapsedGameTime.ToStandardFrame());
 
@@ -66,6 +71,11 @@ namespace Mythonia.Framework.Game.Objects
         }
 
 
-        
+
+        #region  Implement - IPosition 
+
+        MVector IPosition.Position => Position;
+
+        #endregion
     }
 }
