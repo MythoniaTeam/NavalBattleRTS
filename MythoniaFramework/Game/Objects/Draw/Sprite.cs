@@ -10,7 +10,7 @@ namespace Mythonia.Game.Objects.Draw
     /// 继承用于修改
     /// </i></para>
     /// </summary>
-    public class Sprite : NodeLeave<Sprite>
+    public class Sprite : ILeaveObject<LayerObject, Sprite>
     {
 
         #region Implement - IMClass 
@@ -19,6 +19,15 @@ namespace Mythonia.Game.Objects.Draw
         public string Name => _name;
         private readonly MGame _game;
         public MGame MGame => _game;
+
+        #endregion
+
+
+
+        #region Implement - ILeaveObject <BranchType, LeaveType>
+
+        private readonly NodeLeave<LayerObject, Sprite> _node;
+        public NodeLeave<LayerObject, Sprite> Node => _node;
 
         #endregion
 
@@ -267,6 +276,7 @@ namespace Mythonia.Game.Objects.Draw
 
 
 
+
         #region Constructor 
 
 
@@ -319,15 +329,14 @@ namespace Mythonia.Game.Objects.Draw
             bool isWorldPos = true, bool? isGameObject = null,
             Func<Sprite, MVector> getOriginPosMethod = null, /*MVector? originDP,*/
             Func<Sprite, Camera, MVector> getTransformedPosMethod = null, Func<Sprite, Camera, MVector> getTransformedScaleMethod = null
-            ) 
-            : base(name, (layerInfo ??= game._GetDefaultLayerInfo(name)).Weight) 
+            )
         { 
             _game = game;
 
             Texture = texture;
 
             LayerInfo layer = layerInfo ?? game._GetDefaultLayerInfo(name);
-            game.DrawManager.Layers.Add(this, layer.Path);
+            game.DrawManager.Layers.TryAdd(new NodeLeave<LayerObject, Sprite>(this, layer.Weight), layer.Path);
 
             SetScale(scale ?? new(1));
             Rotation = rotation ?? new(0); 

@@ -13,6 +13,7 @@ global using MAction = Mythonia.Game.Objects.Actions;
 global using ActionArgs = Mythonia.Game.Objects.Actions.Args;
 
 global using Mythonia.Game.Objects;
+global using Mythonia.Game.Objects.UI;
 global using Mythonia.Game.Objects.Draw;
 global using Mythonia.Game.Objects.Interfaces;
 

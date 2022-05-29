@@ -3,7 +3,7 @@
 
 namespace Mythonia.Game.Objects.Draw
 {
-    public class LayerRoot : NodeRoot<Sprite>, ILayer
+    public class LayerNodeRoot : NodeRoot<LayerObject, Sprite>
     {
 
         #region Implement - IMClass 
@@ -12,22 +12,6 @@ namespace Mythonia.Game.Objects.Draw
 
         private readonly MGame _game;
         public MGame MGame => _game;
-
-        #endregion
-
-
-
-        #region Props 
-
-        /// <summary>
-        /// <inheritdoc cref="NodeBranch{LeaveType}.TryFindChildBranch(string)"/>
-        /// <para>
-        /// <b>参见: </b> <seealso cref="NodeBranch{LeaveType}.TryFindChildBranch(string)"/>
-        /// </para>
-        /// </summary>
-        /// <param name="requestName"></param>
-        /// <returns></returns>
-        public Layer this[string requestName] => (Layer)TryFindChildBranch(requestName);
 
         #endregion
 
@@ -42,15 +26,15 @@ namespace Mythonia.Game.Objects.Draw
         /// <param name="path">所属图层的路径</param>
         /// <param name="weight"></param>
         /// <param name="sublayers"></param>
-        public LayerRoot(MGame game, Layer.InitArgs[] sublayers = null) : base()
+        public LayerNodeRoot(MGame game, LayerNodeBranch.InitArgs[] sublayers = null) : base(new(game, "#ROOT#"))
         {
             _game = game;
 
             if (sublayers != null)
             {
-                foreach (Layer.InitArgs sublayer in sublayers)
+                foreach (LayerNodeBranch.InitArgs sublayer in sublayers)
                 {
-                    Add(new Layer(
+                    Add(new LayerNodeBranch(
                         game,
                         sublayer.Name,
                         sublayer.Weight,

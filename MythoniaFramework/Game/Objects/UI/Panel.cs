@@ -3,45 +3,47 @@
 
 
 namespace Mythonia.Game.Objects.UI
-{/*
-    public class Panel : IRectangle
-    {
+{
+    //public class Panel : NodeBranch<UI>, IRectangle
+    //{
 
-        #region Implement - IMClass 
+    //    #region Implement - IMClass 
 
-        private readonly string _name;
-        public string Name => _name;
-        private readonly MGame _game;
-        public MGame MGame => _game;
+    //    //Name 已在 Node中 实现
 
-        #endregion
+    //    private readonly MGame _game;
+    //    public MGame MGame => _game;
 
-
-
-        #region Props 
-        #endregion
-
-
-        #region Constructors
-
-        private Panel(MGame game, string name) { _game = game; _name = name; }
-        public Panel(string namePrefix, IMClass mClass) : this(mClass.MGame, namePrefix + mClass.Name) { }
-
-        #endregion
+    //    #endregion
 
 
 
-        #region Methods 
-
-        #endregion
-
+    //    #region Props 
+    //    #endregion
 
 
-        #region Implement - IRectangle 
+    //    #region Constructors
 
-        public IRectangle AsRect => this;
+    //    public Panel(MGame game, string name, float weight) : base(name, weight) 
+    //    { 
+    //        _game = game; 
+    //    }
 
-        #endregion
+    //    #endregion
 
-    }*/
+
+
+    //    #region Methods 
+
+    //    #endregion
+
+
+
+    //    #region Implement - IRectangle 
+
+    //    public IRectangle AsRect => this;
+
+    //    #endregion
+
+    //}
 }

@@ -3,18 +3,19 @@
 
 namespace Mythonia.Resources.Data.Tree
 {
-    public class Tree<LeaveType> where LeaveType : NodeLeave<LeaveType>
+    public class Tree<BranchType, LeaveType>
+        where BranchType : IBranchObject<BranchType, LeaveType> where LeaveType : ILeaveObject<BranchType, LeaveType>
     {
-        private readonly NodeBranch<LeaveType> _root;
-        public NodeBranch<LeaveType> Root => _root;
+        private readonly NodeRoot<BranchType, LeaveType> _root;
+        public NodeRoot<BranchType, LeaveType> Root => _root;
 
 
 
         #region Constructors
 
-        public Tree()
+        public Tree(NodeRoot<BranchType, LeaveType> root)
         {
-            _root = NodeRoot<LeaveType>.ConstructRoot();
+            _root = root;
             _root.Initialize(null);
 
         }

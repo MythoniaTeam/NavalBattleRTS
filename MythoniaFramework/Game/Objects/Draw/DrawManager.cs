@@ -3,14 +3,14 @@
 
 namespace Mythonia.Game.Objects.Draw
 {
-    public class DrawManager : Tree<Sprite>
+    public class DrawManager : Tree<LayerObject, Sprite>
     {
         MGame Game { get; set; }
 
-        public LayerRoot Layers { get; set; }
+        public LayerNodeRoot Layers { get; set; }
 
 
-        public DrawManager(MGame game, Layer.InitArgs[] layers) : base()
+        public DrawManager(MGame game, LayerNodeBranch.InitArgs[] layers) : base(new LayerNodeRoot(game, layers))
         {
             Game = game;
             Layers = new(game, layers);
@@ -24,16 +24,16 @@ namespace Mythonia.Game.Objects.Draw
             List<Action<SpriteBatch>> drawList = new();
             int count = Layers.LeavesCount;
             float i = 0;
-            ICollection<Sprite> sprites = Layers.GetAllLeaves();
-            foreach (Sprite sprite in sprites)
+            ICollection<NodeLeave<LayerObject, Sprite>> sprites = Layers.GetAllLeaves();
+            foreach (NodeLeave<LayerObject, Sprite> sprite in sprites)
             {
                 //sprite.DrawSprite(Game.CurrentCamera, Game.SpriteBatch, 0.5f);// (count - i) / count);
                 drawList.Add(
                     new Action<SpriteBatch>(spriteBatch =>
-                    sprite.DrawSprite(Game.CurrentCamera, spriteBatch, (count - i) / count)
+                        sprite.LeaveObj.DrawSprite(Game.CurrentCamera, spriteBatch, (count - i) / count)
                     )
                 );
-                this.Log(true, "DrawManager", $"{sprite.Name} - layer depth: {(count - i) / count}");
+                //this.Log(true, "DrawManager", $"{sprite.Name} - layer depth: {(count - i) / count}");
                 i++;
             }
             return drawList;

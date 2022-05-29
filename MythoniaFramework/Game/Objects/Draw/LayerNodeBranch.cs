@@ -3,7 +3,7 @@
 
 namespace Mythonia.Game.Objects.Draw
 {
-    public class Layer : NodeBranch<Sprite>, ILayer
+    public class LayerNodeBranch : NodeBranch<LayerObject, Sprite>
     {
 
         #region Implement - IMClass 
@@ -41,23 +41,6 @@ namespace Mythonia.Game.Objects.Draw
 
 
 
-        #region Props 
-
-        /// <summary>
-        /// <inheritdoc cref="NodeBranch{LeaveType}.TryFindChildBranch(string)"/>
-        /// <para>
-        /// <b>参见: </b> <seealso cref="NodeBranch{LeaveType}.TryFindChildBranch(string)"/>
-        /// </para>
-        /// </summary>
-        /// <param name="requestName"></param>
-        /// <returns></returns>
-        public Layer this[string requestName] => (Layer)TryFindChildBranch(requestName);
-        
-
-        #endregion
-
-
-
         #region Constructor 
 
         /// <summary>
@@ -67,7 +50,7 @@ namespace Mythonia.Game.Objects.Draw
         /// <param name="path">所属图层的路径</param>
         /// <param name="weight"></param>
         /// <param name="sublayers"></param>
-        public Layer(MGame game, string name, float weight, InitArgs[] sublayers = null) : base(name, weight)
+        public LayerNodeBranch(MGame game, string name, float weight, InitArgs[] sublayers = null) : base(new LayerObject(game, name), weight)
         {
             _game = game;
 
@@ -75,7 +58,7 @@ namespace Mythonia.Game.Objects.Draw
             {
                 foreach (InitArgs sublayer in sublayers)
                 {
-                    Add(new Layer(
+                    Add(new LayerNodeBranch(
                         game,
                         sublayer.Name,
                         sublayer.Weight,
