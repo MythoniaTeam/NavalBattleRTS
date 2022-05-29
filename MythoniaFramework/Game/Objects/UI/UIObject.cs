@@ -2,8 +2,14 @@
 
 
 
-namespace Mythonia.Game.Objects
+namespace Mythonia.Game.Objects.UI
 {
+    /// <summary>
+    /// UI对象类, 负责处理 位置, 绘制UI 等属性和行为
+    /// <para>
+    /// 存储在 <seealso cref="UI"/> 类 当中, 可以通过其访问该对象
+    /// </para>
+    /// </summary>
     public abstract class UIObject : MObject, IDrawModule
     {
 

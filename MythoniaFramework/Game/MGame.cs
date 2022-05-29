@@ -32,15 +32,15 @@ namespace Mythonia.Game
         /// <para>初始化图层时, 提供的数据, </para>
         /// <para><b>重载</b> 该字段以 <b>修改</b> 初始图层结构</para>
         /// <i>*直接以树状结构, 传递</i>
-        /// (<see cref="string"/> name, <see cref="float"/> weight, <see cref="Layer.InitArgs"/>[] sublayers) 
+        /// (<see cref="string"/> name, <see cref="float"/> weight, <see cref="LayerNodeBranch.InitArgs"/>[] sublayers) 
         /// <i>即可, <br/> 将会自动转换为</i> 
-        /// <see cref="Layer.InitArgs"/>, 
+        /// <see cref="LayerNodeBranch.InitArgs"/>, 
         /// <i>无需</i> <see langword="new"/>
         /// </summary>
-        protected abstract Layer.InitArgs[] _LayerInitArgsList { get; }
+        protected abstract LayerNodeBranch.InitArgs[] _LayerInitArgsList { get; }
 
         //public LayerInfo _GetDefaultLayerInfo(IMClass obj) => _GetDefaultLayerInfo(obj.Name);
-        public virtual LayerInfo _GetDefaultLayerInfo(string name) => new("Game", DrawManager.Layers.FindBranch("Game").WeightRange.Max);
+        public virtual LayerInfo _GetDefaultLayerInfo(string name) => new("Game", DrawManager.Layers.TryFindBranch("Game").WeightRange.Max);
 
 
 

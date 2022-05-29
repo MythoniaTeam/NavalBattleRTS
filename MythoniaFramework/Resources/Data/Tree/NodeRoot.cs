@@ -4,20 +4,21 @@
 
 namespace Mythonia.Resources.Data.Tree
 {
-    public class NodeRoot<LeaveType> : NodeBranch<LeaveType> where LeaveType : NodeLeave<LeaveType>
+    public class NodeRoot<BranchType, LeaveType> : NodeBranch<BranchType, LeaveType>
+        where BranchType : IBranchObject<BranchType, LeaveType> where LeaveType : ILeaveObject<BranchType, LeaveType>
     {
         public override string Path => "";
         public override string FullPath => "";
         public override string Name => "#ROOT#";
 
-        public NodeRoot() : base("ROOT", 1)
+        public NodeRoot(BranchType rootObj) : base(rootObj, 1)
         {
 
         }
 
-        public override void Initialize(NodeBranch<LeaveType> father) { }
+        public override void Initialize(NodeBranch<BranchType, LeaveType> father) { }
 
-        public static NodeRoot<LeaveType> ConstructRoot() => new();
+        public static NodeRoot<BranchType, LeaveType> ConstructRoot(BranchType rootObj) => new(rootObj);
 
     }
 }
