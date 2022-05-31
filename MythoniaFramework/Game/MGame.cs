@@ -1,19 +1,54 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+﻿using Mythonia.Game.Objects.UI;
+
+
 
 namespace Mythonia.Game
 {
     public abstract class MGame : XNA.Game
     {
-        public GraphicsDeviceManager Graphics { get; set; }
-        public SpriteBatch SpriteBatch { get; set; }
+        #region Props
 
-        public MContentsManager ContentsManager { get; set; }
+        public GraphicsDeviceManager Graphics { get; private set; }
+        public SpriteBatch SpriteBatch { get; private set; }
+
+        public MContentsManager ContentsManager { get; private set; }
 
         public Camera CurrentCamera { get; set; }
-        public Screen Screen { get; set; }
-        public DrawManager DrawManager { get; set; }
+        public Screen Screen { get; private set; }
+        public UIManager UIManager { get; private set; }
+
+        public DrawManager DrawManager { get; private set; }
+
+
+        public SpriteFont DefaultFont { get; private set; }
+
+
+
+        #region Virtual / Abstract Props
+
+        protected abstract string[] _TextureLoadList { get; }
+        /// <summary>
+        /// <para>初始化图层时, 提供的数据, </para>
+        /// <para><b>重载</b> 该字段以 <b>修改</b> 初始图层结构</para>
+        /// <i>*直接以树状结构, 传递</i>
+        /// (<see cref="string"/> name, <see cref="float"/> weight, <see cref="Layer.InitArgs"/>[] sublayers) 
+        /// <i>即可, <br/> 将会自动转换为</i> 
+        /// <see cref="Layer.InitArgs"/>, 
+        /// <i>无需</i> <see langword="new"/>
+        /// </summary>
+        protected abstract Layer.InitArgs[] _LayerInitArgsList { get; }
+
+        //public LayerInfo _GetDefaultLayerInfo(IMClass obj) => _GetDefaultLayerInfo(obj.Name);
+        public virtual LayerInfo _GetDefaultLayerInfo(string name) => new("Game", DrawManager.Layers.TryFindBranch("Game").WeightRange.Max);
+
+        #endregion
+
+
+        #endregion Props
+
+
+
+        #region Constructor
 
         public MGame() : base()
         {
@@ -26,44 +61,44 @@ namespace Mythonia.Game
             Window.AllowUserResizing = true;
         }
 
-
-        protected abstract string[] _TextureLoadList { get; }
-        /// <summary>
-        /// <para>初始化图层时, 提供的数据, </para>
-        /// <para><b>重载</b> 该字段以 <b>修改</b> 初始图层结构</para>
-        /// <i>*直接以树状结构, 传递</i>
-        /// (<see cref="string"/> name, <see cref="float"/> weight, <see cref="LayerNodeBranch.InitArgs"/>[] sublayers) 
-        /// <i>即可, <br/> 将会自动转换为</i> 
-        /// <see cref="LayerNodeBranch.InitArgs"/>, 
-        /// <i>无需</i> <see langword="new"/>
-        /// </summary>
-        protected abstract LayerNodeBranch.InitArgs[] _LayerInitArgsList { get; }
-
-        //public LayerInfo _GetDefaultLayerInfo(IMClass obj) => _GetDefaultLayerInfo(obj.Name);
-        public virtual LayerInfo _GetDefaultLayerInfo(string name) => new("Game", DrawManager.Layers.TryFindBranch("Game").WeightRange.Max);
+        #endregion
 
 
 
-        public SpriteFont DefaultFont;
+        #region Methods
+
+
+        #region Override Methods - Initialize
+
         protected override void Initialize()
         {
-            ContentsManager = new(this);
-            CurrentCamera = new(this, new(0));
-            Screen = new(this);
-
             base.Initialize();
+
+            CurrentCamera = new Camera(this, new(0));
+            Screen = new Screen(this);
+            UIManager = new UIManager(Screen);
+
             Utility.Initialize(this);
             DefaultFont = Content.Load<SpriteFont>("Default");
         }
 
         protected override void LoadContent()
         {
+            base.LoadContent();
+
+            ContentsManager = new MContentsManager(this);
             ContentsManager.LoadTextures(_TextureLoadList);
 
             DrawManager = new(this, _LayerInitArgsList);
 
             SpriteBatch = new SpriteBatch(GraphicsDevice);
         }
+
+        #endregion
+
+
+
+        #region Override Methods - Cycle
 
         protected override void Update(GameTime gameTime)
         {
@@ -80,8 +115,6 @@ namespace Mythonia.Game
 
             base.Update(gameTime);
         }
-
-
 
 
         protected override void Draw(GameTime gameTime)
@@ -133,8 +166,10 @@ namespace Mythonia.Game
             DrawManager.DrawAll(SpriteBatch);
         }
 
-        //protected void DrawAfter(GameTime gameTime) { }
+        #endregion
 
 
+
+        #endregion Methods
     }
 }

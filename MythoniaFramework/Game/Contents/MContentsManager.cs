@@ -13,6 +13,11 @@ namespace Mythonia.Game.Contents
         private readonly MGame _game;
         public MGame MGame => _game;
 
+        #if DEBUG
+        #nullable enable
+        Type? IMClass.TypeRecord { get; set; }
+        #endif
+
         #endregion
 
 

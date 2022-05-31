@@ -30,7 +30,10 @@ namespace Mythonia.Resources.Texture
         private MGame _game = null;
         public MGame MGame => _game;
 
-        //
+        #if DEBUG
+        #nullable enable
+        Type? IMClass.TypeRecord { get; set; }
+        #endif
 
         #endregion
 

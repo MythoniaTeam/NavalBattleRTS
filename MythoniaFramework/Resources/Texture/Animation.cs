@@ -14,6 +14,11 @@ namespace Mythonia.Resources.Texture
         private MGame _game = null;
         public MGame MGame => _game;
 
+        #if DEBUG
+        #nullable enable
+        Type? IMClass.TypeRecord { get; set; }
+        #endif
+
         #endregion
 
 
@@ -70,23 +75,26 @@ namespace Mythonia.Resources.Texture
         /// <exception cref="Exception"></exception>
         public void ProcessData()
         {            
-            if (FramesNo is not null) ;
-            //如果有FramesNo, 跳出循环
-            else if (FramesRange is not null)
+            if (FramesNo is null)
             {
-                if (FramesRange.Length != 2) throw new Exception($"Texture Json Exception, FrameRange should contains 2 int values but not {FramesRange.Length}");
-                int min = FramesRange[0] ?? 0;
-                int max = FramesRange[1] ?? (FrameCount - 1);
+                //如果有FramesNo, 跳出循环
+                if (FramesRange is not null)
+                {
+                    if (FramesRange.Length != 2) throw new Exception($"Texture Json Exception, FrameRange should contains 2 int values but not {FramesRange.Length}");
+                    int min = FramesRange[0] ?? 0;
+                    int max = FramesRange[1] ?? (FrameCount - 1);
 
-                FramesNo = new int[max - min + 1];
-                for (int i = min; i <= max; i++)
-                    FramesNo[i] = i;
+                    FramesNo = new int[max - min + 1];
+                    for (int i = min; i <= max; i++)
+                        FramesNo[i] = i;
                 
+                }
+                //有FramesRange
+                else if (FrameNo is not null) FramesNo = new int[] { FrameNo ?? 0 };
+                //有FrameNo
+                else throw new Exception($"Both FramesNo, FrameNo, FramesRange are null, in Animation \"{Name}\"");
             }
-            //有FramesRange
-            else if (FrameNo is not null) FramesNo = new int[] { FrameNo ?? 0 };
-            //有FrameNo
-            else throw new Exception($"Both FramesNo, FrameNo, FramesRange are null, in Animation \"{Name}\"");
+
             FrameCount = FramesNo.Length;
         }
 

@@ -7,7 +7,7 @@ namespace Mythonia.Game.Objects.Interfaces
 
 
 
-    public interface IRectangle : IPosition, ISize
+    public interface IRectangle : IPosition, ISize, ITouchCheck
     {
         public IRectangle AsRect { get; }
 
@@ -146,6 +146,14 @@ namespace Mythonia.Game.Objects.Interfaces
         /// </list>
         /// </returns>
         public sealed (IRectangle @this, MVector pos) DirectFrom(MVector frPtScale) => (this, GetPointPos(frPtScale));
+
+        #endregion
+
+
+
+        #region Implement - ITouchCheck
+
+        bool ITouchCheck.TouchCheck(MVector point) => (CenterPos - point).Abs() <= Size;
 
         #endregion
 

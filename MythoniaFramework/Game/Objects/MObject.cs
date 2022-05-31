@@ -15,6 +15,11 @@ namespace Mythonia.Game.Objects
         public string Name => _name;
         public MGame MGame => (MGame) Game;
 
+        #if DEBUG
+        #nullable enable
+        Type? IMClass.TypeRecord { get; set; }
+        #endif
+
         #endregion
 
 

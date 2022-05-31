@@ -22,5 +22,16 @@ namespace Mythonia.Resources.Interfaces
         /// 对象所属的 <see cref="Game.MGame"/> 游戏类实例
         /// </summary>
         MGame MGame { get; }
+
+
+        #if DEBUG
+        #nullable enable
+        protected Type? TypeRecord { get; set; }
+        public Type Type
+        {
+            get { if (TypeRecord is null) TypeRecord = GetType(); return TypeRecord; }
+        }
+        #endif
+
     }
 }

@@ -18,12 +18,17 @@ namespace Mythonia.Resources.Data
         /// <returns>一个限制后的新对象</returns>
         public static Vector2 Clamp(this Vector2 v, Vector2 min, Vector2 max) => Vector2.Clamp(v, min, max);
 
-        /// <summary>将向量的 X, Y 转为绝对值</summary>
-        public static void Abs(this Vector2 v)
+        /// <summary>将向量的 X, Y 转为绝对值, 返回到自身</summary>
+        public static void Absization(this Vector2 v)
         {
             v.X = MathF.Abs(v.X);
             v.Y = MathF.Abs(v.Y);
         }
+
+        /// <summary>将向量的 X, Y 转为绝对值</summary>
+        /// <return>新的 <see cref="MVector"/> 对象</return>
+        public static Vector2 Abs(this Vector2 v) => new(MathF.Abs(v.X), MathF.Abs(v.Y));
+        
 
         /// <summary>
         /// 

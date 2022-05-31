@@ -3,7 +3,21 @@
 
 namespace Mythonia.Game.Objects.Draw
 {
-    public class LayerNodeBranch : NodeBranch<LayerObject, Sprite>
+    /// <summary>
+    /// 继承于 <seealso cref="NodeBranch{BranchType, LeaveType}"/> 
+    /// <para>
+    /// <see langword="where"/>
+    /// <i><list type="bullet">
+    /// <item>BranchType <see langword="is"/> <seealso cref="Layer"/></item>
+    /// <item>LeaveType <see langword="is"/> <seealso cref="Sprite"/></item>
+    /// </list></i>
+    /// </para>
+    /// <para>
+    /// 构造函数中 包含 <seealso cref="InitArgs"/>[] 类型参数, <br/>
+    /// 会自动按照参数列表构建下一级 <see cref="LayerNodeBranch"/>
+    /// </para>
+    /// </summary>
+    public class LayerNodeBranch : NodeBranch<Layer, Sprite>
     {
 
         #region Implement - IMClass 
@@ -17,28 +31,6 @@ namespace Mythonia.Game.Objects.Draw
 
 
 
-        #region Struct - InitArgs
-        public struct InitArgs
-        {
-            public string Name;
-            public float Weight;
-            public InitArgs[] SubLayers;
-
-            public InitArgs(string name, float weight, InitArgs[] sublayers)
-            {
-                Name = name;
-                Weight = weight;
-                SubLayers = sublayers;
-            }
-
-            public static implicit operator InitArgs
-                ((string name, float weight, InitArgs[] sublayers) v) => new(v.name, v.weight, v.sublayers);
-            public static implicit operator InitArgs
-                ((string name, float weight) v) => new(v.name, v.weight, null);
-        }
-
-        #endregion
-
 
 
         #region Constructor 
@@ -46,25 +38,10 @@ namespace Mythonia.Game.Objects.Draw
         /// <summary>
         /// 初始化一个图层
         /// </summary>
-        /// <param name="name">当前图层的名字</param>
-        /// <param name="path">所属图层的路径</param>
         /// <param name="weight"></param>
-        /// <param name="sublayers"></param>
-        public LayerNodeBranch(MGame game, string name, float weight, InitArgs[] sublayers = null) : base(new LayerObject(game, name), weight)
+        public LayerNodeBranch(Layer layerObj, float weight) : base(layerObj, weight)
         {
-            _game = game;
-
-            if (sublayers != null)
-            {
-                foreach (InitArgs sublayer in sublayers)
-                {
-                    Add(new LayerNodeBranch(
-                        game,
-                        sublayer.Name,
-                        sublayer.Weight,
-                        sublayer.SubLayers));
-                }
-            }
+            _game = layerObj.MGame;
         }
 
         #endregion

@@ -3,7 +3,21 @@
 
 namespace Mythonia.Game.Objects.Draw
 {
-    public class LayerNodeRoot : NodeRoot<LayerObject, Sprite>
+    /// <summary>
+    /// 继承于 <seealso cref="NodeRoot{BranchType, LeaveType}"/>, 缩减程序长度
+    /// <para>
+    /// <see langword="where"/>
+    /// <i><list type="bullet">
+    /// <item>BranchType <see langword="is"/> <seealso cref="Layer"/></item>
+    /// <item>LeaveType <see langword="is"/> <seealso cref="Sprite"/></item>
+    /// </list></i>
+    /// </para>
+    /// <para>
+    /// 构造函数中 包含 <seealso cref="InitArgs"/>[] 类型参数, <br/>
+    /// 会自动按照参数列表构建下一级 <see cref="LayerNodeBranch"/>
+    /// </para>
+    /// </summary>
+    public class LayerNodeRoot : NodeRoot<Layer, Sprite>
     {
 
         #region Implement - IMClass 
@@ -26,21 +40,9 @@ namespace Mythonia.Game.Objects.Draw
         /// <param name="path">所属图层的路径</param>
         /// <param name="weight"></param>
         /// <param name="sublayers"></param>
-        public LayerNodeRoot(MGame game, LayerNodeBranch.InitArgs[] sublayers = null) : base(new(game, "#ROOT#"))
+        public LayerNodeRoot(MGame game, Layer layerObj) : base(layerObj)
         {
             _game = game;
-
-            if (sublayers != null)
-            {
-                foreach (LayerNodeBranch.InitArgs sublayer in sublayers)
-                {
-                    Add(new LayerNodeBranch(
-                        game,
-                        sublayer.Name,
-                        sublayer.Weight,
-                        sublayer.SubLayers));
-                }
-            }
         }
 
         #endregion

@@ -3,17 +3,17 @@
 
 namespace Mythonia.Game.Objects.Draw
 {
-    public class DrawManager : Tree<LayerObject, Sprite>
+    public class DrawManager : Tree<Layer, Sprite>
     {
         MGame Game { get; set; }
 
-        public LayerNodeRoot Layers { get; set; }
+        public LayerNodeRoot Layers => (LayerNodeRoot)Root;
 
 
-        public DrawManager(MGame game, LayerNodeBranch.InitArgs[] layers) : base(new LayerNodeRoot(game, layers))
+        public DrawManager(MGame game, Layer.InitArgs[] layers) : base((LayerNodeRoot) new Layer(game, layers).Node)
         {
             Game = game;
-            Layers = new(game, layers);
+            //new Layer(game, layers, out _layers);
         }
 
         /// <summary>
@@ -24,8 +24,8 @@ namespace Mythonia.Game.Objects.Draw
             List<Action<SpriteBatch>> drawList = new();
             int count = Layers.LeavesCount;
             float i = 0;
-            ICollection<NodeLeave<LayerObject, Sprite>> sprites = Layers.GetAllLeaves();
-            foreach (NodeLeave<LayerObject, Sprite> sprite in sprites)
+            ICollection<NodeLeave<Layer, Sprite>> sprites = Layers.GetAllLeaves();
+            foreach (LayerNodeLeave sprite in sprites)
             {
                 //sprite.DrawSprite(Game.CurrentCamera, Game.SpriteBatch, 0.5f);// (count - i) / count);
                 drawList.Add(

@@ -1,9 +1,16 @@
-﻿
+﻿using Mythonia.Game.Objects.UI;
 
 
 namespace Mythonia.Game
 {
-    public class Screen : IRectangle, IMClass
+    /// <summary>
+    /// 屏幕对象, <br/>
+    /// 透过该对象, 可以获取屏幕的边缘点, 尺寸等属性
+    /// <para>
+    /// 同时也负责 初始化 <seealso cref="UIManager"/>
+    /// </para>
+    /// </summary>
+    public class Screen : IUIBranchObject, IMClass
     {
 
         #region Implement - IMClass 
@@ -11,12 +18,28 @@ namespace Mythonia.Game
         private readonly MGame _game;
         public MGame MGame => _game;
 
+        #if DEBUG
+        #nullable enable
+        Type? IMClass.TypeRecord { get; set; }
+        #endif
+
         #endregion
 
-        //123abcd321
+
+
+        #region Implement - IBranchObject <BranchType, LeaveType>
+
+        private readonly UINodeRoot _node;
+        public UINodeRoot Node => _node;
+
+        NodeBranch<IUIBranchObject, UIObject> IBranchObject<IUIBranchObject, UIObject>.Node => Node;
+
+        #endregion
+
+
 
         #region Props 
-        
+
         private readonly GraphicsDevice _graphics;
         private Viewport Viewport => _graphics.Viewport;
 
@@ -32,6 +55,7 @@ namespace Mythonia.Game
 
         public Screen(MGame game)
         {
+            _node = new UINodeRoot(this);
             _game = game;
             _graphics = game.GraphicsDevice;
         }

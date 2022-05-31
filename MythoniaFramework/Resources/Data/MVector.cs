@@ -112,12 +112,17 @@ namespace Mythonia.Resources.Data
         public void RevertXY() => _vec.RevertXY();
 
         /// <summary>将向量的 X, Y 转为绝对值, 返回至自身</summary>
-        public void Abs() => _vec.Abs();
+        public void Absization() => _vec.Absization();
 
         /// <summary>沿着指定点, 反射该向量, 返回至自身</summary>
         /// <param name="normal"></param>
         public void Reflect(Vector2 normal) => _vec.Reflect(normal);
 
+        #endregion
+
+
+
+        #region Methods - Return New Object
 
         /// <summary>将 <see cref="_vec"/> * (<paramref name="xSign"/>, <paramref name="ySign"/>), 将结果返回至一个新的对象</summary>
         /// <param name="xSign">x 的符号</param>
@@ -148,6 +153,8 @@ namespace Mythonia.Resources.Data
         /// </para>
         /// </returns>
         public (MVector pos, VecDir dir) DirectTo(MVector pt) => (this, (VecDir)(pt - this));
+
+        public MVector Abs() => _vec.Abs();
 
         #endregion
 
@@ -214,21 +221,27 @@ namespace Mythonia.Resources.Data
 
         #region Operators - Logic
 
-        public static bool operator <(MVector v1, MVector v2) => v1.X < v2.X && v2.Y < v2.Y;
-        public static bool operator >(MVector v1, MVector v2) => v1.X > v2.X && v2.Y > v2.Y;
-
         public static bool operator ==(MVector v1, float v2) => v1.X == v2 && v1.Y == v2;
         public static bool operator !=(MVector v1, float v2) => v1.X != v2 && v1.Y != v2;
         public static bool operator <=(MVector v1, float v2) => v1.X <= v2 && v1.Y <= v2;
         public static bool operator >=(MVector v1, float v2) => v1.X >= v2 && v1.Y >= v2;
         public static bool operator <(MVector v1, float v2) => v1.X < v2 && v1.Y < v2;
         public static bool operator >(MVector v1, float v2) => v1.X > v2 && v1.Y > v2;
+
         public static bool operator ==(float v1, MVector v2) => v1 == v2.X && v1 == v2.Y;
         public static bool operator !=(float v1, MVector v2) => v1 != v2.X && v1 != v2.Y;
         public static bool operator <=(float v1, MVector v2) => v1 <= v2.X && v1 <= v2.Y;
         public static bool operator >=(float v1, MVector v2) => v1 >= v2.X && v1 >= v2.Y;
         public static bool operator <(float v1, MVector v2) => v1 < v2.X && v1 < v2.Y;
         public static bool operator >(float v1, MVector v2) => v1 > v2.X && v1 > v2.Y;
+
+        public static bool operator ==(MVector v1, MVector v2) => v1.X == v2.X && v1.Y == v2.Y;
+        public static bool operator !=(MVector v1, MVector v2) => v1.X != v2.X && v1.Y != v2.Y;
+        public static bool operator <=(MVector v1, MVector v2) => v1.X <= v2.X && v1.Y <= v2.Y;
+        public static bool operator >=(MVector v1, MVector v2) => v1.X >= v2.X && v1.Y >= v2.Y;
+        public static bool operator < (MVector v1, MVector v2) => v1.X <  v2.X && v1.Y <  v2.Y;
+        public static bool operator > (MVector v1, MVector v2) => v1.X >  v2.X && v1.Y >  v2.Y;
+
 
         #endregion
 

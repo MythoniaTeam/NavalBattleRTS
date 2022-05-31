@@ -10,7 +10,7 @@ namespace Mythonia.Game.Objects.Draw
     /// 继承用于修改
     /// </i></para>
     /// </summary>
-    public class Sprite : ILeaveObject<LayerObject, Sprite>
+    public class Sprite : ILeaveObject<Layer, Sprite>
     {
 
         #region Implement - IMClass 
@@ -20,14 +20,21 @@ namespace Mythonia.Game.Objects.Draw
         private readonly MGame _game;
         public MGame MGame => _game;
 
+        #if DEBUG
+        #nullable enable
+        Type? IMClass.TypeRecord { get; set; }
+        #endif
+
         #endregion
 
 
 
         #region Implement - ILeaveObject <BranchType, LeaveType>
 
-        private readonly NodeLeave<LayerObject, Sprite> _node;
-        public NodeLeave<LayerObject, Sprite> Node => _node;
+        private readonly LayerNodeLeave _node;
+        public LayerNodeLeave Node => _node;
+
+        NodeLeave<Layer, Sprite> ILeaveObject<Layer, Sprite>.Node => Node;
 
         #endregion
 
@@ -167,7 +174,7 @@ namespace Mythonia.Game.Objects.Draw
 
 
         private readonly MObject _refObj;
-        public IPosition ObjPos => _refObj as IPosition;
+        public IPosition? ObjPos => _refObj as IPosition;
 
 
         /// <summary>
@@ -276,10 +283,7 @@ namespace Mythonia.Game.Objects.Draw
 
 
 
-
-        #region Constructor 
-
-
+        #region Constructor
 
         /// <summary>
         /// 生成一个Sprite贴图对象, 用于绘制自己
@@ -332,11 +336,13 @@ namespace Mythonia.Game.Objects.Draw
             )
         { 
             _game = game;
+            _name = name;
 
             Texture = texture;
 
             LayerInfo layer = layerInfo ?? game._GetDefaultLayerInfo(name);
-            game.DrawManager.Layers.TryAdd(new NodeLeave<LayerObject, Sprite>(this, layer.Weight), layer.Path);
+            _node = new LayerNodeLeave(this, layer.Weight);
+            game.DrawManager.Layers.TryAdd(_node, layer.Path);
 
             SetScale(scale ?? new(1));
             Rotation = rotation ?? new(0); 

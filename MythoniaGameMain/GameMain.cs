@@ -15,11 +15,11 @@ namespace MythoniaGameMain
                 "BouncingBomb"
             };
 
-        protected override LayerNodeBranch.InitArgs[] _LayerInitArgsList
-            => new LayerNodeBranch.InitArgs[]
+        protected override Layer.InitArgs[] _LayerInitArgsList
+            => new Layer.InitArgs[]
             {
                 ("Background", 0),
-                ("Game", 5, new LayerNodeBranch.InitArgs[] 
+                ("Game", 5, new Layer.InitArgs[] 
                 {
                     ("Scenery", 0),
                     ("Entity", 5),
